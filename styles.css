@@ -80,33 +80,31 @@ body {
   position: relative;
 }
 
+/* Dropdown hidden by default */
 .dropdown-menu {
   display: none;
   position: absolute;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 0.5rem 0;
+  background-color: white;
   list-style: none;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
+  padding: 0.5rem 0;
+  margin: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   min-width: 200px;
 }
 
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Make dropdown look clean */
 .dropdown-menu li a {
   display: block;
   padding: 0.5rem 1rem;
+  color: black;
   text-decoration: none;
-  color: #111;
-  font-size: 0.9rem;
-  white-space: nowrap;
 }
 
 .dropdown-menu li a:hover {
   background-color: #f0f0f0;
 }
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
-
