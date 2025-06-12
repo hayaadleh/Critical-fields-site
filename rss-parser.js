@@ -25,8 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       })
       .catch(err => console.error("Error fetching feed:", err))
-  ))
-  .then(() => {
+  )).then(() => {
     allItems.sort((a, b) => b.pubDate - a.pubDate);
 
     const grid = document.createElement("div");
