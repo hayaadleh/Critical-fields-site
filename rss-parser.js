@@ -25,21 +25,31 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       })
       .catch(err => console.error("Error fetching feed:", err))
-  )).then(() => {
-    // Sort items by date (newest first)
-    allItems.sort((a, b) => b.pubDate - a.pubDate);
+  .then(() => {
+  allItems.sort((a, b) => b.pubDate - a.pubDate);
 
-    let output = "<ul>";
-    allItems.slice(0, 10).forEach(item => {
-      output += `
-        <li>
-          <a href="${item.link}" target="_blank">${item.title}</a>
-          <p>${item.description}</p>
-        </li>
-      `;
-    });
-    output += "</ul>";
+  const grid = document.createElement("div");
+  grid.className = "rss-grid";
 
-    feedContainer.innerHTML = output;
+  allItems.slice(0, 12).forEach(item => {
+    // Try to extract image from description if any
+    const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
+    const imageUrl = imgMatch ? imgMatch[1] : null;
+
+    const card = document.createElement("div");
+    card.className = "rss-card";
+
+    card.innerHTML = `
+      ${imageUrl ? `<img src="${imageUrl}" alt="Image" class="rss-image">` : ""}
+      <div class="rss-content">
+        <a href="${item.link}" target="_blank" class="rss-title">${item.title}</a>
+        <p class="rss-date">${item.pubDate.toLocaleDateString()}</p>
+      </div>
+    `;
+
+    grid.appendChild(card);
   });
+
+  feedContainer.innerHTML = "";
+  feedContainer.appendChild(grid);
 });
