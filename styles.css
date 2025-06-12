@@ -108,3 +108,52 @@ body {
 .dropdown-menu li a:hover {
   background-color: #f0f0f0;
 }
+
+.rss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 0;
+}
+
+.rss-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.rss-card:hover {
+  transform: scale(1.02);
+}
+
+.rss-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.rss-content {
+  padding: 1rem;
+}
+
+.rss-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.rss-title:hover {
+  text-decoration: underline;
+}
+
+.rss-date {
+  font-size: 0.75rem;
+  color: #666;
+}
