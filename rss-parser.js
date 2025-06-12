@@ -19,18 +19,29 @@ let allItems = [];
     fetch(url)
       .then(res => res.text())
       .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-      .then(data => {
-        const items = data.querySelectorAll("item");
-        items.forEach(el => {
-          allItems.push({
-            title: el.querySelector("title")?.textContent,
-            link: el.querySelector("link")?.textContent,
-            description: el.querySelector("description")?.textContent || "",
-            pubDate: new Date(el.querySelector("pubDate")?.textContent || "")
-          });
-        });
-      })
-      .catch(err => console.error("Error fetching feed:", err))
+     .then(data => {
+  const isAtom = data.querySelector("feed > entry");
+  const items = isAtom ? data.querySelectorAll("entry") : data.querySelectorAll("item");
+
+  items.forEach(el => {
+    const title = el.querySelector("title")?.textContent;
+    const link = isAtom
+      ? el.querySelector("link")?.getAttribute("href")
+      : el.querySelector("link")?.textContent;
+    const description =
+      el.querySelector("summary")?.textContent ||
+      el.querySelector("description")?.textContent ||
+      "";
+    const pubDate = new Date(
+      el.querySelector("updated")?.textContent ||
+      el.querySelector("pubDate")?.textContent ||
+      ""
+    );
+
+    allItems.push({ title, link, description, pubDate });
+  });
+})
+      .catch(err => console.error(`Error fetching feed at ${url}:`, err))
   )).then(() => {
     allItems.sort((a, b) => b.pubDate - a.pubDate);
 
