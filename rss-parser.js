@@ -2,10 +2,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const feedContainer = document.getElementById("rss-feed");
 
   const feedUrls = [
-    "https://corsproxy.io/?https://activehistory.ca/feed/",
-    "https://corsproxy.io/?https://www.aaihs.org/feed/",
-    "https://corsproxy.io/?https://africasacountry.com/rss"
-  ];
+  "https://corsproxy.io/?https://activehistory.ca/feed/",
+  "https://corsproxy.io/?https://www.aaihs.org/feed/",
+  "https://corsproxy.io/?https://africasacountry.com/rss",
+  "https://corsproxy.io/?https://abusablepast.org/feed/",
+  "https://corsproxy.io/?https://www.versobooks.com/blogs/news.atom",
+  "https://corsproxy.io/?https://bostonreview.net/feed/",
+  "https://corsproxy.io/?https://thefunambulist.net/feed/",
+  "https://corsproxy.io/?https://globalsocialtheory.org/feed/",
+  "https://corsproxy.io/?https://keywordsechoes.com/feed/"
+];
 
   let allItems = [];
 
