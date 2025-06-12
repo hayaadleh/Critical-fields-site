@@ -5,12 +5,12 @@ const feedUrls = [
   "https://corsproxy.io/?https://activehistory.ca/feed/",
   "https://corsproxy.io/?https://www.aaihs.org/feed/",
   "https://corsproxy.io/?https://africasacountry.com/rss",
-  "https://api.allorigins.win/raw?url=https://abusablepast.org/feed/",
-  "https://api.allorigins.win/raw?url=https://www.versobooks.com/blogs/news.atom",
-  "https://api.allorigins.win/raw?url=https://bostonreview.net/feed/",
-  "https://api.allorigins.win/raw?url=https://thefunambulist.net/feed/",
-  "https://api.allorigins.win/raw?url=https://globalsocialtheory.org/feed/",
-  "https://api.allorigins.win/raw?url=https://keywordsechoes.com/feed/"
+  "https://corsproxy.io/?https://abusablepast.org/feed/",
+  "https://corsproxy.io/?https://www.versobooks.com/blogs/news/rss",
+  "https://corsproxy.io/?https://www.bostonreview.net/rss",
+  "https://corsproxy.io/?https://thefunambulist.net/rss/",
+  "https://corsproxy.io/?https://globalsocialtheory.org/rss/",
+  "https://corsproxy.io/?https://keywordsechoes.com/rss/"
 ];
  
 let allItems = [];
