@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const feedContainer = document.getElementById("rss-feed");
-
-  const feedUrls = [
+ 
+const feedUrls = [
   "https://corsproxy.io/?https://activehistory.ca/feed/",
   "https://corsproxy.io/?https://www.aaihs.org/feed/",
   "https://corsproxy.io/?https://africasacountry.com/rss",
@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   "https://corsproxy.io/?https://globalsocialtheory.org/feed/",
   "https://corsproxy.io/?https://keywordsechoes.com/feed/"
 ];
-
-  let allItems = [];
+ 
+let allItems = [];
 
   Promise.all(feedUrls.map(url =>
     fetch(url)
