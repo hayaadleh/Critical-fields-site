@@ -160,9 +160,9 @@ body {
 
 .section-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin: 2rem 0;
-  font-family: 'Georgia', serif;
+  font-family: 'GIBM Plex Mono', monospace;
   color: #2c3e50;
   border-bottom: 2px solid #ccc;
   display: inline-block;
