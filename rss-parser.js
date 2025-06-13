@@ -1,46 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
   const feedContainer = document.getElementById("rss-feed");
- 
-const feedUrls = [
-  "https://corsproxy.io/?https://activehistory.ca/feed/",
-  "https://corsproxy.io/?https://www.aaihs.org/feed/",
-  "https://corsproxy.io/?https://africasacountry.com/rss",
-  "https://corsproxy.io/?https://abusablepast.org/feed/",
-  "https://corsproxy.io/?https://www.versobooks.com/blogs/news/rss",
-  "https://corsproxy.io/?https://www.bostonreview.net/rss",
-  "https://corsproxy.io/?https://thefunambulist.net/rss/",
-  "https://corsproxy.io/?https://globalsocialtheory.org/rss/",
-  "https://corsproxy.io/?https://keywordsechoes.com/rss/"
-];
- 
-let allItems = [];
+
+  const feedUrls = [
+    "https://corsproxy.io/?https://activehistory.ca/feed/",
+    "https://corsproxy.io/?https://www.aaihs.org/feed/",
+    "https://corsproxy.io/?https://africasacountry.com/rss",
+    "https://corsproxy.io/?https://abusablepast.org/feed/",
+    "https://corsproxy.io/?https://www.versobooks.com/blogs/news.atom",
+    "https://corsproxy.io/?https://bostonreview.net/feed/",
+    "https://corsproxy.io/?https://thefunambulist.net/feed/",
+    "https://corsproxy.io/?https://globalsocialtheory.org/feed/",
+    "https://corsproxy.io/?https://keywordsechoes.com/feed/"
+  ];
+
+  let allItems = [];
 
   Promise.all(feedUrls.map(url =>
     fetch(url)
       .then(res => res.text())
       .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-     .then(data => {
-  const isAtom = data.querySelector("feed > entry");
-  const items = isAtom ? data.querySelectorAll("entry") : data.querySelectorAll("item");
+      .then(data => {
+        const isAtom = data.querySelector("feed > entry");
+        const items = isAtom ? data.querySelectorAll("entry") : data.querySelectorAll("item");
 
-  items.forEach(el => {
-    const title = el.querySelector("title")?.textContent;
-    const link = isAtom
-      ? el.querySelector("link")?.getAttribute("href")
-      : el.querySelector("link")?.textContent;
-    const description =
-      el.querySelector("summary")?.textContent ||
-      el.querySelector("description")?.textContent ||
-      "";
-    const pubDate = new Date(
-      el.querySelector("updated")?.textContent ||
-      el.querySelector("pubDate")?.textContent ||
-      ""
-    );
+        items.forEach(el => {
+          const title = el.querySelector("title")?.textContent;
+          const link = isAtom
+            ? el.querySelector("link")?.getAttribute("href")
+            : el.querySelector("link")?.textContent;
+          const description =
+            el.querySelector("summary")?.textContent ||
+            el.querySelector("description")?.textContent ||
+            "";
+          const pubDate = new Date(
+            el.querySelector("updated")?.textContent ||
+            el.querySelector("pubDate")?.textContent ||
+            ""
+          );
 
-    allItems.push({ title, link, description, pubDate });
-  });
-})
+          allItems.push({ title, link, description, pubDate });
+        });
+      })
       .catch(err => console.error(`Error fetching feed at ${url}:`, err))
   )).then(() => {
     allItems.sort((a, b) => b.pubDate - a.pubDate);
@@ -48,7 +48,7 @@ let allItems = [];
     const grid = document.createElement("div");
     grid.className = "rss-grid";
 
-    allItems.slice(0, 12).forEach(item => {
+    allItems.slice(0, 20).forEach(item => {
       const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
       const imageUrl = imgMatch ? imgMatch[1] : null;
 
