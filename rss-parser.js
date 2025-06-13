@@ -59,9 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     allItems.slice(0, 20).forEach(item => {
       // Try to extract image URL from description or media:content tag
-      const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/i) 
-        || item.description.match(/<media:content[^>]+url="([^">]+)"/i);
-      const imageUrl = imgMatch?.[1] || null;
+    const imageUrl = item.description.match(/<img[^>]+src="([^">]+)"/i)?.[1]
+    || item.description.match(/<media:content[^>]+url="([^">]+)"/i)?.[1]
+    || null;
+
 
       // Clean description from HTML tags for summary preview
       const tempDiv = document.createElement("div");
