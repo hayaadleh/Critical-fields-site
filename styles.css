@@ -160,13 +160,13 @@ body {
 
 .section-title {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.5rem;       /* smaller and matches site */
   margin: 2rem 0;
-  font-family: 'GIBM Plex Mono', monospace;
-  color: #2c3e50;
-  border-bottom: 2px solid #ccc;
+  font-family: 'IBM Plex Mono', monospace;  /* fixed typo */
+  color: #111;            /* darker color, consistent with rest */
+  border-bottom: none;    /* remove border if you want cleaner */
   display: inline-block;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
 }
 .rss-summary {
   font-size: 0.875rem;
