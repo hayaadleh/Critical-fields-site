@@ -49,8 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.className = "rss-grid";
 
     allItems.slice(0, 20).forEach(item => {
-      const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
-      const imageUrl = imgMatch ? imgMatch[1] : null;
+      const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/i) || item.description.match(/<media:content[^>]+url="([^">]+)"/i);
+      const imageUrl = item.description.match(/<img[^>]+src="([^">]+)"/i)?.[1]
+  ||  item.description.match(/<media:content[^>]+url="([^">]+)"/i)?.[1]
+  ||  null;
 
       const card = document.createElement("div");
       card.className = "rss-card";
@@ -70,3 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
     feedContainer.appendChild(grid);
   });
 });
+
+card.innerHTML = `
+  ${imageUrl ? `<img src="${imageUrl}" alt="Image" class="rss-image">` : ""}
+  <div class="rss-content">
+    <a href="${item.link}" target="_blank" class="rss-title">${item.title}</a>
+    <p class="rss-date">${item.pubDate.toLocaleDateString()}</p>
+    <p class="rss-summary">${item.description?.slice(0, 180)}...</p>
+    <p class="rss-source">Source: ${item.source}</p>
+  </div>
+`;

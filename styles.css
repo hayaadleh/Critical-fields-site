@@ -157,3 +157,31 @@ body {
   font-size: 0.75rem;
   color: #666;
 }
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 2rem 0;
+  font-family: 'Georgia', serif;
+  color: #2c3e50;
+  border-bottom: 2px solid #ccc;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+.rss-summary {
+  font-size: 0.875rem;
+  color: #444;
+  margin: 0.5rem 0 0.75rem;
+  line-height: 1.4;
+}
+
+.rss-source {
+  font-size: 0.75rem;
+  color: #999;
+  font-style: italic;
+  text-align: right;
+}
+
+.rss-card {
+  border-left: 4px solid #d16b86; /* a soft rose for Decoloniality */
+}
