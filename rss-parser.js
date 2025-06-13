@@ -23,31 +23,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const isAtom = data.querySelector("feed > entry");
         const items = isAtom ? data.querySelectorAll("entry") : data.querySelectorAll("item");
 
-        // Extract feed-level source title (for 'source' display)
-        const feedTitle = data.querySelector("channel > title")?.textContent || data.querySelector("title")?.textContent || "Unknown Source";
-
         items.forEach(el => {
           const title = el.querySelector("title")?.textContent || "No title";
           const link = isAtom
             ? el.querySelector("link")?.getAttribute("href")
-            : el.querySelector("link")?.textContent;
+            : el.querySelector("link")?.textContent || "#";
           const description =
             el.querySelector("summary")?.textContent ||
             el.querySelector("description")?.textContent ||
-            "";
+            "No description available";
           const pubDate = new Date(
             el.querySelector("updated")?.textContent ||
             el.querySelector("pubDate")?.textContent ||
-            ""
+            Date.now()
           );
 
-          allItems.push({ 
-            title, 
-            link, 
-            description, 
-            pubDate, 
-            source: feedTitle  // assign feed source here
-          });
+          // Source extraction fallback
+          const source = el.querySelector("source")?.textContent || new URL(url).hostname;
+
+          allItems.push({ title, link, description, pubDate, source });
         });
       })
       .catch(err => console.error(`Error fetching feed at ${url}:`, err))
@@ -58,26 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.className = "rss-grid";
 
     allItems.slice(0, 20).forEach(item => {
-      // Try to extract image URL from description or media:content tag
-    const imageUrl = item.description.match(/<img[^>]+src="([^">]+)"/i)?.[1]
-    || item.description.match(/<media:content[^>]+url="([^">]+)"/i)?.[1]
-    || null;
-
-
-      // Clean description from HTML tags for summary preview
-      const tempDiv = document.createElement("div");
-      tempDiv.innerHTML = item.description;
-      const plainTextDescription = tempDiv.textContent || tempDiv.innerText || "";
-
       const card = document.createElement("div");
       card.className = "rss-card";
 
       card.innerHTML = `
-        ${imageUrl ? `<img src="${imageUrl}" alt="Image" class="rss-image">` : ""}
         <div class="rss-content">
           <a href="${item.link}" target="_blank" class="rss-title">${item.title}</a>
           <p class="rss-date">${item.pubDate.toLocaleDateString()}</p>
-          <p class="rss-summary">${plainTextDescription.slice(0, 180)}${plainTextDescription.length > 180 ? "..." : ""}</p>
+          <p class="rss-summary">${item.description.length > 180 ? item.description.slice(0, 180) + "..." : item.description}</p>
           <p class="rss-source">Source: ${item.source}</p>
         </div>
       `;
