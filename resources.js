@@ -20,7 +20,7 @@ const resources = [
     link: "https://www.radicalhistoryreview.org/",
     image: "https://www.radicalhistoryreview.org/wp-content/uploads/2021/01/RHR-Logo.png",
     medium: "Journal",
-    themes: ["History", "Anticolonialism"],
+    themes: ["History"],
     description: "For more than forty years Radical History Review has stood at the point where rigorous historical scholarship and active political engagement converge."
   }
 ];
