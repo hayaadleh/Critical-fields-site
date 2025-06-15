@@ -10,7 +10,7 @@ const resources = [
   {
     title: "Current Affairs Podcast",
     link: "https://www.patreon.com/collection/952003?view=condensed",
-    image: "https://c10.patreonusercontent.com/4/patreon-media/p/campaign/1758480/b4884c2275ce4855b56864ecd839b780/eyJ3Ijo2MjB9/5.jpg",
+    image: "https://i.scdn.co/image/ab6765630000ba8a42b1456483e792db9613b985",
     medium: "Podcasts",
     themes: ["Politics"],
     description: "Current Affairs promised “a new print magazine of political analysis, satire, and entertainment” that would “bring wit, color, and verve back to print media!”."
