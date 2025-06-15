@@ -24,3 +24,35 @@ const resources = [
     description: "For more than forty years Radical History Review has stood at the point where rigorous historical scholarship and active political engagement converge."
   }
 ];
+const container = document.getElementById("resources-container");
+
+const grouped = resources.reduce((acc, res) => {
+  if (!acc[res.medium]) acc[res.medium] = [];
+  acc[res.medium].push(res);
+  return acc;
+}, {});
+
+Object.entries(grouped).forEach(([medium, items]) => {
+  const section = document.createElement("section");
+  section.className = "resource-section";
+  section.innerHTML = `<h2>${medium}</h2><div class="card-row"></div>`;
+
+  const row = section.querySelector(".card-row");
+
+  items.forEach(item => {
+    const card = document.createElement("a");
+    card.className = "resource-card";
+    card.href = item.link;
+    card.target = "_blank";
+    card.innerHTML = `
+      <img src="${item.image}" alt="${item.title}" class="resource-image">
+      <div class="resource-overlay">
+        <strong>${item.title}</strong>
+        <p>${item.description}</p>
+      </div>
+    `;
+    row.appendChild(card);
+  });
+
+  container.appendChild(section);
+});
