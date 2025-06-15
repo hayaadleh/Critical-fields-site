@@ -29,16 +29,26 @@
     </nav>
   </header>
 
-  <main>
-    <section class="hero">
-      <h2 class="tagline">Resources Index</h2>
-      <p class="intro">
-        A living archive of podcasts, blogs, visual media, courses, and more — curated to support cross-disciplinary and community-centered learning.
-      </p>
-    </section>
+<main>
+  <section class="hero">
+    <h2 class="tagline">Resources Index</h2>
+    <p class="intro">
+      A living archive of podcasts, blogs, visual media, courses, and more — curated to support cross-disciplinary and community-centered learning.
+    </p>
+  </section>
 
-    <div id="resources-container"></div>
-  </main>
+  <div class="filters">
+    <select id="mediumFilter">
+      <option value="">All Mediums</option>
+    </select>
+    <select id="themeFilter">
+      <option value="">All Themes</option>
+    </select>
+  </div>
+
+  <div id="resources-container" class="resource-grid"></div>
+</main>
+
 
   <footer class="site-footer">
     <p>&copy; 2025 Critical Fields.</p>

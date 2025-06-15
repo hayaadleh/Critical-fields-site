@@ -25,35 +25,62 @@ const resources = [
   }
 ];
 
-const container = document.getElementById("resources-container");
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("resources-container");
+  const mediumFilter = document.getElementById("mediumFilter");
+  const themeFilter = document.getElementById("themeFilter");
 
-const grouped = resources.reduce((acc, res) => {
-  if (!acc[res.medium]) acc[res.medium] = [];
-  acc[res.medium].push(res);
-  return acc;
-}, {});
+  const unique = (arr) => [...new Set(arr)];
 
-Object.entries(grouped).forEach(([medium, items]) => {
-  const section = document.createElement("section");
-  section.className = "resource-section";
-  section.innerHTML = `<h2>${medium}</h2><div class="card-row"></div>`;
+  const allMediums = unique(resources.map(r => r.medium)).sort();
+  const allThemes = unique(resources.flatMap(r => r.themes)).sort();
 
-  const row = section.querySelector(".card-row");
-
-  items.forEach(item => {
-    const card = document.createElement("a");
-    card.className = "resource-card";
-    card.href = item.link;
-    card.target = "_blank";
-    card.innerHTML = `
-      <img src="${item.image}" alt="${item.title}" class="resource-image">
-      <div class="resource-overlay">
-        <strong>${item.title}</strong><br>
-        <p>${item.description}</p>
-      </div>
-    `;
-    row.appendChild(card);
+  allMediums.forEach(m => {
+    const opt = document.createElement("option");
+    opt.value = m;
+    opt.textContent = m;
+    mediumFilter.appendChild(opt);
   });
 
-  container.appendChild(section);
+  allThemes.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    themeFilter.appendChild(opt);
+  });
+
+  function renderResources(filterMedium = "", filterTheme = "") {
+    container.innerHTML = "";
+
+    const filtered = resources.filter(r => {
+      const mediumMatch = filterMedium ? r.medium === filterMedium : true;
+      const themeMatch = filterTheme ? r.themes.includes(filterTheme) : true;
+      return mediumMatch && themeMatch;
+    });
+
+    filtered.forEach(item => {
+      const card = document.createElement("a");
+      card.className = "resource-card";
+      card.href = item.link;
+      card.target = "_blank";
+      card.innerHTML = `
+        <img src="${item.image}" alt="${item.title}" class="resource-image">
+        <div class="resource-overlay">
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  renderResources();
+
+  mediumFilter.addEventListener("change", () => {
+    renderResources(mediumFilter.value, themeFilter.value);
+  });
+
+  themeFilter.addEventListener("change", () => {
+    renderResources(mediumFilter.value, themeFilter.value);
+  });
 });
