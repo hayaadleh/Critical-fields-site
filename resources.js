@@ -25,42 +25,46 @@ const resources = [
   }
 ];
 
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("resources-container");
-  const mediumSelect = document.getElementById("mediumFilter");
-  const themeSelect = document.getElementById("themeFilter");
+const container = document.getElementById("resources-container");
+const mediumFilter = document.getElementById("mediumFilter");
+const themeFilter = document.getElementById("themeFilter");
 
-  function renderResources() {
-    const selectedMedium = mediumSelect.value;
-    const selectedTheme = themeSelect.value;
+function displayResources(filteredResources) {
+  container.innerHTML = "";
 
-    container.innerHTML = "";
+  filteredResources.forEach(resource => {
+    const card = document.createElement("a");
+    card.className = "resource-card";
+    card.href = resource.link;
+    card.target = "_blank";
+    card.innerHTML = `
+      <img src="${resource.image}" alt="${resource.title}" class="resource-image">
+      <div class="resource-overlay">
+        <h3>${resource.title}</h3>
+        <p>${resource.description}</p>
+        <div class="tags"><strong>Medium:</strong> ${resource.medium} | <strong>Themes:</strong> ${resource.themes.join(", ")}</div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
 
-    const filtered = resources.filter(item => {
-      const matchesMedium = selectedMedium === "" || item.medium === selectedMedium;
-      const matchesTheme = selectedTheme === "" || item.themes.includes(selectedTheme);
-      return matchesMedium && matchesTheme;
-    });
+function filterResources() {
+  const selectedMedium = mediumFilter.value;
+  const selectedTheme = themeFilter.value;
 
-    filtered.forEach(item => {
-      const card = document.createElement("a");
-      card.className = "resource-card";
-      card.href = item.link;
-      card.target = "_blank";
-      card.innerHTML = `
-        <img src="${item.image}" alt="${item.title}" class="resource-image" />
-        <div class="resource-overlay">
-          <h3>${item.title}</h3>
-          <p>${item.description}</p>
-          <p class="tags">${item.medium} • ${item.themes.join(", ")}</p>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  }
+  const filtered = resources.filter(res => {
+    const matchesMedium = !selectedMedium || res.medium === selectedMedium;
+    const matchesTheme = !selectedTheme || res.themes.includes(selectedTheme);
+    return matchesMedium && matchesTheme;
+  });
 
-  mediumSelect.addEventListener("change", renderResources);
-  themeSelect.addEventListener("change", renderResources);
+  displayResources(filtered);
+}
 
-  renderResources();
-});
+// Initial display
+displayResources(resources);
+
+// Event listeners
+mediumFilter.addEventListener("change", filterResources);
+themeFilter.addEventListener("change", filterResources);
