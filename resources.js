@@ -10,7 +10,7 @@ const resources = [
   {
     title: "Current Affairs Podcast",
     link: "https://www.patreon.com/collection/952003?view=condensed",
-    image: "https://c10.patreonusercontent.com/4/patreon-media/p/campaign/1758480/b4884c2275ce4855b56864ecd839b780/eyJ3Ijo2MjB9/5.jpg?token-hash=TSsqaEXWLrLwpy2w406dNXMa3h-bhnkU5e5Kq5mm0XI%3D&token-time=1751155200",
+    image: "https://c10.patreonusercontent.com/4/patreon-media/p/campaign/1758480/b4884c2275ce4855b56864ecd839b780/eyJ3Ijo2MjB9/5.jpg",
     medium: "Podcasts",
     themes: ["Politics"],
     description: "Current Affairs promised “a new print magazine of political analysis, satire, and entertainment” that would “bring wit, color, and verve back to print media!”."
@@ -27,35 +27,19 @@ const resources = [
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("resources-container");
-  const mediumFilter = document.getElementById("mediumFilter");
-  const themeFilter = document.getElementById("themeFilter");
+  const mediumSelect = document.getElementById("mediumFilter");
+  const themeSelect = document.getElementById("themeFilter");
 
-  const unique = (arr) => [...new Set(arr)];
+  function renderResources() {
+    const selectedMedium = mediumSelect.value;
+    const selectedTheme = themeSelect.value;
 
-  const allMediums = unique(resources.map(r => r.medium)).sort();
-  const allThemes = unique(resources.flatMap(r => r.themes)).sort();
-
-  allMediums.forEach(m => {
-    const opt = document.createElement("option");
-    opt.value = m;
-    opt.textContent = m;
-    mediumFilter.appendChild(opt);
-  });
-
-  allThemes.forEach(t => {
-    const opt = document.createElement("option");
-    opt.value = t;
-    opt.textContent = t;
-    themeFilter.appendChild(opt);
-  });
-
-  function renderResources(filterMedium = "", filterTheme = "") {
     container.innerHTML = "";
 
-    const filtered = resources.filter(r => {
-      const mediumMatch = filterMedium ? r.medium === filterMedium : true;
-      const themeMatch = filterTheme ? r.themes.includes(filterTheme) : true;
-      return mediumMatch && themeMatch;
+    const filtered = resources.filter(item => {
+      const matchesMedium = selectedMedium === "" || item.medium === selectedMedium;
+      const matchesTheme = selectedTheme === "" || item.themes.includes(selectedTheme);
+      return matchesMedium && matchesTheme;
     });
 
     filtered.forEach(item => {
@@ -64,23 +48,19 @@ document.addEventListener("DOMContentLoaded", () => {
       card.href = item.link;
       card.target = "_blank";
       card.innerHTML = `
-        <img src="${item.image}" alt="${item.title}" class="resource-image">
+        <img src="${item.image}" alt="${item.title}" class="resource-image" />
         <div class="resource-overlay">
           <h3>${item.title}</h3>
           <p>${item.description}</p>
+          <p class="tags">${item.medium} • ${item.themes.join(", ")}</p>
         </div>
       `;
       container.appendChild(card);
     });
   }
 
+  mediumSelect.addEventListener("change", renderResources);
+  themeSelect.addEventListener("change", renderResources);
+
   renderResources();
-
-  mediumFilter.addEventListener("change", () => {
-    renderResources(mediumFilter.value, themeFilter.value);
-  });
-
-  themeFilter.addEventListener("change", () => {
-    renderResources(mediumFilter.value, themeFilter.value);
-  });
 });
