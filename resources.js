@@ -24,6 +24,7 @@ const resources = [
     description: "For more than forty years Radical History Review has stood at the point where rigorous historical scholarship and active political engagement converge."
   }
 ];
+
 const container = document.getElementById("resources-container");
 
 const grouped = resources.reduce((acc, res) => {
@@ -47,7 +48,7 @@ Object.entries(grouped).forEach(([medium, items]) => {
     card.innerHTML = `
       <img src="${item.image}" alt="${item.title}" class="resource-image">
       <div class="resource-overlay">
-        <strong>${item.title}</strong>
+        <strong>${item.title}</strong><br>
         <p>${item.description}</p>
       </div>
     `;
