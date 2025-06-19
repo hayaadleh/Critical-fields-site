@@ -7,94 +7,320 @@
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
+    /*
+      Minimal inline styles added here.
+      Most design should come from your styles.css.
+      These primarily style the new filter UI components.
+    */
+    
+    /* Ensure body font and background are from styles.css */
     body {
-      font-family: 'IBM Plex Mono', monospace;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
+        font-family: 'IBM Plex Mono', monospace;
+        background-color: #f5f5f5; /* From styles.css */
+        color: #111; /* From styles.css */
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
     }
 
+    /* Override hero padding to match initial resources.html, if desired, otherwise styles.css will rule */
     .hero {
-      padding: 2rem;
+      padding: 2rem; /* Adjusted from 4rem in styles.css to match original resources.html padding */
       text-align: center;
     }
 
-    #filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding: 1rem 2rem;
-      background-color: #fff;
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
+    /* Main filter container styling */
+    #main-filter-container {
+        background-color: #ffffff; /* White background for the filter bar */
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center; /* Center horizontally */
     }
 
-    #filter-bar label {
-      font-weight: bold;
-      margin-right: 0.5rem;
+    /* Filter group for labels and tags */
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        width: 100%; /* Take full width */
+        max-width: 800px; /* Constrain filters to a readable width */
+        justify-content: center; /* Center filter tags */
     }
 
-    #filter-bar select {
-      padding: 0.3rem;
-      font-size: 1rem;
+    .filter-group label {
+        font-weight: bold;
+        color: #111; /* Match body text color */
+        font-size: 1rem; /* Consistent with nav-menu font size */
+        flex-shrink: 0;
+        text-transform: lowercase; /* Consistent with site's styling */
     }
 
+    .filter-tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        flex-grow: 1; /* Allow tags to take up space */
+        justify-content: center; /* Center tags within their container */
+    }
+
+    .filter-tag {
+        background-color: #eee; /* Lighter grey for unselected tags */
+        color: #333;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px; /* Softer pill shape */
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        font-size: 0.85rem; /* Slightly smaller text for tags */
+        border: 1px solid #ddd;
+        user-select: none; /* Prevent text selection on tags */
+        white-space: nowrap; /* Keep tags from breaking onto multiple lines */
+        text-transform: lowercase; /* Consistent with site's styling */
+    }
+
+    .filter-tag:hover {
+        background-color: #ddd;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .filter-tag.selected {
+        background-color: #111; /* Darker, consistent with site's primary color */
+        color: white;
+        border-color: #111;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    #search-bar {
+        width: 100%;
+        max-width: 800px; /* Match filter group width */
+        padding: 0.75rem 1rem;
+        border: 1px solid #ccc; /* Match site's borders */
+        border-radius: 6px; /* Match site's rounded corners */
+        font-size: 0.9rem; /* Match nav-menu font size */
+        color: #111;
+        background-color: #fff;
+    }
+    #search-bar::placeholder {
+        color: #666;
+    }
+
+    #clear-filters-btn {
+        background-color: #e0e0e0; /* Neutral grey, less aggressive than red */
+        color: #333;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        border: 1px solid #ccc;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: lowercase; /* Consistent with site's styling */
+        margin-top: 1rem; /* Space from search/filters */
+    }
+
+    #clear-filters-btn:hover {
+        background-color: #ccc;
+        transform: translateY(-1px);
+    }
+
+    /* --- Resources Container & Card Styles (Reverted to styles.css base + minimal additions) --- */
     #resources-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Back to initial resources.html grid */
+      gap: 1.5rem; /* Back to initial resources.html gap */
       padding: 2rem;
+      max-width: 1200px; /* Constrain width */
+      margin: 0 auto; /* Center the grid */
     }
 
+    /* Use resource-card from styles.css */
     .resource-card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      /* properties from styles.css */
+      position: relative;
       overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
       text-decoration: none;
       color: inherit;
-      transition: transform 0.2s ease;
+      background: #fff;
+      cursor: pointer; /* Ensure clickable */
+      display: flex; /* Added for flex column layout */
+      flex-direction: column; /* Added for flex column layout */
+      height: 100%; /* Added for consistent card height */
     }
 
     .resource-card:hover {
-      transform: scale(1.02);
+      transform: scale(1.02); /* Original from styles.css */
+      /* box-shadow: 0 4px 12px rgba(0,0,0,0.15); Add a slightly stronger shadow on hover */
     }
 
     .resource-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+        width: 100%;
+        height: 180px; /* From styles.css */
+        object-fit: cover; /* From styles.css */
+        background-color: #e2e8f0; /* Placeholder background, matches original */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #94a3b8;
+        font-size: 1.2rem;
+        font-weight: bold;
+        overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+    }
+    .resource-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .resource-overlay {
-      padding: 1rem;
+      padding: 1rem; /* From styles.css */
+      flex-grow: 1; /* Allow content to grow */
+      display: flex; /* Added for flex column layout */
+      flex-direction: column; /* Added for flex column layout */
     }
 
     .resource-overlay h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
+      margin: 0 0 0.5rem; /* From styles.css */
+      font-size: 1.1rem; /* From styles.css */
+      color: #111; /* Match body text color */
     }
 
-    .tags {
-      font-size: 0.8rem;
-      color: #666;
-      margin-top: 0.5rem;
+    .resource-description {
+        font-size: 0.9rem; /* From styles.css */
+        color: #444; /* From styles.css */
+        margin-bottom: 0.75rem; /* From styles.css */
+        line-height: 1.4; /* From styles.css */
+        flex-grow: 1; /* Allow description to take available space */
     }
 
+    .tags-container {
+      font-size: 0.8rem; /* From styles.css */
+      color: #666; /* From styles.css */
+      margin-top: auto; /* Push tags to the bottom */
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem; /* Slightly reduced gap for more compact tags */
+    }
+
+    .tag-badge {
+        background-color: #f0f0f0; /* Light grey, subtle */
+        color: #444; /* Dark grey text */
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px; /* Slightly less rounded than filter tags */
+        font-weight: 500;
+        white-space: nowrap;
+        text-transform: lowercase; /* Consistent with site's styling */
+        border: 1px solid #e0e0e0;
+    }
+
+    .loading-message {
+        text-align: center;
+        padding: 2rem;
+        font-size: 1.1rem;
+        color: #666;
+        grid-column: 1 / -1;
+    }
+    .error-message {
+        color: #d9534f; /* A standard error red */
+        font-weight: bold;
+    }
+
+    /* Footer from styles.css */
     footer.site-footer {
-      padding: 1rem;
       text-align: center;
-      background: #fff;
-      border-top: 1px solid #ddd;
-      margin-top: 2rem;
+      font-size: 0.75rem;
+      padding: 1rem;
+      color: #888;
+      border-top: 1px solid #ccc;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .site-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .nav-menu {
+            margin-top: 1rem;
+            width: 100%;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .dropdown {
+            width: 100%;
+            text-align: center;
+        }
+        .dropdown-menu {
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
+
+        .hero {
+            padding: 2rem 1rem; /* More compact on small screens */
+        }
+        .hero .tagline {
+            font-size: 1.8rem;
+        }
+        .hero .intro {
+            font-size: 0.95rem;
+        }
+
+        #main-filter-container {
+            padding: 1rem;
+            gap: 1rem;
+        }
+        .filter-group {
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            gap: 0.8rem;
+        }
+        .filter-group label {
+            margin-bottom: 0.5rem;
+        }
+        .filter-tags-container {
+            width: 100%;
+            justify-content: center; /* Center tags on small screens */
+        }
+        #clear-filters-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        #resources-container {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+            gap: 1rem;
+        }
     }
   </style>
 </head>
 <body>
   <header class="site-header">
     <nav class="navbar">
-      <h1 class="logo" style="padding: 1rem 2rem;">Critical Fields</h1>
-      <!-- Add your nav here if needed -->
+      <h1 class="logo">Critical Fields</h1>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="fields.html">Fields</a>
+          <ul class="dropdown-menu">
+            <li><a href="fields-decoloniality.html">Decoloniality / Histories</a></li>
+            <li><a href="fields-economics.html">Economics / Politics</a></li>
+            <li><a href="fields-systems.html">Systems / Infrastructure</a></li>
+            <li><a href="fields-tech.html">Futures / Tech</a></li>
+          </ul>
+        </li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="network.html">Network</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -106,32 +332,325 @@
       </p>
     </section>
 
-    <div id="filter-bar">
-      <label for="mediumFilter">Medium:</label>
-      <select id="mediumFilter">
-        <option value="">All</option>
-        <option value="Blogs & Website">Blogs & Website</option>
-        <option value="Podcasts">Podcasts</option>
-        <option value="Journal">Journals</option>
-      </select>
+    <div id="main-filter-container">
+        <input type="text" id="search-bar" placeholder="search by title or description..." aria-label="Search resources">
 
-      <label for="themeFilter">Theme:</label>
-      <select id="themeFilter">
-        <option value="">All</option>
-        <option value="History">History</option>
-        <option value="Politics">Politics</option>
-        <option value="Decoloniality">Decoloniality</option>
-        <option value="Indigenous">Indigenous</option>
-      </select>
+        <div class="filter-group">
+            <label>Resource Type:</label>
+            <div id="resource-type-filters" class="filter-tags-container">
+                <!-- Resource Type filter tags will be generated here -->
+                <span class="filter-tag all-tag selected" data-filter-type="ResourceType" data-filter-value="all">all</span>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <label>Theme:</label>
+            <div id="theme-filters" class="filter-tags-container">
+                <!-- Theme filter tags will be generated here -->
+                <span class="filter-tag all-tag selected" data-filter-type="theme" data-filter-value="all">all</span>
+            </div>
+        </div>
+
+        <button id="clear-filters-btn">clear all filters</button>
     </div>
 
-    <div id="resources-container"></div>
+    <div id="resources-container">
+        <p class="loading-message" id="loading-resources">Loading resources from Google Sheet...</p>
+    </div>
   </main>
 
   <footer class="site-footer">
-    <p>&copy; 2025 Critical Fields.</p>
+    <p>&copy; 2025 critical fields.</p>
   </footer>
 
-  <script src="resources.js"></script>
+  <script>
+    // --- Configuration ---
+    // Your published Google Sheet CSV URL
+    const GOOGLE_SHEET_RESOURCES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+
+    let allResources = [];
+    let selectedResourceTypes = new Set(['all']); // 'all' is selected by default for new filter
+    let selectedThemes = new Set(['all']);  // 'all' is selected by default
+    let searchQuery = '';
+
+    // MAPPING from detailed Medium values (from your sheet) to broader ResourceType categories
+    // ALL keys are LOWERCASE to ensure robust matching.
+    const mediumCategoryMap = {
+        // Literature
+        "peer reviewed journal": "Literature",
+        "book": "Literature",
+        "dissertation": "Literature",
+        "blog": "Literature",
+        "publication": "Literature",
+        "newsletter": "Literature",
+        "substack": "Literature",
+        "book reviews": "Literature",
+
+        // Multimedia
+        "podcast": "Multimedia",
+        "film": "Multimedia",
+        "interview": "Multimedia",
+        "data visualizations": "Multimedia",
+        "datasets": "Multimedia",
+        "video essay": "Multimedia",
+        "youtube account": "Multimedia",
+        "art": "Multimedia",
+
+        // Educational Resources
+        "resource": "Educational Resources",
+        "reading list": "Educational Resources",
+        "course": "Educational Resources",
+        "syllabi": "Educational Resources",
+        "lecture series": "Educational Resources",
+        "community": "Educational Resources",
+
+        // Fallback for any unmapped mediums or empty values
+        "other": "Other",
+        "": "Other"
+    };
+
+    // Helper function to parse CSV data
+    function parseCSV(csvText) {
+        const lines = csvText.trim().split('\n');
+        if (lines.length === 0) return [];
+
+        const parseLine = (line) => {
+            const values = [];
+            let inQuote = false;
+            let currentVal = '';
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuote = !inQuote;
+                    if (!inQuote && i < line.length - 1 && line[i+1] === '"') {
+                        currentVal += '"';
+                        i++;
+                    }
+                } else if (char === ',' && !inQuote) {
+                    values.push(currentVal.trim());
+                    currentVal = '';
+                } else {
+                    currentVal += char;
+                }
+            }
+            values.push(currentVal.trim());
+            return values;
+        };
+
+        const headers = parseLine(lines[0]).map(header => {
+            return header.trim().replace(/[^a-zA-Z0-9]/g, '');
+        });
+
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = parseLine(lines[i]);
+            if (values.length !== headers.length) {
+                console.warn(`Skipping malformed row (header/value count mismatch): ${lines[i]}`);
+                continue;
+            }
+            const rowObject = {};
+            headers.forEach((header, index) => {
+                rowObject[header] = values[index];
+            });
+            
+            // Assign ResourceType based on Medium using the map
+            const mediumLower = rowObject.Medium ? rowObject.Medium.toLowerCase().trim() : ''; // Add .trim() here too
+            rowObject.ResourceType = mediumCategoryMap[mediumLower] || mediumCategoryMap['']; // Assign mapped type, or 'Other' if not found
+            
+            // --- DEBUG LOG: Check your browser's console (F12) for these messages ---
+            console.log(`Medium from sheet: "${rowObject.Medium}" (processed as "${mediumLower}") -> Mapped to ResourceType: "${rowObject.ResourceType}"`);
+            // --- END DEBUG LOG ---
+
+            data.push(rowObject);
+        }
+        return data;
+    }
+
+    // Renders a single resource card
+    function renderResourceCard(item) {
+        const card = document.createElement('a');
+        card.href = item.Link || '#'; // Use Link column from sheet, fallback to '#' if empty
+        card.target = "_blank";       // Open in new tab
+        card.rel = "noopener noreferrer"; // Security best practice for target="_blank"
+        card.className = 'resource-card'; // Reuse existing class
+
+        const imageUrl = item.ImageURL && item.ImageURL.startsWith('http') ? item.ImageURL : 'https://placehold.co/400x180/e2e8f0/94a3b8?text=No+Image';
+
+        let imageContent;
+        if (imageUrl.includes('placehold.co')) {
+            imageContent = `<div class="resource-image">No Image Available</div>`;
+        } else {
+            imageContent = `<img src="${imageUrl}" alt="${item.Title || 'Resource image'}" class="resource-image" onerror="this.onerror=null;this.src='https://placehold.co/400x180/e2e8f0/94a3b8?text=Image+Load+Error';"/>`;
+        }
+
+        const mediumTag = item.Medium ? `<span class="tag-badge">${item.Medium}</span>` : '';
+        const themeTag = item.Theme ? `<span class="tag-badge">${item.Theme}</span>` : '';
+
+        card.innerHTML = `
+            ${imageContent}
+            <div class="resource-overlay">
+                <h3>${item.Title || 'untitled resource'}</h3>
+                <p class="resource-description">${item.Description || 'no description provided.'}</p>
+                <div class="tags-container">
+                    ${mediumTag}
+                    ${themeTag}
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    // Displays resources in the container
+    function displayResources(resourcesToDisplay) {
+        const container = document.getElementById('resources-container');
+        container.innerHTML = '';
+
+        if (resourcesToDisplay.length === 0) {
+            container.innerHTML = `<p class="loading-message">No resources found matching your criteria.</p>`;
+            return;
+        }
+
+        resourcesToDisplay.forEach(item => {
+            const card = renderResourceCard(item);
+            container.appendChild(card);
+        });
+    }
+
+    // Dynamically generates filter tags and attaches event listeners
+    function renderFilterTags(filterType, containerId, allItems) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = `<span class="filter-tag all-tag selected" data-filter-type="${filterType}" data-filter-value="all">all</span>`;
+
+        const uniqueItems = (filterType === 'ResourceType'
+            ? [...new Set(Object.values(mediumCategoryMap).filter(val => val !== 'Other' && val !== ''))].sort()
+            : [...new Set(allItems.map(item => item[filterType]).filter(Boolean))].sort()
+        );
+
+        uniqueItems.forEach(itemValue => {
+            const tag = document.createElement('span');
+            tag.className = 'filter-tag';
+            tag.textContent = itemValue.toLowerCase(); // Ensure tags are lowercase
+            tag.dataset.filterType = filterType;
+            tag.dataset.filterValue = itemValue.toLowerCase();
+
+            const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedThemes;
+            if (selectedSet.has(itemValue.toLowerCase())) {
+                tag.classList.add('selected');
+            }
+
+            tag.addEventListener('click', handleFilterTagClick);
+            container.appendChild(tag);
+        });
+    }
+
+    // Handles clicks on filter tags
+    function handleFilterTagClick(event) {
+        const clickedTag = event.target;
+        const filterType = clickedTag.dataset.filterType;
+        const filterValue = clickedTag.dataset.filterValue.toLowerCase();
+
+        const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedThemes;
+        const allTags = document.querySelectorAll(`.filter-tag[data-filter-type="${filterType}"]`);
+        const allTag = document.querySelector(`.filter-tag.all-tag[data-filter-type="${filterType}"]`);
+
+        if (filterValue === 'all') {
+            selectedSet.clear();
+            selectedSet.add('all');
+            allTags.forEach(tag => tag.classList.remove('selected'));
+            allTag.classList.add('selected');
+        } else {
+            if (selectedSet.has('all')) {
+                selectedSet.delete('all');
+                allTag.classList.remove('selected');
+            }
+            if (selectedSet.has(filterValue)) {
+                selectedSet.delete(filterValue);
+                clickedTag.classList.remove('selected');
+                if (selectedSet.size === 0) {
+                    selectedSet.add('all');
+                    allTag.classList.add('selected');
+                }
+            } else {
+                selectedSet.add(filterValue);
+                clickedTag.classList.add('selected');
+            }
+        }
+        filterAndDisplayResources();
+    }
+
+    // Main function to apply all filters and display results
+    function filterAndDisplayResources() {
+        let currentFilteredResources = allResources.filter(resource => {
+            const resourceResourceType = resource.ResourceType ? resource.ResourceType.toLowerCase() : '';
+            const resourceTheme = resource.Theme ? resource.Theme.toLowerCase() : '';
+            const resourceTitle = resource.Title ? resource.Title.toLowerCase() : '';
+            const resourceDescription = resource.Description ? resource.Description.toLowerCase() : '';
+
+            // ResourceType filter logic
+            const matchesResourceType = selectedResourceTypes.has('all') || selectedResourceTypes.has(resourceResourceType);
+
+            // Theme filter logic
+            const matchesTheme = selectedThemes.has('all') || selectedThemes.has(resourceTheme);
+
+            // Search filter logic
+            const matchesSearch = !searchQuery ||
+                                  resourceTitle.includes(searchQuery.toLowerCase()) ||
+                                  resourceDescription.includes(searchQuery.toLowerCase());
+
+            return matchesResourceType && matchesTheme && matchesSearch;
+        });
+
+        displayResources(currentFilteredResources);
+    }
+
+    // --- Initialize Data Loading and Event Listeners ---
+    document.addEventListener('DOMContentLoaded', async () => {
+        const loadingMessage = document.getElementById('loading-resources');
+        const resourcesContainer = document.getElementById('resources-container');
+        const searchBar = document.getElementById('search-bar');
+        const clearFiltersBtn = document.getElementById('clear-filters-btn');
+
+        try {
+            const response = await fetch(GOOGLE_SHEET_RESOURCES_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}. Please ensure the Google Sheet URL is correct and published to web.`);
+            }
+            const csvText = await response.text();
+            allResources = parseCSV(csvText);
+
+            renderFilterTags('ResourceType', 'resource-type-filters', allResources);
+            renderFilterTags('Theme', 'theme-filters', allResources);
+
+            filterAndDisplayResources();
+
+        } catch (error) {
+            console.error('Error fetching or processing resources:', error);
+            resourcesContainer.innerHTML = `<p class="loading-message error-message">Error loading resources. Please check the console for details and ensure the Google Sheet URL is correct and published.</p>`;
+        } finally {
+            if (loadingMessage) {
+                 loadingMessage.style.display = 'none';
+            }
+        }
+
+        searchBar.addEventListener('input', (event) => {
+            searchQuery = event.target.value;
+            filterAndDisplayResources();
+        });
+
+        clearFiltersBtn.addEventListener('click', () => {
+            selectedResourceTypes.clear();
+            selectedResourceTypes.add('all');
+            selectedThemes.clear();
+            selectedThemes.add('all');
+            searchQuery = '';
+            searchBar.value = '';
+
+            document.querySelectorAll('.filter-tag').forEach(tag => tag.classList.remove('selected'));
+            document.querySelectorAll('.filter-tag.all-tag').forEach(tag => tag.classList.add('selected'));
+
+            filterAndDisplayResources();
+        });
+    });
+  </script>
 </body>
 </html>
