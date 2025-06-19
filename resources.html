@@ -374,7 +374,7 @@
     let searchQuery = '';
 
     // MAPPING from detailed Medium values (from your sheet) to broader ResourceType categories
-    // ALL keys are LOWERCASE to ensure robust matching.
+    // ALL keys are LOWERCASE and TRIMMED to ensure robust matching.
     const mediumCategoryMap = {
         // Literature
         "peer reviewed journal": "Literature",
@@ -438,8 +438,13 @@
         };
 
         const headers = parseLine(lines[0]).map(header => {
+            // Clean headers for object keys: remove non-alphanumeric, keep it consistent
             return header.trim().replace(/[^a-zA-Z0-9]/g, '');
         });
+
+        // --- DEBUG LOG: Crucial for verifying column names ---
+        console.log("Parsed Headers:", headers);
+        // --- END DEBUG LOG ---
 
         const data = [];
         for (let i = 1; i < lines.length; i++) {
@@ -454,8 +459,8 @@
             });
             
             // Assign ResourceType based on Medium using the map
-            const mediumLower = rowObject.Medium ? rowObject.Medium.toLowerCase().trim() : ''; // Add .trim() here too
-            rowObject.ResourceType = mediumCategoryMap[mediumLower] || mediumCategoryMap['']; // Assign mapped type, or 'Other' if not found
+            const mediumLower = rowObject.Medium ? rowObject.Medium.toLowerCase().trim() : '';
+            rowObject.ResourceType = mediumCategoryMap[mediumLower] || mediumCategoryMap[''];
             
             // --- DEBUG LOG: Check your browser's console (F12) for these messages ---
             console.log(`Medium from sheet: "${rowObject.Medium}" (processed as "${mediumLower}") -> Mapped to ResourceType: "${rowObject.ResourceType}"`);
@@ -469,10 +474,10 @@
     // Renders a single resource card
     function renderResourceCard(item) {
         const card = document.createElement('a');
-        card.href = item.Link || '#'; // Use Link column from sheet, fallback to '#' if empty
-        card.target = "_blank";       // Open in new tab
-        card.rel = "noopener noreferrer"; // Security best practice for target="_blank"
-        card.className = 'resource-card'; // Reuse existing class
+        card.href = item.Link || '#';
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.className = 'resource-card';
 
         const imageUrl = item.ImageURL && item.ImageURL.startsWith('http') ? item.ImageURL : 'https://placehold.co/400x180/e2e8f0/94a3b8?text=No+Image';
 
@@ -506,7 +511,7 @@
         container.innerHTML = '';
 
         if (resourcesToDisplay.length === 0) {
-            container.innerHTML = `<p class="loading-message">No resources found matching your criteria.</p>`;
+            container.innerHTML = `<p class="loading-message">no resources found matching your criteria.</p>`;
             return;
         }
 
@@ -529,7 +534,7 @@
         uniqueItems.forEach(itemValue => {
             const tag = document.createElement('span');
             tag.className = 'filter-tag';
-            tag.textContent = itemValue.toLowerCase(); // Ensure tags are lowercase
+            tag.textContent = itemValue.toLowerCase();
             tag.dataset.filterType = filterType;
             tag.dataset.filterValue = itemValue.toLowerCase();
 
@@ -619,6 +624,7 @@
             allResources = parseCSV(csvText);
 
             renderFilterTags('ResourceType', 'resource-type-filters', allResources);
+            // This is where Theme filters are rendered:
             renderFilterTags('Theme', 'theme-filters', allResources);
 
             filterAndDisplayResources();
