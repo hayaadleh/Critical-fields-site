@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resources | Critical Fields</title>
+  <title>Archive | Critical Fields</title> <!-- Changed title to Archive -->
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
@@ -326,9 +326,9 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline">Resources Index</h2>
+      <h2 class="tagline">Welcome to the Archive</h2> <!-- Updated tagline -->
       <p class="intro">
-        A living archive of podcasts, blogs, visual media, courses, and more — curated to support cross-disciplinary and community-centered learning.
+        This is the living, open-access archive that powers our entire platform—a public, user-fed repository dedicated to collecting and preserving essential resources of critical learning. This archive is the raw material from which we build our Fields, deliver our analysis, and platform conversations. We believe knowledge should be a commons; this is our collective effort to build one.
       </p>
     </section>
 
@@ -344,10 +344,10 @@
         </div>
 
         <div class="filter-group">
-            <label>Theme:</label>
-            <div id="theme-filters" class="filter-tags-container">
-                <!-- Theme filter tags will be generated here -->
-                <span class="filter-tag all-tag selected" data-filter-type="theme" data-filter-value="all">all</span>
+            <label>Field:</label>
+            <div id="field-filters" class="filter-tags-container">
+                <!-- Field filter tags will be generated here -->
+                <span class="filter-tag all-tag selected" data-filter-type="Field" data-filter-value="all">all</span>
             </div>
         </div>
 
@@ -369,8 +369,8 @@
     const GOOGLE_SHEET_RESOURCES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
 
     let allResources = [];
-    let selectedResourceTypes = new Set(['all']); // 'all' is selected by default for new filter
-    let selectedThemes = new Set(['all']);  // 'all' is selected by default
+    let selectedResourceTypes = new Set(['all']);
+    let selectedField = new Set(['all']);
     let searchQuery = '';
 
     // MAPPING from detailed Medium values (from your sheet) to broader ResourceType categories
@@ -409,6 +409,9 @@
         "": "Other"
     };
 
+    // Define priority for Resource Types (earlier in array means higher priority)
+    const resourceTypePriority = ["Literature", "Multimedia", "Educational Resources"];
+
     // Helper function to parse CSV data
     function parseCSV(csvText) {
         const lines = csvText.trim().split('\n');
@@ -438,13 +441,10 @@
         };
 
         const headers = parseLine(lines[0]).map(header => {
-            // Clean headers for object keys: remove non-alphanumeric, keep it consistent
             return header.trim().replace(/[^a-zA-Z0-9]/g, '');
         });
 
-        // --- DEBUG LOG: Crucial for verifying column names ---
-        console.log("Parsed Headers:", headers);
-        // --- END DEBUG LOG ---
+        console.log("Parsed Headers:", headers); // Debug log for headers
 
         const data = [];
         for (let i = 1; i < lines.length; i++) {
@@ -462,10 +462,16 @@
             const mediumLower = rowObject.Medium ? rowObject.Medium.toLowerCase().trim() : '';
             rowObject.ResourceType = mediumCategoryMap[mediumLower] || mediumCategoryMap[''];
             
-            // --- DEBUG LOG: Check your browser's console (F12) for these messages ---
-            console.log(`Medium from sheet: "${rowObject.Medium}" (processed as "${mediumLower}") -> Mapped to ResourceType: "${rowObject.ResourceType}"`);
-            // --- END DEBUG LOG ---
+            // Handle multiple fields: split the 'Field' string into an array of individual fields
+            if (rowObject.Field) {
+                rowObject.Field = rowObject.Field.split(',').map(f => f.toLowerCase().trim()).filter(Boolean);
+            } else {
+                rowObject.Field = []; // Ensure it's an empty array if no fields
+            }
 
+            console.log(`Medium from sheet: "${rowObject.Medium}" (processed as "${mediumLower}") -> Mapped to ResourceType: "${rowObject.ResourceType}"`);
+            console.log(`Field from sheet: "${rowObject.Field.join(', ')}"`);
+            
             data.push(rowObject);
         }
         return data;
@@ -479,7 +485,8 @@
         card.rel = "noopener noreferrer";
         card.className = 'resource-card';
 
-        const imageUrl = item.ImageURL && item.ImageURL.startsWith('http') ? item.ImageURL : 'https://placehold.co/400x180/e2e8f0/94a3b8?text=No+Image';
+        // Corrected to item.ImageLink
+        const imageUrl = item.ImageLink && item.ImageLink.startsWith('http') ? item.ImageLink : 'https://placehold.co/400x180/e2e8f0/94a3b8?text=No+Image';
 
         let imageContent;
         if (imageUrl.includes('placehold.co')) {
@@ -489,7 +496,10 @@
         }
 
         const mediumTag = item.Medium ? `<span class="tag-badge">${item.Medium}</span>` : '';
-        const themeTag = item.Theme ? `<span class="tag-badge">${item.Theme}</span>` : '';
+        // Display individual Field tags
+        const fieldTagsHtml = item.Field && item.Field.length > 0
+            ? item.Field.map(f => `<span class="tag-badge">${f}</span>`).join('')
+            : '';
 
         card.innerHTML = `
             ${imageContent}
@@ -498,7 +508,7 @@
                 <p class="resource-description">${item.Description || 'no description provided.'}</p>
                 <div class="tags-container">
                     ${mediumTag}
-                    ${themeTag}
+                    ${fieldTagsHtml}
                 </div>
             </div>
         `;
@@ -524,12 +534,27 @@
     // Dynamically generates filter tags and attaches event listeners
     function renderFilterTags(filterType, containerId, allItems) {
         const container = document.getElementById(containerId);
+        // Clear previous tags, then explicitly add the 'All' tag once
         container.innerHTML = `<span class="filter-tag all-tag selected" data-filter-type="${filterType}" data-filter-value="all">all</span>`;
 
-        const uniqueItems = (filterType === 'ResourceType'
-            ? [...new Set(Object.values(mediumCategoryMap).filter(val => val !== 'Other' && val !== ''))].sort()
-            : [...new Set(allItems.map(item => item[filterType]).filter(Boolean))].sort()
-        );
+        let uniqueItems;
+        if (filterType === 'ResourceType') {
+            uniqueItems = [...new Set(Object.values(mediumCategoryMap).filter(val => val !== 'Other' && val !== ''))].sort();
+        } else if (filterType === 'Field') {
+            const allIndividualFields = new Set();
+            allItems.forEach(item => {
+                if (item.Field && Array.isArray(item.Field)) {
+                    item.Field.forEach(field => {
+                        if (field.toLowerCase() !== 'all') { // Ensure 'all' is not added as a dynamic tag
+                            allIndividualFields.add(field);
+                        }
+                    });
+                }
+            });
+            uniqueItems = [...allIndividualFields].sort();
+        } else {
+            uniqueItems = [...new Set(allItems.map(item => item[filterType]).filter(Boolean))].sort();
+        }
 
         uniqueItems.forEach(itemValue => {
             const tag = document.createElement('span');
@@ -538,7 +563,7 @@
             tag.dataset.filterType = filterType;
             tag.dataset.filterValue = itemValue.toLowerCase();
 
-            const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedThemes;
+            const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedField;
             if (selectedSet.has(itemValue.toLowerCase())) {
                 tag.classList.add('selected');
             }
@@ -554,7 +579,7 @@
         const filterType = clickedTag.dataset.filterType;
         const filterValue = clickedTag.dataset.filterValue.toLowerCase();
 
-        const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedThemes;
+        const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedField;
         const allTags = document.querySelectorAll(`.filter-tag[data-filter-type="${filterType}"]`);
         const allTag = document.querySelector(`.filter-tag.all-tag[data-filter-type="${filterType}"]`);
 
@@ -587,22 +612,22 @@
     function filterAndDisplayResources() {
         let currentFilteredResources = allResources.filter(resource => {
             const resourceResourceType = resource.ResourceType ? resource.ResourceType.toLowerCase() : '';
-            const resourceTheme = resource.Theme ? resource.Theme.toLowerCase() : '';
             const resourceTitle = resource.Title ? resource.Title.toLowerCase() : '';
             const resourceDescription = resource.Description ? resource.Description.toLowerCase() : '';
 
             // ResourceType filter logic
             const matchesResourceType = selectedResourceTypes.has('all') || selectedResourceTypes.has(resourceResourceType);
 
-            // Theme filter logic
-            const matchesTheme = selectedThemes.has('all') || selectedThemes.has(resourceTheme);
+            // Field filter logic: Check if ANY selected field is present in the resource's Field array
+            const matchesField = selectedField.has('all') ||
+                                 (resource.Field && resource.Field.some(field => selectedField.has(field)));
 
             // Search filter logic
             const matchesSearch = !searchQuery ||
                                   resourceTitle.includes(searchQuery.toLowerCase()) ||
                                   resourceDescription.includes(searchQuery.toLowerCase());
 
-            return matchesResourceType && matchesTheme && matchesSearch;
+            return matchesResourceType && matchesField && matchesSearch;
         });
 
         displayResources(currentFilteredResources);
@@ -624,8 +649,7 @@
             allResources = parseCSV(csvText);
 
             renderFilterTags('ResourceType', 'resource-type-filters', allResources);
-            // This is where Theme filters are rendered:
-            renderFilterTags('Theme', 'theme-filters', allResources);
+            renderFilterTags('Field', 'field-filters', allResources);
 
             filterAndDisplayResources();
 
@@ -646,8 +670,8 @@
         clearFiltersBtn.addEventListener('click', () => {
             selectedResourceTypes.clear();
             selectedResourceTypes.add('all');
-            selectedThemes.clear();
-            selectedThemes.add('all');
+            selectedField.clear();
+            selectedField.add('all');
             searchQuery = '';
             searchBar.value = '';
 
