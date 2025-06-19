@@ -317,7 +317,7 @@
             <li><a href="fields-tech.html">Futures / Tech</a></li>
           </ul>
         </li>
-        <li><a href="resources.html">Resources</a></li>
+        <li><a href="resources.html">Archive</a></li> <!-- Changed "Resources" to "Archive" -->
         <li><a href="network.html">Network</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
@@ -545,7 +545,8 @@
             allItems.forEach(item => {
                 if (item.Field && Array.isArray(item.Field)) {
                     item.Field.forEach(field => {
-                        if (field.toLowerCase() !== 'all') { // Ensure 'all' is not added as a dynamic tag
+                        // Ensure 'all' is not added as a dynamic tag IF it's a value in your sheet
+                        if (field.toLowerCase() !== 'all') { 
                             allIndividualFields.add(field);
                         }
                     });
