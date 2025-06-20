@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Archive | Critical Fields</title> <!-- Changed title to Archive -->
+  <title>Archive | Critical Fields</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
     /*
       Minimal inline styles added here.
       Most design should come from your styles.css.
-      These primarily style the new filter UI components.
+      These primarily style the new filter UI components and enhance user experience.
     */
     
     /* Ensure body font and background are from styles.css */
@@ -24,7 +24,7 @@
     }
 
     /* Override hero padding to match initial resources.html, if desired, otherwise styles.css will rule */
-    .hero {
+   .hero {
       padding: 2rem; /* Adjusted from 4rem in styles.css to match original resources.html padding */
       text-align: center;
     }
@@ -42,7 +42,7 @@
     }
 
     /* Filter group for labels and tags */
-    .filter-group {
+   .filter-group {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -52,15 +52,15 @@
         justify-content: center; /* Center filter tags */
     }
 
-    .filter-group label {
+   .filter-group label {
         font-weight: bold;
         color: #111; /* Match body text color */
-        font-size: 1rem; /* Consistent with nav-menu font size */
+        font-size: 1.1rem; /* Consistent with nav-menu font size */
         flex-shrink: 0;
         text-transform: lowercase; /* Consistent with site's styling */
     }
 
-    .filter-tags-container {
+   .filter-tags-container {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
@@ -68,7 +68,7 @@
         justify-content: center; /* Center tags within their container */
     }
 
-    .filter-tag {
+   .filter-tag {
         background-color: #eee; /* Lighter grey for unselected tags */
         color: #333;
         padding: 0.4rem 0.8rem;
@@ -82,12 +82,12 @@
         text-transform: lowercase; /* Consistent with site's styling */
     }
 
-    .filter-tag:hover {
+   .filter-tag:hover {
         background-color: #ddd;
         box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
 
-    .filter-tag.selected {
+   .filter-tag.selected {
         background-color: #111; /* Darker, consistent with site's primary color */
         color: white;
         border-color: #111;
@@ -127,19 +127,67 @@
         transform: translateY(-1px);
     }
 
+    /* --- Active Filters Display --- */
+    #active-filters-display {
+        margin: 1.5rem auto;
+        max-width: 1200px;
+        padding: 0 2rem; /* Match container padding */
+        min-height: 1.5rem; /* Give it some space even when empty */
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+   .active-filter-badge {
+        background-color: #111; /* Dark background to stand out */
+        color: white;
+        padding: 0.4rem 0.8rem;
+        padding-right: 0.5rem; /* Space for X */
+        border-radius: 15px;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        text-transform: lowercase;
+        border: 1px solid #111;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+   .active-filter-badge .remove-filter {
+        background: none;
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 0.9rem;
+        padding: 0 0.2rem;
+        line-height: 1;
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+   .active-filter-badge .remove-filter:hover {
+        opacity: 1;
+    }
+   .active-filter-badge .filter-type-label {
+        font-weight: normal;
+        opacity: 0.8;
+        margin-right: 0.2rem;
+    }
+
     /* --- Resources Container & Card Styles (Reverted to styles.css base + minimal additions) --- */
     #resources-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Back to initial resources.html grid */
-      gap: 1.5rem; /* Back to initial resources.html gap */
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
       padding: 2rem;
-      max-width: 1200px; /* Constrain width */
-      margin: 0 auto; /* Center the grid */
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    /* Use resource-card from styles.css */
-    .resource-card {
-      /* properties from styles.css */
+   .resource-card {
       position: relative;
       overflow: hidden;
       border-radius: 8px;
@@ -148,86 +196,85 @@
       text-decoration: none;
       color: inherit;
       background: #fff;
-      cursor: pointer; /* Ensure clickable */
-      display: flex; /* Added for flex column layout */
-      flex-direction: column; /* Added for flex column layout */
-      height: 100%; /* Added for consistent card height */
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
-    .resource-card:hover {
-      transform: scale(1.02); /* Original from styles.css */
-      /* box-shadow: 0 4px 12px rgba(0,0,0,0.15); Add a slightly stronger shadow on hover */
+   .resource-card:hover {
+      transform: scale(1.02);
     }
 
-    .resource-image {
+   .resource-image {
         width: 100%;
-        height: 180px; /* From styles.css */
-        object-fit: cover; /* From styles.css */
-        background-color: #e2e8f0; /* Placeholder background, matches original */
+        height: 180px;
+        object-fit: cover;
+        background-color: #e2e8f0;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #94a3b8;
         font-size: 1.2rem;
         font-weight: bold;
-        overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+        overflow: hidden;
     }
-    .resource-image img {
+   .resource-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    .resource-overlay {
-      padding: 1rem; /* From styles.css */
-      flex-grow: 1; /* Allow content to grow */
-      display: flex; /* Added for flex column layout */
-      flex-direction: column; /* Added for flex column layout */
+   .resource-overlay {
+      padding: 1rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    .resource-overlay h3 {
-      margin: 0 0 0.5rem; /* From styles.css */
-      font-size: 1.1rem; /* From styles.css */
-      color: #111; /* Match body text color */
+   .resource-overlay h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      color: #111;
     }
 
-    .resource-description {
-        font-size: 0.9rem; /* From styles.css */
-        color: #444; /* From styles.css */
-        margin-bottom: 0.75rem; /* From styles.css */
-        line-height: 1.4; /* From styles.css */
-        flex-grow: 1; /* Allow description to take available space */
+   .resource-description {
+        font-size: 0.9rem;
+        color: #444;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+        flex-grow: 1;
     }
 
-    .tags-container {
-      font-size: 0.8rem; /* From styles.css */
-      color: #666; /* From styles.css */
-      margin-top: auto; /* Push tags to the bottom */
+   .tags-container {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: auto;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem; /* Slightly reduced gap for more compact tags */
+      gap: 0.4rem;
     }
 
-    .tag-badge {
-        background-color: #f0f0f0; /* Light grey, subtle */
-        color: #444; /* Dark grey text */
+   .tag-badge {
+        background-color: #f0f0f0;
+        color: #444;
         padding: 0.2rem 0.5rem;
-        border-radius: 4px; /* Slightly less rounded than filter tags */
+        border-radius: 4px;
         font-weight: 500;
         white-space: nowrap;
-        text-transform: lowercase; /* Consistent with site's styling */
+        text-transform: lowercase;
         border: 1px solid #e0e0e0;
     }
 
-    .loading-message {
+   .loading-message {
         text-align: center;
         padding: 2rem;
         font-size: 1.1rem;
         color: #666;
         grid-column: 1 / -1;
     }
-    .error-message {
-        color: #d9534f; /* A standard error red */
+   .error-message {
+        color: #d9534f;
         font-weight: bold;
     }
 
@@ -242,33 +289,33 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-        .site-header {
+       .site-header {
             flex-direction: column;
             align-items: flex-start;
         }
-        .nav-menu {
+       .nav-menu {
             margin-top: 1rem;
             width: 100%;
             justify-content: center;
             gap: 1rem;
         }
-        .dropdown {
+       .dropdown {
             width: 100%;
             text-align: center;
         }
-        .dropdown-menu {
+       .dropdown-menu {
             width: 100%;
             left: 0;
             right: 0;
         }
 
-        .hero {
-            padding: 2rem 1rem; /* More compact on small screens */
+       .hero {
+            padding: 2rem 1rem;
         }
-        .hero .tagline {
+       .hero .tagline {
             font-size: 1.8rem;
         }
-        .hero .intro {
+       .hero .intro {
             font-size: 0.95rem;
         }
 
@@ -276,18 +323,18 @@
             padding: 1rem;
             gap: 1rem;
         }
-        .filter-group {
+       .filter-group {
             flex-direction: column;
             align-items: flex-start;
             width: 100%;
             gap: 0.8rem;
         }
-        .filter-group label {
+       .filter-group label {
             margin-bottom: 0.5rem;
         }
-        .filter-tags-container {
+       .filter-tags-container {
             width: 100%;
-            justify-content: center; /* Center tags on small screens */
+            justify-content: center;
         }
         #clear-filters-btn {
             width: 100%;
@@ -317,7 +364,7 @@
             <li><a href="fields-tech.html">Futures / Tech</a></li>
           </ul>
         </li>
-        <li><a href="resources.html">Archive</a></li> <!-- Changed "Resources" to "Archive" -->
+        <li><a href="resources.html">Archive</a></li>
         <li><a href="network.html">Network</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
@@ -326,7 +373,7 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline">Welcome to the Archive</h2> <!-- Updated tagline -->
+      <h2 class="tagline">Welcome to the Archive</h2>
       <p class="intro">
         This is the living, open-access archive that powers our entire platform—a public, user-fed repository dedicated to collecting and preserving essential resources of critical learning. This archive is the raw material from which we build our Fields, deliver our analysis, and platform conversations. We believe knowledge should be a commons; this is our collective effort to build one.
       </p>
@@ -338,7 +385,6 @@
         <div class="filter-group">
             <label>Resource Type:</label>
             <div id="resource-type-filters" class="filter-tags-container">
-                <!-- Resource Type filter tags will be generated here -->
                 <span class="filter-tag all-tag selected" data-filter-type="ResourceType" data-filter-value="all">all</span>
             </div>
         </div>
@@ -346,13 +392,15 @@
         <div class="filter-group">
             <label>Field:</label>
             <div id="field-filters" class="filter-tags-container">
-                <!-- Field filter tags will be generated here -->
                 <span class="filter-tag all-tag selected" data-filter-type="Field" data-filter-value="all">all</span>
             </div>
         </div>
 
         <button id="clear-filters-btn">clear all filters</button>
     </div>
+
+    <div id="active-filters-display">
+        </div>
 
     <div id="resources-container">
         <p class="loading-message" id="loading-resources">Loading resources from Google Sheet...</p>
@@ -410,7 +458,7 @@
     };
 
     // Define priority for Resource Types (earlier in array means higher priority)
-    const resourceTypePriority = ["Literature", "Multimedia", "Educational Resources"];
+    const resourceTypePriority = ["Multimedia", "Literature", "Educational Resources"]; // Prioritize Multimedia higher based on your latest issue
 
     // Helper function to parse CSV data
     function parseCSV(csvText) {
@@ -458,9 +506,31 @@
                 rowObject[header] = values[index];
             });
             
-            // Assign ResourceType based on Medium using the map
-            const mediumLower = rowObject.Medium ? rowObject.Medium.toLowerCase().trim() : '';
-            rowObject.ResourceType = mediumCategoryMap[mediumLower] || mediumCategoryMap[''];
+            // --- REFINED LOGIC for handling multiple mediums and assigning ResourceType ---
+            const rawMediumString = rowObject.Medium ? rowObject.Medium.toLowerCase().trim() : '';
+            const individualMediums = rawMediumString.split(',').map(m => m.trim()).filter(Boolean);
+
+            let assignedResourceType = mediumCategoryMap['']; // Default to 'Other'
+            let foundTypesForThisRow = new Set(); // Keep track of all types found for THIS specific row
+
+            for (const medium of individualMediums) {
+                const mappedType = mediumCategoryMap[medium];
+                if (mappedType && mappedType !== 'Other' && mappedType !== '') {
+                    foundTypesForThisRow.add(mappedType);
+                }
+            }
+
+            if (foundTypesForThisRow.size > 0) {
+                // Apply priority: iterate through our predefined priority list
+                for (const priorityType of resourceTypePriority) {
+                    if (foundTypesForThisRow.has(priorityType)) {
+                        assignedResourceType = priorityType;
+                        break; // Assign the highest priority type found and stop
+                    }
+                }
+            }
+            rowObject.ResourceType = assignedResourceType;
+            // --- END REFINED LOGIC ---
             
             // Handle multiple fields: split the 'Field' string into an array of individual fields
             if (rowObject.Field) {
@@ -469,8 +539,13 @@
                 rowObject.Field = []; // Ensure it's an empty array if no fields
             }
 
-            console.log(`Medium from sheet: "${rowObject.Medium}" (processed as "${mediumLower}") -> Mapped to ResourceType: "${rowObject.ResourceType}"`);
-            console.log(`Field from sheet: "${rowObject.Field.join(', ')}"`);
+            // Detailed debug log for each row's medium processing
+            console.groupCollapsed(`Medium processing for row: "${rowObject.Title || 'Untitled'}"`);
+            console.log(`Original Medium: "${rowObject.Medium}"`);
+            console.log(`Individual mediums parsed: [${individualMediums.map(m => `"${m}"`).join(', ')}]`);
+            console.log(`Mapped types found: [${[...foundTypesForThisRow].map(t => `"${t}"`).join(', ')}]`);
+            console.log(`Final assigned ResourceType: "${rowObject.ResourceType}"`);
+            console.groupEnd();
             
             data.push(rowObject);
         }
@@ -485,7 +560,6 @@
         card.rel = "noopener noreferrer";
         card.className = 'resource-card';
 
-        // Corrected to item.ImageLink
         const imageUrl = item.ImageLink && item.ImageLink.startsWith('http') ? item.ImageLink : 'https://placehold.co/400x180/e2e8f0/94a3b8?text=No+Image';
 
         let imageContent;
@@ -496,7 +570,6 @@
         }
 
         const mediumTag = item.Medium ? `<span class="tag-badge">${item.Medium}</span>` : '';
-        // Display individual Field tags
         const fieldTagsHtml = item.Field && item.Field.length > 0
             ? item.Field.map(f => `<span class="tag-badge">${f}</span>`).join('')
             : '';
@@ -521,7 +594,7 @@
         container.innerHTML = '';
 
         if (resourcesToDisplay.length === 0) {
-            container.innerHTML = `<p class="loading-message">no resources found matching your criteria.</p>`;
+            container.innerHTML = `<p class="loading-message">no resources found matching your current filters. try broadening your search.</p>`;
             return;
         }
 
@@ -534,36 +607,35 @@
     // Dynamically generates filter tags and attaches event listeners
     function renderFilterTags(filterType, containerId, allItems) {
         const container = document.getElementById(containerId);
-        // Clear previous tags, then explicitly add the 'All' tag once
         container.innerHTML = `<span class="filter-tag all-tag selected" data-filter-type="${filterType}" data-filter-value="all">all</span>`;
 
-        let uniqueItems;
+        let uniqueItems = new Set();
         if (filterType === 'ResourceType') {
-            uniqueItems = [...new Set(Object.values(mediumCategoryMap).filter(val => val !== 'Other' && val !== ''))].sort();
+            Object.values(mediumCategoryMap).filter(val => val !== 'Other' && val !== '').forEach(type => uniqueItems.add(type));
         } else if (filterType === 'Field') {
-            const allIndividualFields = new Set();
             allItems.forEach(item => {
                 if (item.Field && Array.isArray(item.Field)) {
                     item.Field.forEach(field => {
-                        // Ensure 'all' is not added as a dynamic tag IF it's a value in your sheet
-                        if (field.toLowerCase() !== 'all') { 
-                            allIndividualFields.add(field);
+                        if (field.toLowerCase() !== 'all') { // Avoid adding 'all' if it's a data value
+                            uniqueItems.add(field);
                         }
                     });
                 }
             });
-            uniqueItems = [...allIndividualFields].sort();
         } else {
-            uniqueItems = [...new Set(allItems.map(item => item[filterType]).filter(Boolean))].sort();
+            // This case should ideally not be hit with current filter types, but kept for robustness
+            allItems.map(item => item[filterType]).filter(Boolean).forEach(val => uniqueItems.add(val));
         }
 
-        uniqueItems.forEach(itemValue => {
+        // Sort unique items and create tags
+        [...uniqueItems].sort().forEach(itemValue => {
             const tag = document.createElement('span');
             tag.className = 'filter-tag';
             tag.textContent = itemValue.toLowerCase();
             tag.dataset.filterType = filterType;
             tag.dataset.filterValue = itemValue.toLowerCase();
 
+            // Check against the correct selected Set
             const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedField;
             if (selectedSet.has(itemValue.toLowerCase())) {
                 tag.classList.add('selected');
@@ -574,20 +646,74 @@
         });
     }
 
-    // Handles clicks on filter tags
+    // Renders and updates the active filter badges above the results
+    function renderActiveFilters() {
+        const activeFiltersDisplay = document.getElementById('active-filters-display');
+        activeFiltersDisplay.innerHTML = '';
+
+        const appendBadge = (type, value) => {
+            const badge = document.createElement('span');
+            badge.className = 'active-filter-badge';
+            const label = type === 'ResourceType' ? 'type' : 'field'; // Customize label based on filter type
+            badge.innerHTML = `<span class="filter-type-label">${label}:</span> ${value} <button class="remove-filter" data-filter-type="${type}" data-filter-value="${value}">&times;</button>`;
+            badge.querySelector('.remove-filter').addEventListener('click', (event) => {
+                const filterTypeToRemove = event.target.dataset.filterType;
+                const filterValueToRemove = event.target.dataset.filterValue;
+                
+                // Simulate clicking the original filter tag to deselect it
+                const originalTag = document.querySelector(`.filter-tag[data-filter-type="${filterTypeToRemove}"][data-filter-value="${filterValueToRemove}"]`);
+                if (originalTag) {
+                    originalTag.click(); // This will trigger handleFilterTagClick and re-filter
+                }
+            });
+            activeFiltersDisplay.appendChild(badge);
+        };
+
+        // Add badges for Resource Types
+        if (!selectedResourceTypes.has('all') && selectedResourceTypes.size > 0) {
+            selectedResourceTypes.forEach(val => appendBadge('ResourceType', val));
+        }
+
+        // Add badges for Fields
+        if (!selectedField.has('all') && selectedField.size > 0) {
+            selectedField.forEach(val => appendBadge('Field', val));
+        }
+
+        // Add search query badge if active
+        if (searchQuery.trim() !== '') {
+            const searchBadge = document.createElement('span');
+            searchBadge.className = 'active-filter-badge';
+            searchBadge.innerHTML = `<span class="filter-type-label">search:</span> "${searchQuery}" <button class="remove-filter" data-filter-type="Search" data-filter-value="${searchQuery}">&times;</button>`;
+            searchBadge.querySelector('.remove-filter').addEventListener('click', () => {
+                searchQuery = '';
+                document.getElementById('search-bar').value = '';
+                filterAndDisplayResources();
+                renderActiveFilters(); // Re-render to remove search badge
+            });
+            activeFiltersDisplay.appendChild(searchBadge);
+        }
+
+        // Show "no filters applied" if nothing is selected and no search query
+        if (selectedResourceTypes.has('all') && selectedField.has('all') && searchQuery.trim() === '') {
+            activeFiltersDisplay.innerHTML = `<p style="margin:0; color:#888;">no active filters.</p>`;
+        }
+    }
+
+
+    // Handles clicks on filter tags (existing logic, with added renderActiveFilters call)
     function handleFilterTagClick(event) {
         const clickedTag = event.target;
         const filterType = clickedTag.dataset.filterType;
         const filterValue = clickedTag.dataset.filterValue.toLowerCase();
 
         const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedField;
-        const allTags = document.querySelectorAll(`.filter-tag[data-filter-type="${filterType}"]`);
+        const allTagsInGroup = document.querySelectorAll(`.filter-tag[data-filter-type="${filterType}"]`);
         const allTag = document.querySelector(`.filter-tag.all-tag[data-filter-type="${filterType}"]`);
 
         if (filterValue === 'all') {
             selectedSet.clear();
             selectedSet.add('all');
-            allTags.forEach(tag => tag.classList.remove('selected'));
+            allTagsInGroup.forEach(tag => tag.classList.remove('selected'));
             allTag.classList.add('selected');
         } else {
             if (selectedSet.has('all')) {
@@ -607,6 +733,7 @@
             }
         }
         filterAndDisplayResources();
+        renderActiveFilters(); // Update active filter display
     }
 
     // Main function to apply all filters and display results
@@ -653,6 +780,7 @@
             renderFilterTags('Field', 'field-filters', allResources);
 
             filterAndDisplayResources();
+            renderActiveFilters(); // Initial render of active filters
 
         } catch (error) {
             console.error('Error fetching or processing resources:', error);
@@ -666,6 +794,7 @@
         searchBar.addEventListener('input', (event) => {
             searchQuery = event.target.value;
             filterAndDisplayResources();
+            renderActiveFilters(); // Update active filter display
         });
 
         clearFiltersBtn.addEventListener('click', () => {
@@ -674,12 +803,13 @@
             selectedField.clear();
             selectedField.add('all');
             searchQuery = '';
-            searchBar.value = '';
+            document.getElementById('search-bar').value = ''; // Clear search bar input
 
             document.querySelectorAll('.filter-tag').forEach(tag => tag.classList.remove('selected'));
             document.querySelectorAll('.filter-tag.all-tag').forEach(tag => tag.classList.add('selected'));
 
             filterAndDisplayResources();
+            renderActiveFilters(); // Update active filter display
         });
     });
   </script>
