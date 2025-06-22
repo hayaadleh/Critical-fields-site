@@ -6,93 +6,134 @@
   <title>The Digital Apparatus | Critical Fields</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+    }
+    header {
+      background: black;
+      color: white;
+      padding: 1rem;
+    }
+    nav {
+      background: #222;
+      padding: 0.5rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-right: 1.5rem;
+    }
+    .dropdown-menu li {
+      list-style: none;
+    }
+    .feed-rotator {
+      margin: 2rem auto;
+      width: 90%;
+      max-width: 800px;
+      height: 200px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: opacity 0.5s ease-in-out;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>The Digital Apparatus</h1>
-    <p>Investigating the entanglements of technology, data, and digital infrastructures with power, surveillance, and resistance in contemporary society.</p>
-  </header>
 
-  <main>
-    <!-- Section 1: Live Archive Feed -->
-    <section id="live-feed">
-      <h2>Live Archive Feed</h2>
-      <div id="feed-container">Loading...</div>
-    </section>
+<header>
+  <h1>Critical Fields</h1>
+  <p style="margin-top: -10px;">The Digital Apparatus</p>
+</header>
 
-    <!-- Section 2: Field Notes -->
-    <section id="field-notes">
-      <h2>Field Notes</h2>
-      <p>Original essays and critiques coming soon.</p>
-    </section>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="fields.html">Fields</a>
+  <ul class="dropdown-menu">
+    <li><a href="fields-decoloniality.html">Decoloniality / Histories</a></li>
+    <li><a href="fields-Power.html">Architectures of Power</a></li>
+    <li><a href="fields-Digital.html">The Digital Apparatus</a></li>
+    <li><a href="fields-Earth.html">Earth Systems</a></li>
+    <li><a href="fields-Social.html">The Social Commons</a></li>
+    <li><a href="fields-Critical.html">Critical Methodologies</a></li>
+  </ul>
+</nav>
 
-    <!-- Section 3: Editors’ Selections -->
-    <section id="editors-selections">
-      <h2>Editors’ Selections</h2>
-      <ul>
-        <li><a href="#">“Technopolitics and Resistance” – Author, Source</a></li>
-        <li><a href="#">“Platform Capitalism Revisited” – Author, Source</a></li>
-      </ul>
-    </section>
+<main>
+  <section id="live-feed">
+    <h2>Live Archive Feed</h2>
+    <div id="feed-rotator" class="feed-rotator">Loading articles…</div>
+  </section>
+</main>
 
-    <!-- Section 4: Weekly Briefing -->
-    <section id="weekly-briefing">
-      <h2>Weekly Briefing</h2>
-      <p>Subscribe to receive our curated news and analysis (Coming Soon).</p>
-    </section>
+<script>
+const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv";
+const rssProxy = "https://api.rss2json.com/v1/api.json?rss_url=";
+const targetField = "The Digital Apparatus";
 
-    <!-- Section 5: Biannual Reading List -->
-    <section id="reading-list">
-      <h2>Biannual Reading List</h2>
-      <p>Download our upcoming comprehensive syllabus (Coming Soon).</p>
-    </section>
+let allArticles = [];
+let currentIndex = 0;
 
-    <!-- Section 6: Events -->
-    <section id="events">
-      <h2>Upcoming Events</h2>
-      <iframe src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=America%2FNew_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-    </section>
+function updateRotator() {
+  const container = document.getElementById("feed-rotator");
+  if (allArticles.length === 0) {
+    container.innerHTML = "<p>No articles found.</p>";
+    return;
+  }
 
-    <!-- Section 7: People & Institutions -->
-    <section id="people">
-      <h2>People & Institutions</h2>
-      <ul>
-        <li><strong>Tactical Tech</strong> – NGO exploring the political and social implications of technology. [<a href="#">More</a>]</li>
-        <li><strong>Data & Society</strong> – Research institute examining the impact of data-centric technologies. [<a href="#">More</a>]</li>
-      </ul>
-    </section>
+  const item = allArticles[currentIndex];
+  container.innerHTML = `
+    <div style="text-align: center">
+      <a href="${item.link}" target="_blank"><strong>${item.title}</strong></a><br>
+      <em>${item.source}</em>
+    </div>`;
+  currentIndex = (currentIndex + 1) % allArticles.length;
+}
 
-    <!-- Section 8: Formal Publications -->
-    <section id="publications">
-      <h2>Formal Publications</h2>
-      <p>Long-form essays and investigations coming soon.</p>
-    </section>
-  </main>
+function fetchArticlesFromFeed(feedUrl, sourceName) {
+  return fetch(rssProxy + encodeURIComponent(feedUrl))
+    .then(res => res.json())
+    .then(data => {
+      if (!data.items) return [];
+      return data.items.slice(0, 3).map(item => ({
+        title: item.title,
+        link: item.link,
+        source: sourceName
+      }));
+    })
+    .catch(() => []);
+}
 
-  <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv";
+fetch(sheetUrl)
+  .then(res => res.text())
+  .then(csvText => {
+    const parsed = Papa.parse(csvText, { header: true }).data;
+    const matchingRows = parsed.filter(row => row.Field === targetField && row["RSS Feed"]);
 
-    fetch(sheetUrl)
-      .then(response => response.text())
-      .then(csvText => {
-        const data = Papa.parse(csvText, { header: true }).data;
-        const field = "The Digital Apparatus";
-        const filtered = data.filter(item => item.Field && item.Field.includes(field));
+    const uniqueFeeds = [...new Map(
+      matchingRows.map(row => [row["RSS Feed"], row.Source || "Unknown"])
+    ).entries()];
 
-        const container = document.getElementById("feed-container");
-        container.innerHTML = "";
+    return Promise.all(uniqueFeeds.map(([rss, source]) =>
+      fetchArticlesFromFeed(rss, source)
+    ));
+  })
+  .then(results => {
+    allArticles = results.flat();
+    updateRotator();
+    setInterval(updateRotator, 10000);
+  })
+  .catch(err => {
+    document.getElementById("feed-rotator").innerHTML = "<p>Error loading feed.</p>";
+    console.error("Feed load error:", err);
+  });
+</script>
 
-        if (filtered.length === 0) {
-          container.innerHTML = "<p>No resources found.</p>";
-        } else {
-          filtered.forEach(entry => {
-            const div = document.createElement("div");
-            div.className = "feed-item";
-            div.innerHTML = `<a href="${entry.URL}" target="_blank"><strong>${entry.Title}</strong></a> — ${entry.Source || "Unknown Source"}`;
-            container.appendChild(div);
-          });
-        }
-      });
-  </script>
 </body>
 </html>
