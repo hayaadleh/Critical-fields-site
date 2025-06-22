@@ -1,25 +1,789 @@
-<main>
-  <section class="field-section">
-    <h2><a href="fields-decoloniality.html">Decoloniality / Histories</a></h2>
-  </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field | Critical Fields</title> <!-- Dynamic title will be set by JS -->
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* Minimal inline styles to complement styles.css for the Fields page */
+    body {
+        font-family: 'IBM Plex Mono', monospace;
+        background-color: #f5f5f5;
+        color: #111;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+    main {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .field-hero {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+        color: #1e293b;
+        border-bottom: 1px solid #cbd5e1;
+        margin-bottom: 3rem;
+    }
+    .field-hero h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-transform: lowercase;
+    }
+    .field-hero p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+    .field-section-title {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+        color: #111;
+        text-transform: lowercase;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .content-area {
+        margin-bottom: 3rem;
+    }
+    .content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    .feature-card {
+        background: #fdfdfd;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .feature-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .feature-card-content {
+        padding: 1rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .feature-card-content h4 {
+        margin: 0 0 0.5rem;
+        font-size: 1.05rem;
+        color: #111;
+        line-height: 1.4;
+    }
+    .feature-card-content p {
+        font-size: 0.85rem;
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 0.75rem;
+        flex-grow: 1;
+    }
+    .feature-card-meta {
+        font-size: 0.75rem;
+        color: #777;
+        margin-top: auto;
+        text-align: right;
+    }
+    .loading-message {
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 1rem;
+        color: #888;
+        grid-column: 1 / -1; /* Span all columns in grid */
+    }
+    .error-message {
+        color: #d9534f;
+    }
 
-  <section class="field-section">
-    <h2><a href="fields-Power.html">Architectures of Power</a></h2>
-  </section>
+    /* People & Institutions specific styling (simple list for now) */
+    .people-institutions-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    .people-institutions-list li {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.03);
+    }
+    .people-institutions-list li strong {
+        display: block;
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+        color: #111;
+    }
+    .people-institutions-list li p {
+        font-size: 0.9rem;
+        color: #444;
+        margin: 0;
+    }
+    .coming-soon {
+        text-align: center;
+        padding: 2rem;
+        font-style: italic;
+        color: #777;
+        font-size: 1.1rem;
+        grid-column: 1 / -1; /* Ensure "coming soon" spans grid */
+    }
 
-  <section class="field-section">
-    <h2><a href="fields-Digital.html">The Digital Apparatus</a></h2>
-  </section>
+    /* --- RSS Rotator Styles (New) --- */
+    #rss-rotator-section {
+        margin-bottom: 3rem;
+        background-color: #fdfdfd;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        position: relative; /* For absolute positioning of controls */
+    }
+    .rss-rotator-container {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        min-height: 200px; /* Adjust as needed */
+        margin: 0 auto;
+    }
+    .rss-slides-wrapper {
+        display: flex;
+        transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+    }
+    .rss-slide {
+        flex: 0 0 100%; /* Each slide takes full width */
+        width: 100%; /* Explicit width for flex item */
+        box-sizing: border-box;
+        padding: 1.5rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .rss-slide h4 {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+        color: #111;
+        text-transform: lowercase;
+        line-height: 1.3;
+    }
+    .rss-slide p {
+        font-size: 1rem;
+        color: #444;
+        max-width: 800px;
+        margin: 0 auto 1rem;
+        line-height: 1.6;
+    }
+    .rss-slide .source-link {
+        font-size: 0.9rem;
+        color: #0d9488; /* Teal link color */
+        text-decoration: none;
+        font-weight: 600;
+        text-transform: lowercase;
+    }
+    .rss-slide .source-link:hover {
+        text-decoration: underline;
+    }
+    .rss-pagination-dots {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    .rss-dot {
+        height: 10px;
+        width: 10px;
+        margin: 0 5px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .rss-dot.active {
+        background-color: #111;
+    }
+    .rss-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        padding: 0.5rem 0.8rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        line-height: 1;
+        border-radius: 5px;
+        z-index: 10;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+    .rss-arrow:hover {
+        opacity: 1;
+    }
+    .rss-arrow.prev {
+        left: 10px;
+    }
+    .rss-arrow.next {
+        right: 10px;
+    }
+    .rss-rotator-section .loading-message {
+        padding: 5rem 0;
+        min-height: 150px;
+    }
+    .rss-rotator-image {
+        max-width: 150px; /* Smaller image size for rotator */
+        max-height: 100px;
+        object-fit: contain; /* Contain to show full image */
+        margin-bottom: 1rem;
+        border-radius: 4px;
+    }
 
-  <section class="field-section">
-    <h2><a href="fields-Earth.html">Earth Systems</a></h2>
-  </section>
 
-  <section class="field-section">
-    <h2><a href="fields-Social.html">The Social Commons</a></h2>
-  </section>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        main {
+            padding: 1rem;
+        }
+        .field-hero h2 {
+            font-size: 2rem;
+        }
+        .field-hero p {
+            font-size: 1rem;
+        }
+        .field-section-title {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+        .rss-slide h4 {
+            font-size: 1.2rem;
+        }
+        .rss-slide p {
+            font-size: 0.9rem;
+        }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar">
+      <h1 class="logo">Critical Fields</h1>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="fields.html">Fields</a>
+          <ul class="dropdown-menu">
+            <li><a href="fields.html?name=heterodox-economics">Heterodox Economics</a></li>
+            <li><a href="fields.html?name=architectures-of-power">Architectures of Power</a></li>
+            <li><a href="fields.html?name=the-digital-apparatus">The Digital Apparatus</a></li>
+            <li><a href="fields.html?name=earth-systems">Earth Systems</a></li>
+            <li><a href="fields.html?name=the-social-commons">The Social Commons</a></li>
+            <li><a href="fields.html?name=critical-methodologies">Critical Methodologies</a></li>
+            <!-- Add more fields here as needed -->
+          </ul>
+        </li>
+        <li><a href="resources.html">Archive</a></li>
+        <li><a href="network.html">Network</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <section class="field-section">
-    <h2><a href="fields-Critical.html">Critical Methodologies</a></h2>
-  </section>
-</main>
+  <main>
+    <section class="field-hero">
+      <h2 id="field-title">Loading Field...</h2>
+      <p id="field-description">Discover curated insights and resources for this critical conversation.</p>
+    </section>
+
+    <div id="rss-rotator-section" class="content-area">
+        <h3 class="field-section-title">Live Archive Feed (RSS Articles)</h3>
+        <div id="rss-rotator-container" class="rss-rotator-container">
+            <p class="loading-message">Loading live RSS articles...</p>
+        </div>
+        <div id="rss-pagination-dots" class="rss-pagination-dots"></div>
+    </div>
+
+    <div class="content-area">
+        <h3 class="field-section-title">Field Notes</h3>
+        <div id="field-notes-container" class="content-grid">
+            <p class="loading-message">Loading original essays and critiques...</p>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <h3 class="field-section-title">Field Editors’ Selections</h3>
+        <div id="editor-selections-container" class="content-grid">
+            <p class="loading-message">Loading foundational resources...</p>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <h3 class="field-section-title">Weekly Briefing (Newsletter)</h3>
+        <div id="weekly-briefing-container" class="content-grid">
+            <p class="loading-message">Loading latest briefings...</p>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <h3 class="field-section-title">Biannual Reading List</h3>
+        <div id="reading-list-container" class="content-grid">
+            <p class="coming-soon">Biannual Reading Lists are coming soon! Stay tuned.</p>
+            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
+        </div>
+    </div>
+
+    <div class="content-area">
+        <h3 class="field-section-title">Upcoming Events</h3>
+        <div id="upcoming-events-container" class="content-grid">
+            <p class="coming-soon">Upcoming events for this field are TBD. Check back soon!</p>
+            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
+        </div>
+    </div>
+
+    <div class="content-area">
+        <h3 class="field-section-title">People & Institutions</h3>
+        <div id="people-institutions-container" class="people-institutions-list">
+            <p class="coming-soon">Profiles of key thinkers and institutions are being developed.</p>
+            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
+        </div>
+    </div>
+
+    <div class="content-area">
+        <h3 class="field-section-title">Formal Publication</h3>
+        <div id="formal-publication-container" class="content-grid">
+            <p class="coming-soon">Long-form research and investigative reports are in progress.</p>
+            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
+        </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Critical Fields.</p>
+  </footer>
+
+  <script>
+    // --- Configuration for Field Page Dynamic Content ---
+    // IMPORTANT: REPLACE THESE URLs with YOUR published Google Sheet CSV URLs for EACH SECTION
+    // The ARCHIVE_FEED_SHEET_URL should be your main Archive sheet.
+    // For other sections, you can use general sheets that have a 'Field' column,
+    // or specific sheets per field if you prefer.
+    const ARCHIVE_FEED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv'; // Your main Archive sheet
+    const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_GENERAL_ID/pub?gid=0&single=true&output=csv';
+    const EDITOR_SELECTIONS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_EDITOR_SELECTIONS_GENERAL_ID/pub?gid=0&single=true&output=csv';
+    const WEEKLY_BRIEFING_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_WEEKLY_BRIEFING_GENERAL_ID/pub?gid=0&single=true&output=csv';
+    const PEOPLE_INSTITUTIONS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_PEOPLE_INSTITUTIONS_GENERAL_ID/pub?gid=0&single=true&output=csv';
+    const FORMAL_PUBLICATION_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FORMAL_PUBLICATION_GENERAL_ID/pub?gid=0&single=true&output=csv';
+    const READING_LIST_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_READING_LIST_GENERAL_ID/pub?gid=0&single=true&output=csv';
+    const UPCOMING_EVENTS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_UPCOMING_EVENTS_GENERAL_ID/pub?gid=0&single=true&output=csv';
+
+    // RSS to JSON proxy service - IMPORTANT for CORS issues
+    const RSS_TO_JSON_PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+    // Map of field names (from URL param) to their display titles and descriptions
+    // Use lowercase, hyphenated versions for the keys to match URL params
+    const fieldData = {
+        'heterodox-economics': {
+            title: 'Heterodox Economics',
+            description: 'Challenging mainstream economic theories with diverse perspectives on markets, society, and power structures.',
+            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
+            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
+            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
+            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
+            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
+            readingListUrl: READING_LIST_SHEET_URL,
+            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+        },
+        'architectures-of-power': {
+            title: 'Architectures of Power',
+            description: 'Investigating the unseen structures and systems that shape societal control, governance, and influence.',
+            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
+            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
+            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
+            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
+            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
+            readingListUrl: READING_LIST_SHEET_URL,
+            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+        },
+        'the-digital-apparatus': {
+            title: 'The Digital Apparatus',
+            description: 'Examining the political, social, and cultural impacts of digital technologies, AI, and information networks.',
+            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
+            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
+            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
+            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
+            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
+            readingListUrl: READING_LIST_SHEET_URL,
+            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+        },
+        'earth-systems': {
+            title: 'Earth Systems',
+            description: 'Exploring the intricate relationships between human societies and planetary ecologies, climate, and environmental justice.',
+            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
+            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
+            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
+            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
+            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
+            readingListUrl: READING_LIST_SHEET_URL,
+            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+        },
+        'the-social-commons': {
+            title: 'The Social Commons',
+            description: 'Investigating models of collective well-being, shared resources, and community-driven initiatives beyond market forces.',
+            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
+            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
+            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
+            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
+            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
+            readingListUrl: READING_LIST_SHEET_URL,
+            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+        },
+        'critical-methodologies': {
+            title: 'Critical Methodologies',
+            description: 'Delving into innovative research approaches, interdisciplinary methods, and ethical considerations in critical studies.',
+            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
+            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
+            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
+            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
+            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
+            readingListUrl: READING_LIST_SHEET_URL,
+            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+        }
+    };
+
+
+    // Helper function to parse CSV data (reused from resources.html, adjusted for Field array)
+    function parseCSV(csvText) {
+        const lines = csvText.trim().split('\n');
+        if (lines.length === 0) return [];
+
+        const parseLine = (line) => {
+            const values = [];
+            let inQuote = false;
+            let currentVal = '';
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuote = !inQuote;
+                    if (!inQuote && i < line.length - 1 && line[i+1] === '"') {
+                        currentVal += '"';
+                        i++;
+                    }
+                } else if (char === ',' && !inQuote) {
+                    values.push(currentVal.trim());
+                    currentVal = '';
+                } else {
+                    currentVal += char;
+                }
+            }
+            values.push(currentVal.trim());
+            return values;
+        };
+
+        const headers = parseLine(lines[0]).map(header => {
+            return header.trim().replace(/[^a-zA-Z0-9]/g, '');
+        });
+        
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = parseLine(lines[i]);
+            if (values.length !== headers.length) {
+                console.warn(`Skipping malformed row (header/value count mismatch): ${lines[i]}`);
+                continue;
+            }
+            const rowObject = {};
+            headers.forEach((header, index) => {
+                rowObject[header] = values[index];
+            });
+
+            // Ensure 'Field' column is parsed as a lowercase, trimmed array
+            if (rowObject.Field) {
+                rowObject.Field = rowObject.Field.split(',').map(f => f.toLowerCase().trim()).filter(Boolean);
+            } else {
+                rowObject.Field = [];
+            }
+            data.push(rowObject);
+        }
+        return data;
+    }
+
+    // Generic function to fetch and display data
+    async function fetchDataAndDisplay(url, targetContainerId, renderFunction, currentFieldName = null) {
+        const container = document.getElementById(targetContainerId);
+        const loadingElement = container.querySelector('.loading-message');
+        const comingSoonElement = container.querySelector('.coming-soon');
+
+        if (comingSoonElement) comingSoonElement.style.display = 'none'; // Hide coming soon
+        if (loadingElement) loadingElement.style.display = 'block';     // Show loading
+        container.innerHTML = ''; // Clear previous content
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const csvText = await response.text();
+            let data = parseCSV(csvText);
+
+            if (currentFieldName && data.length > 0 && data[0].Field && Array.isArray(data[0].Field)) {
+                const normalizedFieldName = currentFieldName.toLowerCase().replace(/-/g, ' '); 
+                data = data.filter(item => 
+                    item.Field && item.Field.includes(normalizedFieldName)
+                );
+            }
+            
+            if (data.length === 0) {
+                if (comingSoonElement) comingSoonElement.style.display = 'block'; // Show coming soon if no data
+                else container.innerHTML = `<p class="loading-message">no content available for this section yet.</p>`;
+                return;
+            }
+
+            const itemsToShow = data.slice(0, 3); 
+
+            itemsToShow.forEach(item => {
+                const card = renderFunction(item);
+                if (card) {
+                    container.appendChild(card);
+                }
+            });
+        } catch (error) {
+            console.error(`Error fetching or rendering data for ${targetContainerId} from ${url}:`, error);
+            container.innerHTML = `<p class="loading-message error-message">failed to load content for this section. please check the sheet URL.</p>`;
+        } finally {
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            }
+        }
+    }
+
+    // --- RSS Rotator Variables ---
+    let rssArticles = [];
+    let currentRssIndex = 0;
+    let rssIntervalId;
+    const RSS_ROTATION_INTERVAL = 10000; // 10 seconds
+
+    // --- RSS Rotator Functions ---
+    function renderRssRotator() {
+        const rotatorContainer = document.getElementById('rss-rotator-container');
+        const dotsContainer = document.getElementById('rss-pagination-dots');
+        rotatorContainer.innerHTML = ''; // Clear previous slides
+        dotsContainer.innerHTML = '';    // Clear previous dots
+
+        if (rssArticles.length === 0) {
+            rotatorContainer.innerHTML = `<p class="loading-message">no relevant RSS articles found for this field yet.</p>`;
+            return;
+        }
+
+        const slidesWrapper = document.createElement('div');
+        slidesWrapper.className = 'rss-slides-wrapper';
+        rotatorContainer.appendChild(slidesWrapper);
+
+        rssArticles.forEach((article, index) => {
+            const slide = document.createElement('div');
+            slide.className = 'rss-slide';
+            // Extract a relevant image if available, otherwise use placeholder
+            const imageUrl = article.thumbnail || article.enclosure && article.enclosure.link || article.og_image || (article.description.match(/<img[^>]+src="([^">]+)"/) || [])[1];
+            let imageHtml = '';
+            if (imageUrl && imageUrl.startsWith('http')) {
+                imageHtml = `<img src="${imageUrl}" alt="${article.title}" class="rss-rotator-image" onerror="this.style.display='none'">`;
+            }
+
+            slide.innerHTML = `
+                ${imageHtml}
+                <h4><a href="${article.link}" target="_blank" rel="noopener noreferrer" class="source-link">${article.title}</a></h4>
+                <p>${article.description ? article.description.replace(/<[^>]*>?/gm, '').substring(0, 200) + '...' : 'no description available.'}</p>
+                <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="source-link">read more from ${article.feedTitle || 'source'}</a>
+            `;
+            slidesWrapper.appendChild(slide);
+
+            const dot = document.createElement('span');
+            dot.className = 'rss-dot';
+            dot.dataset.index = index;
+            dot.addEventListener('click', () => {
+                stopRssRotator();
+                showRssSlide(index);
+                startRssRotator(); // Restart timer after manual interaction
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        // Add navigation arrows
+        const prevArrow = document.createElement('button');
+        prevArrow.className = 'rss-arrow prev';
+        prevArrow.innerHTML = '&lsaquo;'; // Left arrow HTML entity
+        prevArrow.addEventListener('click', () => {
+            stopRssRotator();
+            showRssSlide(currentRssIndex - 1);
+            startRssRotator();
+        });
+        rotatorContainer.appendChild(prevArrow);
+
+        const nextArrow = document.createElement('button');
+        nextArrow.className = 'rss-arrow next';
+        nextArrow.innerHTML = '&rsaquo;'; // Right arrow HTML entity
+        nextArrow.addEventListener('click', () => {
+            stopRssRotator();
+            showRssSlide(currentRssIndex + 1);
+            startRssRotator();
+        });
+        rotatorContainer.appendChild(nextArrow);
+
+        showRssSlide(currentRssIndex);
+        startRssRotator();
+    }
+
+    function showRssSlide(index) {
+        const slidesWrapper = document.querySelector('.rss-slides-wrapper');
+        const dots = document.querySelectorAll('.rss-dot');
+
+        if (!slidesWrapper || slidesWrapper.children.length === 0) return;
+
+        if (index >= rssArticles.length) {
+            currentRssIndex = 0;
+        } else if (index < 0) {
+            currentRssIndex = rssArticles.length - 1;
+        } else {
+            currentRssIndex = index;
+        }
+
+        slidesWrapper.style.transform = `translateX(-${currentRssIndex * 100}%)`;
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentRssIndex);
+        });
+    }
+
+    function startRssRotator() {
+        stopRssRotator(); // Clear any existing interval
+        if (rssArticles.length > 1) { // Only rotate if more than one article
+            rssIntervalId = setInterval(() => {
+                showRssSlide(currentRssIndex + 1);
+            }, RSS_ROTATION_INTERVAL);
+        }
+    }
+
+    function stopRssRotator() {
+        clearInterval(rssIntervalId);
+    }
+
+    async function fetchFieldRssFeeds(currentFieldName) {
+        const rssRotatorContainer = document.getElementById('rss-rotator-container');
+        const loadingMessage = rssRotatorContainer.querySelector('.loading-message') || document.createElement('p');
+        if (!loadingMessage.parentNode) {
+            loadingMessage.className = 'loading-message';
+            rssRotatorContainer.appendChild(loadingMessage);
+        }
+        loadingMessage.textContent = 'loading live rss articles...';
+        loadingMessage.style.display = 'block';
+
+        try {
+            const response = await fetch(ARCHIVE_FEED_SHEET_URL);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const csvText = await response.text();
+            const archiveData = parseCSV(csvText);
+
+            const normalizedFieldName = currentFieldName.toLowerCase().replace(/-/g, ' ');
+
+            const rssSources = archiveData.filter(item => 
+                item.RSSFeed && item.RSSFeed.startsWith('http') && 
+                item.Field && item.Field.includes(normalizedFieldName)
+            );
+            
+            const fetchedArticles = [];
+            for (const source of rssSources) {
+                try {
+                    const proxyResponse = await fetch(`${RSS_TO_JSON_PROXY_URL}${encodeURIComponent(source.RSSFeed)}`);
+                    if (!proxyResponse.ok) {
+                        console.warn(`Failed to fetch RSS from proxy for ${source.RSSFeed}: ${proxyResponse.status}`);
+                        continue;
+                    }
+                    const rssJson = await proxyResponse.json();
+                    if (rssJson.status === 'ok' && rssJson.items) {
+                        rssJson.items.forEach(item => {
+                            item.feedTitle = rssJson.feed.title; // Add feed title for display
+                            fetchedArticles.push(item);
+                        });
+                    }
+                } catch (proxyError) {
+                    console.error(`Error fetching RSS feed for ${source.RSSFeed}:`, proxyError);
+                }
+            }
+
+            // Sort by pubDate (newest first)
+            fetchedArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            rssArticles = fetchedArticles.slice(0, 10); // Get top 10 newest articles
+
+            renderRssRotator();
+
+        } catch (error) {
+            console.error('Error fetching RSS sources or articles:', error);
+            rssRotatorContainer.innerHTML = `<p class="loading-message error-message">failed to load live archive feed. please check the RSS links in your sheet.</p>`;
+        } finally {
+            loadingMessage.style.display = 'none';
+        }
+    }
+
+
+    // --- Main Field Page Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const fieldNameParam = urlParams.get('name'); // Get field name from URL parameter
+
+        const fieldDetails = fieldData[fieldNameParam];
+
+        if (fieldDetails) {
+            document.title = `${fieldDetails.title} | Critical Fields`; // Set page title
+            document.getElementById('field-title').textContent = fieldDetails.title;
+            document.getElementById('field-description').textContent = fieldDetails.description;
+
+            // Load dynamic content for the specific field, filtering by fieldDetails.title
+            fetchFieldRssFeeds(fieldNameParam); // Call dedicated RSS fetcher
+            fetchDataAndDisplay(fieldDetails.fieldNotesUrl, 'field-notes-container', renderFieldNotesCard, fieldDetails.title);
+            fetchDataAndDisplay(fieldDetails.editorSelectionsUrl, 'editor-selections-container', renderEditorSelectionsCard, fieldDetails.title);
+            fetchDataAndDisplay(fieldDetails.weeklyBriefingUrl, 'weekly-briefing-container', renderWeeklyBriefingCard, fieldDetails.title);
+            fetchDataAndDisplay(fieldDetails.peopleInstitutionsUrl, 'people-institutions-container', renderPeopleInstitutionsCard, fieldDetails.title);
+            fetchDataAndDisplay(fieldDetails.formalPublicationUrl, 'formal-publication-container', renderFormalPublicationCard, fieldDetails.title);
+            fetchDataAndDisplay(fieldDetails.readingListUrl, 'reading-list-container', renderReadingListCard, fieldDetails.title);
+            fetchDataAndDisplay(fieldDetails.upcomingEventsUrl, 'upcoming-events-container', renderUpcomingEventCard, fieldDetails.title);
+
+
+        } else {
+            document.title = 'Field Not Found | Critical Fields';
+            document.getElementById('field-title').textContent = 'Field Not Found';
+            document.getElementById('field-description').textContent = 'The requested field could not be found. Please check the URL or select a field from the navigation.';
+            document.querySelectorAll('.content-area').forEach(area => area.style.display = 'none');
+        }
+    });
+  </script>
+</body>
+</html>
