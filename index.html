@@ -10,73 +10,85 @@
     /* Styles specific to index.html sections to complement styles.css */
     /* Adjustments for the hero section's new copy length */
     .hero {
-        padding: 4rem 2rem; /* Keep existing padding */
+        padding: 4rem 2rem;
         text-align: center;
-        max-width: 800px; /* Wider to accommodate new text */
+        max-width: 800px;
         margin: 0 auto;
     }
 
     .hero .tagline {
-        font-size: 1.8rem; /* Slightly larger for new main heading */
+        font-size: 1.8rem;
         font-weight: normal;
-        text-transform: lowercase;
-        margin-bottom: 1.5rem; /* More space below tagline */
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        color: var(--color-accent-highlight);
     }
 
     .hero .intro {
-        margin: 1.5rem 0 2.5rem; /* Adjusted margins */
-        font-size: 1.05rem; /* Slightly larger font for readability */
-        color: var(--color-text-secondary); /* Use secondary text color */
-        line-height: 1.7; /* Increased line height */
-        text-align: center; /* Center align for hero block */
+        margin: 1.5rem 0 2.5rem;
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+        text-align: center;
     }
 
     .hero .cta {
         display: inline-block;
         padding: 0.6rem 1.2rem;
-        border: 1px solid var(--color-accent-gold); /* Gold border */
+        border: 1px solid var(--color-accent-highlight);
         background: transparent;
-        color: var(--color-accent-gold);
+        color: var(--color-accent-highlight);
         text-decoration: none;
         font-size: 1rem;
         text-transform: lowercase;
         transition: all 0.3s ease;
     }
     .hero .cta:hover {
-        background-color: var(--color-accent-gold);
-        color: var(--color-dark-bg);
+        background-color: var(--color-accent-highlight);
+        color: var(--color-main-bg);
     }
 
     /* --- Platform Features Section Styles (now uses the new general styles) --- */
+    /* This main #platform-features section itself will apply common card styles */
     #platform-features {
         padding: 3rem 2rem;
         max-width: 1200px;
         margin: 0 auto;
-        background-color: var(--color-light-bg); /* Use light background variable */
-        border-top: 1px solid var(--color-border);
-        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-card-bg); /* Use card-bg for consistency */
+        border: 1px solid var(--color-border-dark); /* Apply card border */
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark); /* Apply card shadow */
     }
 
-    #platform-features h2 {
+    /* section titles like "Platform-Wide Features" */
+    #platform-features .section-title {
         text-align: center;
-        font-size: 1.8rem;
-        margin-bottom: 2.5rem;
-        color: var(--color-accent-teal); /* Use accent color */
-        text-transform: lowercase;
-        border-bottom: 2px solid var(--color-border);
+        font-size: 2.2rem; /* Consistent with global section title */
+        margin: 0 auto 2.5rem; /* Adjust margin */
+        color: var(--color-accent-highlight); /* Consistent red for main section title */
+        border-bottom: 1px solid var(--color-border-dark);
         padding-bottom: 0.5rem;
-        display: inline-block;
-        margin-left: auto;
-        margin-right: auto;
+        display: block;
+        max-width: fit-content;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
-    #platform-features h3 {
+    /* H3 titles within homepage content areas */
+    .homepage-content-h3 {
         font-size: 1.4rem;
-        color: var(--color-accent-gold); /* Use accent color */
-        margin-top: 2.5rem;
+        color: var(--color-text-primary); /* Primary text color for sub-headings */
+        margin-top: 0;
         margin-bottom: 1.5rem;
         text-transform: lowercase;
-        padding-left: 0.5rem;
+        text-align: center;
+        border-bottom: 1px dashed var(--color-border-dark);
+        padding-bottom: 0.5rem;
+        display: block;
+        max-width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .content-grid {
@@ -86,103 +98,87 @@
         margin-bottom: 2rem;
     }
 
-    /* New styles for homepage specific layout */
+    /* Homepage two-column layout */
     .homepage-two-column {
         display: flex;
-        flex-wrap: wrap; /* Allow wrapping */
+        flex-wrap: wrap;
         gap: 2rem;
         padding: 2rem;
         max-width: 1200px;
         margin: 0 auto;
-        align-items: flex-start; /* Align tops */
+        align-items: flex-start;
     }
+    /* Apply feature-card styling directly to the children divs */
     .homepage-two-column > div {
-        flex: 1; /* Distribute space */
-        min-width: 300px; /* Minimum width before wrapping */
+        flex: 1;
+        min-width: 300px;
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        padding: 1.5rem;
     }
 
-    /* Styles for the "What we are reading" section on homepage */
-    #what-we-are-reading-homepage {
-        background-color: var(--color-light-bg);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        box-shadow: 0 4px 12px var(--color-shadow);
-        padding: 1.5rem;
-        margin-left: 2rem; /* Example margin for separation */
-        flex-grow: 1;
-        max-width: 400px; /* Constrain width for a compact look */
-    }
-    #what-we-are-reading-homepage h3 {
-        font-size: 1.2rem;
-        margin-top: 0;
-        margin-bottom: 1rem;
-        color: var(--color-accent-teal);
-        text-align: center;
-        border-bottom: 1px dashed var(--color-border);
-        padding-bottom: 0.5rem;
-    }
-    #what-we-are-reading-homepage .reading-item {
+    /* What We're Reading section specific styles */
+    #what-we-are-reading-container-homepage .reading-item {
         margin-bottom: 1rem;
         padding-bottom: 1rem;
-        border-bottom: 1px dashed var(--color-border);
+        border-bottom: 1px dashed var(--color-border-dark);
     }
-    #what-we-are-reading-homepage .reading-item:last-child {
+    #what-we-are-reading-container-homepage .reading-item:last-child {
         border-bottom: none;
         margin-bottom: 0;
         padding-bottom: 0;
     }
-    #what-we-are-reading-homepage .reading-item a {
+    #what-we-are-reading-container-homepage .reading-item a {
         color: var(--color-text-primary);
         text-decoration: none;
         font-weight: 600;
-        transition: color 0.3s ease;
+        transition: color 0.2s ease;
     }
-    #what-we-are-reading-homepage .reading-item a:hover {
-        color: var(--color-accent-gold);
+    #what-we-are-reading-container-homepage .reading-item a:hover {
+        color: var(--color-ui-red-light);
+        text-decoration: underline;
     }
-    #what-we-are-reading-homepage .reading-item p {
+    #what-we-are-reading-container-homepage .reading-item p {
         font-size: 0.85rem;
         color: var(--color-text-secondary);
         margin-top: 0.2rem;
     }
 
-    /* Styles for the latest newsletter section (full width) */
+    /* Latest Newsletter Section (Full Width) */
     #latest-newsletter-section {
-        background-color: var(--color-light-bg);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        box-shadow: 0 4px 12px var(--color-shadow);
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
         padding: 2rem;
-        margin: 3rem auto; /* Center with vertical margin */
-        max-width: 1000px; /* Wider for full-width feel */
+        margin: 3rem auto;
+        max-width: 1000px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
-    #latest-newsletter-section h3 {
-        font-size: 1.8rem;
-        color: var(--color-accent-teal);
-        margin-top: 0;
-        margin-bottom: 1rem;
-        text-transform: lowercase;
-    }
     #latest-newsletter-section .newsletter-image {
-        max-width: 150px; /* Adjust size */
+        max-width: 200px;
         height: auto;
         border-radius: 4px;
         margin-bottom: 1.5rem;
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--color-border-dark);
+        box-shadow: 1px 1px 0px var(--color-border-dark);
     }
     #latest-newsletter-section .newsletter-title {
         font-size: 1.5rem;
-        color: var(--color-accent-gold);
+        color: var(--color-accent-highlight);
         margin-bottom: 0.5rem;
         text-decoration: none;
         transition: color 0.3s ease;
     }
     #latest-newsletter-section .newsletter-title:hover {
-        color: var(--color-accent-teal);
+        color: var(--color-ui-red-light);
     }
     #latest-newsletter-section .newsletter-subtitle {
         font-size: 1rem;
@@ -195,38 +191,55 @@
         padding: 3rem 2rem;
         max-width: 1000px;
         margin: 3rem auto;
-        background-color: var(--color-light-bg);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        box-shadow: 0 4px 12px var(--color-shadow);
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
         text-align: center;
-    }
-    #how-to-use-section h2 {
-        font-size: 1.8rem;
-        color: var(--color-accent-teal);
-        margin-bottom: 1.5rem;
-        text-transform: lowercase;
-    }
-    #how-to-use-section p {
-        font-size: 1.05rem;
-        color: var(--color-text-secondary);
-        line-height: 1.7;
-        margin-bottom: 1rem;
     }
     #how-to-use-section ul {
         list-style: none;
         padding: 0;
         margin-top: 1.5rem;
+        text-align: left;
+        max-width: 800px; /* Made wider */
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid var(--color-border-dark);
+        padding: 1.5rem;
+        background-color: var(--color-secondary-bg);
+        border-radius: 4px;
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
     }
     #how-to-use-section li {
         margin-bottom: 0.8rem;
         font-size: 1rem;
         color: var(--color-text-primary);
         text-transform: lowercase;
+        position: relative;
+        padding-left: 1.5em;
+        border-bottom: 1px dashed var(--color-border-dark);
+        padding-bottom: 0.8rem;
+        line-height: 1.8; /* Increased line height */
+    }
+    #how-to-use-section li:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    #how-to-use-section li::before {
+        content: '> ';
+        color: var(--color-accent-highlight);
+        position: absolute;
+        left: 0;
+        font-weight: bold;
     }
     #how-to-use-section li strong {
-        color: var(--color-accent-gold);
+        color: var(--color-accent-highlight);
+        font-weight: bold;
     }
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
         .homepage-two-column {
@@ -234,22 +247,13 @@
             padding: 1rem;
             gap: 1rem;
         }
-        #what-we-are-reading-homepage {
-            margin-left: 0; /* Remove left margin on mobile */
-            max-width: 100%; /* Take full width */
+        .homepage-two-column > div {
+            padding: 1rem;
+            margin: 0 auto;
         }
         #latest-newsletter-section, #how-to-use-section {
             padding: 1.5rem;
             margin: 2rem auto;
-        }
-        #latest-newsletter-section h3, #how-to-use-section h2 {
-            font-size: 1.5rem;
-        }
-        #latest-newsletter-section .newsletter-title {
-            font-size: 1.2rem;
-        }
-        #latest-newsletter-section .newsletter-subtitle, #how-to-use-section p, #how-to-use-section li {
-            font-size: 0.95rem;
         }
     }
   </style>
@@ -280,42 +284,45 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline">Critical Fields: A Public Knowledge Project for Critical Thought.</h2>
+      <h2 class="tagline typewriter-text">Critical Fields: A Public Knowledge Project for Critical Thought.</h2>
       <p class="intro">
         We are a decentralized platform built by a network of scholars to map the landscape of critical studies. We believe knowledge should be a commons: a space for intentional learning, collective synthesis, and open exchange. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.
       </p>
       <a href="fields.html" class="cta">enter the fields</a>
     </section>
 
-    <div class="homepage-two-column">
-        <!-- Middle Left: Platform-Wide Features (Field Notes) -->
-        <div id="field-notes-section" style="flex: 2;"> <!-- Takes more space -->
-            <h3 class="section-title">Recently Published Field Notes</h3>
-            <div id="field-notes-container" class="content-grid">
-                <p class="loading-message" id="field-notes-loading">loading field notes...</p>
-            </div>
-        </div>
+    <!-- Unified section for "What We're Reading" and "Latest Newsletter" side-by-side -->
+    <section id="platform-features">
+      <h2 class="section-title">Platform-Wide Features</h2>
 
-        <!-- Middle Right: What We're Reading -->
-        <div id="what-we-are-reading-homepage" style="flex: 1;"> <!-- Takes less space, more compact -->
-            <h3>Chief Editors’ "What We're Reading"</h3>
-            <div id="what-we-are-reading-container-homepage">
-                <p class="loading-message" id="what-we-are-reading-loading-homepage">loading selections...</p>
-            </div>
-        </div>
-    </div>
+      <div class="homepage-two-column">
+          <!-- What We're Reading Section -->
+          <div id="what-we-are-reading-homepage">
+              <h3 class="homepage-content-h3">Chief Editors’ "What We're Reading"</h3>
+              <div id="what-we-are-reading-container-homepage">
+                  <p class="loading-message" id="what-we-are-reading-loading-homepage">
+                      <div class="loader"></div>
+                      loading selections...
+                  </p>
+              </div>
+          </div>
 
-    <!-- Latest Newsletter Section (Full Width) -->
-    <section id="latest-newsletter-section">
-        <h3 class="section-title">Latest Weekly Newsletter</h3>
-        <div id="latest-newsletter-container">
-            <p class="loading-message" id="latest-newsletter-loading">loading newsletter...</p>
-        </div>
+          <!-- Latest Newsletter Section (now beside "What We're Reading") -->
+          <div id="latest-newsletter-section">
+              <h3 class="homepage-content-h3">Latest Weekly Newsletter</h3>
+              <div id="latest-newsletter-container">
+                  <p class="loading-message" id="latest-newsletter-loading">
+                      <div class="loader"></div>
+                      loading newsletter...
+                  </p>
+              </div>
+          </div>
+      </div>
     </section>
 
-    <!-- How to Use Website Section -->
+    <!-- How to Use Website Section (Full Width) -->
     <section id="how-to-use-section">
-        <h2>How to Use This Site</h2>
+        <h2 class="homepage-content-h3">How to Use This Site</h2>
         <p>Critical Fields is designed to be an interactive digital library and archive. Here’s a brief guide:</p>
         <ul>
             <li><strong>The Archive:</strong> Dive into our comprehensive, user-fed repository of critical resources. Use the advanced filters and search to find exactly what you need. Hover over items to read descriptions.</li>
@@ -326,7 +333,7 @@
     </section>
 
     <section id="community-signup">
-      <h2>Join Our Network</h2>
+      <h2 class="section-title">Join Our Network</h2>
       <p>Become part of our growing community of thinkers and contributors. Receive updates, participate in discussions, and shape the future of critical learning.</p>
       <a href="#" class="cta">Sign Up Now</a> <!-- Link to actual signup form when ready -->
     </section>
@@ -338,9 +345,7 @@
 
   <script>
     // --- Configuration for Homepage Dynamic Content ---
-    const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_ID/pub?gid=0&single=true&output=csv'; // Example: Could be a general sheet with a 'homepage' flag
-    const WHAT_WE_ARE_READING_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_READING_ID/pub?gid=0&single=true&output=csv';
-    const NEWSLETTERS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_NEWSLETTERS_ID/pub?gid=0&single=true&output=csv';
+    const MAIN_ARCHIVE_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
 
     // Helper function to parse CSV data (reused across site)
     function parseCSV(csvText) {
@@ -390,15 +395,17 @@
         return data;
     }
 
-    // Generic function to fetch and display data
-    async function fetchDataAndDisplay(url, targetContainerId, renderFunction, limit = 3) {
+    // Generic function to fetch and display data, now with added filtering capability
+    async function fetchDataAndDisplay(url, targetContainerId, renderFunction, limit = 3, filterCriterion = null) {
         const loadingElement = document.getElementById(`${targetContainerId.replace('-container', '')}-loading`);
         const container = document.getElementById(targetContainerId);
         
         if (loadingElement) {
+            loadingElement.innerHTML = '<div class="loader"></div>' + (loadingElement.dataset.originalText || loadingElement.textContent || 'loading...'); // Preserve original text
+            loadingElement.dataset.originalText = loadingElement.dataset.originalText || loadingElement.textContent; // Store original text
             loadingElement.style.display = 'block';
         }
-        container.innerHTML = '';
+        container.innerHTML = ''; // Clear previous content / placeholders
 
         try {
             const response = await fetch(url);
@@ -406,7 +413,20 @@
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const csvText = await response.text();
-            const data = parseCSV(csvText);
+            let data = parseCSV(csvText);
+
+            // Apply filter criterion if provided
+            if (filterCriterion) {
+                data = data.filter(item => {
+                    const itemValue = item[filterCriterion.column];
+                    // Ensure robust comparison for comma-separated values in the target column
+                    if (itemValue) {
+                        const valuesInCell = itemValue.toLowerCase().split(',').map(v => v.trim());
+                        return valuesInCell.includes(filterCriterion.value.toLowerCase());
+                    }
+                    return false;
+                });
+            }
 
             if (data.length === 0) {
                 container.innerHTML = `<p class="loading-message">no content available yet.</p>`;
@@ -431,33 +451,15 @@
         }
     }
 
-    // --- Render Functions for Each Homepage Section Type ---
-
-    function renderFieldNoteCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled field note'}</h4>
-                <p>${item.Summary || 'no summary provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Author || 'anonymous'} &mdash; ${item.Date || 'n.d.'}
-                </div>
-            </div>
-        `;
-        return card;
-    }
+    // --- Render Functions for Homepage Sections ---
 
     function renderReadingCard(item) {
-        const div = document.createElement('div'); // Using div as it's not a direct link card
+        const div = document.createElement('div');
         div.className = 'reading-item';
         div.innerHTML = `
             <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer">${item.Title || 'untitled selection'}</a>
             <p>${item.Description || 'no description provided.'}</p>
-            <p style="font-size: 0.75rem; color: var(--color-text-secondary); opacity: 0.7;">${item.Medium || 'item'} by ${item.AuthorCurator || 'the editors'}</p>
+            <p style="font-size: 0.75rem; color: var(--color-text-secondary); opacity: 0.7;">${item.Medium || 'item'} by ${item.Author || 'the editors'}</p>
         `;
         return div;
     }
@@ -467,7 +469,7 @@
         div.innerHTML = `
             ${item.ImageLink && item.ImageLink.startsWith('http') ? `<img src="${item.ImageLink}" alt="${item.Title || 'Newsletter image'}" class="newsletter-image" onerror="this.style.display='none';">` : ''}
             <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer" class="newsletter-title">${item.Title || 'untitled newsletter'}</a>
-            <p class="newsletter-subtitle">${item.Summary || 'no summary provided.'}</p>
+            <p class="newsletter-subtitle">${item.Description || 'no summary provided.'}</p>
             <p style="font-size: 0.8rem; color: var(--color-text-secondary); opacity: 0.7;">published ${item.Date || 'n.d.'}</p>
         `;
         return div;
@@ -475,14 +477,11 @@
 
     // --- Initialize Data Loading on Page Load ---
     document.addEventListener('DOMContentLoaded', () => {
-        // Field Notes section (Middle Left)
-        fetchDataAndDisplay(FIELD_NOTES_SHEET_URL, 'field-notes-container', renderFieldNoteCard, 3); // Limit to 3 for homepage
+        // What We're Reading section
+        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'what-we-are-reading-container-homepage', renderReadingCard, 5, { column: 'Medium', value: 'Editor Selection' });
 
-        // What We're Reading section (Middle Right)
-        fetchDataAndDisplay(WHAT_WE_ARE_READING_SHEET_URL, 'what-we-are-reading-container-homepage', renderReadingCard, 5); // Limit to 5 for compact list
-
-        // Latest Newsletter (Full Width)
-        fetchDataAndDisplay(NEWSLETTERS_SHEET_URL, 'latest-newsletter-container', renderNewsletterCard, 1); // Only the latest (1)
+        // Latest Newsletter
+        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'latest-newsletter-container', renderNewsletterCard, 1, { column: 'Medium', value: 'Newsletter' });
     });
   </script>
 </body>

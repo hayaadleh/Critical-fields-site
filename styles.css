@@ -370,7 +370,7 @@ a:hover {
 /* Styling for h3 titles within homepage content areas */
 .homepage-content-h3 {
     font-size: 1.4rem;
-    color: var(--color-accent-secondary); /* Now dark gray accent */
+    color: var(--color-text-primary); /* Primary text color for sub-headings */
     margin-top: 0;
     margin-bottom: 1.5rem;
     text-transform: lowercase;
@@ -460,12 +460,12 @@ a:hover {
 }
 #how-to-use-section h2.homepage-content-h3 {
     font-size: 1.8rem;
-    color: var(--color-accent-secondary); /* Now dark gray accent */
+    color: var(--color-accent-highlight); /* Consistent red for main section title */
     margin-top: 0;
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-bottom: 1px solid var(--color-border-dark); /* Solid border for main section title */
+    border-bottom: 1px solid var(--color-border-dark);
     padding-bottom: 0.5rem;
     display: inline-block;
 }
@@ -480,7 +480,7 @@ a:hover {
     padding: 0;
     margin-top: 1.5rem;
     text-align: left;
-    max-width: 600px;
+    max-width: 800px; /* Made wider */
     margin-left: auto;
     margin-right: auto;
     border: 1px solid var(--color-border-dark);
@@ -498,6 +498,7 @@ a:hover {
     padding-left: 1.5em;
     border-bottom: 1px dashed var(--color-border-dark);
     padding-bottom: 0.8rem;
+    line-height: 1.8; /* Increased line height */
 }
 #how-to-use-section li:last-child {
     border-bottom: none;
@@ -534,7 +535,7 @@ a:hover {
 
 .filter-group label {
     font-weight: bold;
-    color: var(--color-accent-secondary); /* Dark gray for filter labels */
+    color: var(--color-text-primary); /* Primary text for filter labels */
     font-size: 1rem;
     flex-shrink: 0;
     text-transform: lowercase;
