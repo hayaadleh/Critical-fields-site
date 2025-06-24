@@ -1,248 +1,334 @@
-body {
-  font-family: 'IBM Plex Mono', monospace;
-  background-color: #f5f5f5;
-  color: #111;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
+/* Custom CSS Properties (Variables) - Centralize your colors! */
+:root {
+  --color-dark-bg: #1e2025; /* Dark charcoal/near-black for main background */
+  --color-light-bg: #2a2d33; /* Slightly lighter dark for cards/sections */
+  --color-text-primary: #e0e0e0; /* Light gray for main text */
+  --color-text-secondary: #a0a0a0; /* Muted gray for secondary text/meta */
+  --color-accent-teal: #0d9488; /* Your original teal, for emphasis */
+  --color-accent-gold: #c7a760; /* Earthy gold/ochre for highlights */
+  --color-border: #444850; /* Darker border for separation */
+  --color-shadow: rgba(0, 0, 0, 0.4); /* Pronounced shadow for depth */
+
+  /* Retro/Noise Effect - for subtle background texture */
+  --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
+/* Base Body Styles - Darker theme, primary font */
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: var(--color-dark-bg);
+  color: var(--color-text-primary);
+  margin: 0;
+  padding: 0;
+  line-height: 1.8; /* Increased line height for readability on dark backgrounds */
+  letter-spacing: -0.02em; /* Slightly tighter letter spacing */
+  overflow-x: hidden; /* Prevent horizontal scroll from noise */
+  position: relative; /* For noise overlay */
+}
+
+/* Subtle noise overlay for retro feel */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--noise-texture);
+  background-size: 150px; /* Adjust size for desired grain */
+  opacity: 0.05; /* Very subtle */
+  pointer-events: none; /* Allow clicks through */
+  z-index: -1;
+}
+
+/* Site Header */
 .site-header {
-  border-bottom: 1px solid #ccc;
-  padding: 1rem 2rem;
-  background: #fff;
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.2rem 2rem;
+  background: var(--color-light-bg);
+  box-shadow: 0 2px 10px var(--color-shadow);
+  position: sticky; /* Make it sticky */
+  top: 0;
+  z-index: 100;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  max-width: 1200px; /* Constrain nav width */
+  margin: 0 auto; /* Center nav */
 }
 
+/* Logo */
+.logo {
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-accent-gold); /* Gold accent for logo */
+  margin: 0;
+  padding: 0;
+  line-height: 1; /* Tighter line height for logo */
+}
+
+/* Navigation Menu */
 .nav-menu {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 1.8rem; /* Increased gap */
+  margin: 0;
+  padding: 0;
 }
 
 .nav-menu li a {
   text-decoration: none;
-  color: #111;
+  color: var(--color-text-primary);
   text-transform: lowercase;
-  font-size: 0.9rem;
-}
-
-.logo {
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.hero {
-  padding: 4rem 2rem;
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.tagline {
-  font-size: 1.25rem;
-  font-weight: normal;
-  text-transform: lowercase;
-}
-
-.intro {
-  margin: 1.5rem 0;
   font-size: 1rem;
-  color: #333;
+  font-weight: 600;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  position: relative;
 }
 
-.cta {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border: 1px solid #111;
-  background: transparent;
-  color: #111;
-  text-decoration: none;
-  font-size: 0.9rem;
-  text-transform: lowercase;
+.nav-menu li a:hover {
+  color: var(--color-accent-teal);
+  text-shadow: 0 0 8px rgba(13, 148, 136, 0.5); /* Subtle glow on hover */
 }
 
-.site-footer {
-  text-align: center;
-  font-size: 0.75rem;
-  padding: 1rem;
-  color: #888;
-  border-top: 1px solid #ccc;
-}
-
+/* Dropdown */
 .dropdown {
   position: relative;
 }
 
-/* Dropdown hidden by default */
 .dropdown-menu {
   display: none;
   position: absolute;
-  background-color: white;
+  background-color: var(--color-light-bg);
   list-style: none;
   padding: 0.5rem 0;
   margin: 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px var(--color-shadow);
   min-width: 200px;
+  z-index: 10;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
 }
 
-/* Show dropdown on hover */
 .dropdown:hover .dropdown-menu {
   display: block;
 }
 
-/* Make dropdown look clean */
 .dropdown-menu li a {
+  padding: 0.6rem 1.2rem;
   display: block;
-  padding: 0.5rem 1rem;
-  color: black;
-  text-decoration: none;
+  white-space: nowrap;
+  color: var(--color-text-primary);
 }
 
 .dropdown-menu li a:hover {
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle highlight on dark background */
+  color: var(--color-accent-teal);
 }
 
-.rss-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem 0;
+/* Hero Section (Homepage & Archive) */
+.hero {
+  padding: 5rem 2rem; /* More vertical space */
+  text-align: center;
+  max-width: 900px; /* Slightly wider */
+  margin: 0 auto;
+  background-color: transparent; /* Let body background show */
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.rss-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease;
+.tagline {
+  font-size: 2.5rem; /* Larger tagline */
+  font-weight: normal;
+  text-transform: lowercase;
+  margin-bottom: 1.5rem;
+  color: var(--color-accent-gold); /* Accent color for main tagline */
+  line-height: 1.2;
 }
 
-.rss-card:hover {
-  transform: scale(1.02);
+.intro {
+  margin: 1.5rem auto 2.5rem;
+  font-size: 1.15rem; /* More readable font size */
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  max-width: 700px; /* Constrain width for readability */
+  text-align: center; /* Center align for hero block */
 }
 
-.rss-content {
-  padding: 1rem;
-}
-
-.rss-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #111;
+/* Call to Action Buttons */
+.cta {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border: 1px solid var(--color-accent-gold); /* Gold border */
+  background: transparent;
+  color: var(--color-accent-gold);
   text-decoration: none;
-  display: block;
-  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  text-transform: lowercase;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-radius: 4px;
 }
 
-.rss-title:hover {
-  text-decoration: underline;
+.cta:hover {
+  background-color: var(--color-accent-gold);
+  color: var(--color-dark-bg);
+  box-shadow: 0 4px 15px rgba(199, 167, 96, 0.3);
 }
 
-.rss-date {
-  font-size: 0.75rem;
-  color: #666;
-  margin-bottom: 0.5rem;
+/* Footer */
+.site-footer {
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 1.5rem;
+  color: var(--color-text-secondary);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-light-bg);
+  margin-top: 4rem;
 }
 
-
+/* Global Section Titles (for Platform Features, Archive sections, etc.) */
 .section-title {
   text-align: center;
-  font-size: 1.5rem;       /* smaller and matches site */
-  margin: 2rem 0;
-  font-family: 'IBM Plex Mono', monospace;  /* fixed typo */
-  color: #111;            /* darker color, consistent with rest */
-  border-bottom: none;    /* remove border if you want cleaner */
-  display: inline-block;
-  padding-bottom: 0;
-}
-
-.rss-summary {
-  font-size: 0.9rem;
-  color: #444;
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
-}
-
-.rss-source {
-  font-size: 0.75rem;
-  color: #999;
-  font-style: italic;
-  text-align: right;
-}
-
-.rss-card {
-  border-left: 4px solid #d16b86; /* a soft rose for Decoloniality */
-}
-
-.resource-section {
-  margin-bottom: 3rem;
-}
-
-.resource-section h2 {
-  font-size: 1.5rem;
-  margin: 1rem 0;
-  padding-left: 1rem;
+  font-size: 1.8rem;
+  margin: 3rem auto 2rem; /* Top/bottom margin, auto left/right to center */
   font-family: 'IBM Plex Mono', monospace;
+  color: var(--color-accent-teal); /* Accent color for section titles */
+  border-bottom: 1px solid var(--color-border); /* Subtle separator */
+  padding-bottom: 0.5rem;
+  display: block; /* Ensure it takes full width for centering */
+  max-width: fit-content; /* Shrink to content width */
+  text-transform: lowercase;
 }
 
-.card-row {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  padding: 1rem;
-}
-
-.filters {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  justify-content: flex-start;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #ddd;
-}
-
-.filters select {
-  padding: 0.5rem;
-  font-family: inherit;
-  font-size: 1rem;
-}
-
-.resource-grid {
+/* General Content Grid (for cards) */
+.content-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem; /* More space between cards */
   padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.resource-card {
-  position: relative;
-  overflow: hidden;
+/* Feature Cards (Homepage dynamic sections) */
+.feature-card {
+  background: var(--color-light-bg);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px var(--color-shadow);
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
-  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.resource-card:hover {
-  transform: scale(1.03);
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Darker shadow on hover */
 }
 
-.resource-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+.feature-card-content {
+  padding: 1.2rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.resource-overlay {
-  padding: 1rem;
+.feature-card-content h4 {
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+  color: var(--color-accent-gold); /* Accent for card titles */
+  line-height: 1.3;
+}
+
+.feature-card-content p {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.feature-card-meta {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin-top: auto;
+  text-align: right;
+  opacity: 0.7;
+}
+
+/* Loading and Error Messages */
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  grid-column: 1 / -1;
+  font-style: italic;
+}
+.error-message {
+  color: #e74c3c; /* A distinct red for errors */
+  font-weight: bold;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 1rem 1rem;
+  }
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav-menu {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .dropdown-menu {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .hero {
+    padding: 3rem 1rem;
+  }
+  .tagline {
+    font-size: 2rem;
+  }
+  .intro {
+    font-size: 1rem;
+    text-align: center;
+  }
+  .section-title {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  #platform-features,
+  #community-signup {
+    padding: 2rem 1rem;
+  }
+  .feature-card-content h4 {
+    font-size: 1rem;
+  }
+  .feature-card-content p {
+    font-size: 0.8rem;
+  }
+  .content-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
 }

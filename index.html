@@ -8,15 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
     /* Styles specific to index.html sections to complement styles.css */
-    body {
-        font-family: 'IBM Plex Mono', monospace;
-        background-color: #f5f5f5;
-        color: #111;
-        margin: 0;
-        padding: 0;
-        line-height: 1.6;
-    }
-
     /* Adjustments for the hero section's new copy length */
     .hero {
         padding: 4rem 2rem; /* Keep existing padding */
@@ -35,57 +26,57 @@
     .hero .intro {
         margin: 1.5rem 0 2.5rem; /* Adjusted margins */
         font-size: 1.05rem; /* Slightly larger font for readability */
-        color: #333;
+        color: var(--color-text-secondary); /* Use secondary text color */
         line-height: 1.7; /* Increased line height */
-        text-align: left; /* Align text left for better readability of long blurb */
+        text-align: center; /* Center align for hero block */
     }
 
     .hero .cta {
         display: inline-block;
         padding: 0.6rem 1.2rem;
-        border: 1px solid #111;
+        border: 1px solid var(--color-accent-gold); /* Gold border */
         background: transparent;
-        color: #111;
+        color: var(--color-accent-gold);
         text-decoration: none;
         font-size: 1rem;
         text-transform: lowercase;
         transition: all 0.3s ease;
     }
     .hero .cta:hover {
-        background-color: #111;
-        color: #fff;
+        background-color: var(--color-accent-gold);
+        color: var(--color-dark-bg);
     }
 
-    /* --- Platform Features Section Styles --- */
+    /* --- Platform Features Section Styles (now uses the new general styles) --- */
     #platform-features {
         padding: 3rem 2rem;
         max-width: 1200px;
         margin: 0 auto;
-        background-color: #fff;
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
+        background-color: var(--color-light-bg); /* Use light background variable */
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
     }
 
     #platform-features h2 {
         text-align: center;
         font-size: 1.8rem;
         margin-bottom: 2.5rem;
-        color: #111;
+        color: var(--color-accent-teal); /* Use accent color */
         text-transform: lowercase;
-        border-bottom: 2px solid #ccc; /* Subtle underline */
+        border-bottom: 2px solid var(--color-border);
         padding-bottom: 0.5rem;
-        display: inline-block; /* To make border-bottom fit content */
+        display: inline-block;
         margin-left: auto;
         margin-right: auto;
     }
 
     #platform-features h3 {
         font-size: 1.4rem;
-        color: #333;
+        color: var(--color-accent-gold); /* Use accent color */
         margin-top: 2.5rem;
         margin-bottom: 1.5rem;
         text-transform: lowercase;
-        padding-left: 0.5rem; /* Indent slightly */
+        padding-left: 0.5rem;
     }
 
     .content-grid {
@@ -95,138 +86,170 @@
         margin-bottom: 2rem;
     }
 
-    .feature-card {
-        background: #fdfdfd;
-        border: 1px solid #eee;
+    /* New styles for homepage specific layout */
+    .homepage-two-column {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping */
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: flex-start; /* Align tops */
+    }
+    .homepage-two-column > div {
+        flex: 1; /* Distribute space */
+        min-width: 300px; /* Minimum width before wrapping */
+    }
+
+    /* Styles for the "What we are reading" section on homepage */
+    #what-we-are-reading-homepage {
+        background-color: var(--color-light-bg);
+        border: 1px solid var(--color-border);
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        overflow: hidden;
-        text-decoration: none;
-        color: inherit;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .feature-card-content {
-        padding: 1rem;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .feature-card-content h4 {
-        margin: 0 0 0.5rem;
-        font-size: 1.05rem;
-        color: #111;
-        line-height: 1.4;
-    }
-
-    .feature-card-content p {
-        font-size: 0.85rem;
-        color: #555;
-        line-height: 1.5;
-        margin-bottom: 0.75rem;
-        flex-grow: 1;
-    }
-
-    .feature-card-meta {
-        font-size: 0.75rem;
-        color: #777;
-        margin-top: auto; /* Push to bottom */
-        text-align: right;
-    }
-
-    .loading-message {
-        text-align: center;
+        box-shadow: 0 4px 12px var(--color-shadow);
         padding: 1.5rem;
-        font-size: 1rem;
-        color: #888;
-        grid-column: 1 / -1; /* Span all columns in grid */
+        margin-left: 2rem; /* Example margin for separation */
+        flex-grow: 1;
+        max-width: 400px; /* Constrain width for a compact look */
     }
-    .error-message {
-        color: #d9534f;
-    }
-
-    /* --- Community Signup Section --- */
-    #community-signup {
-        padding: 4rem 2rem;
+    #what-we-are-reading-homepage h3 {
+        font-size: 1.2rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: var(--color-accent-teal);
         text-align: center;
-        background-color: #f0f0f0; /* Light background for contrast */
-        border-top: 1px solid #e0e0e0;
-        border-bottom: 1px solid #e0e0e0;
-        margin-top: 3rem; /* Space from previous section */
+        border-bottom: 1px dashed var(--color-border);
+        padding-bottom: 0.5rem;
+    }
+    #what-we-are-reading-homepage .reading-item {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px dashed var(--color-border);
+    }
+    #what-we-are-reading-homepage .reading-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    #what-we-are-reading-homepage .reading-item a {
+        color: var(--color-text-primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    #what-we-are-reading-homepage .reading-item a:hover {
+        color: var(--color-accent-gold);
+    }
+    #what-we-are-reading-homepage .reading-item p {
+        font-size: 0.85rem;
+        color: var(--color-text-secondary);
+        margin-top: 0.2rem;
     }
 
-    #community-signup h2 {
-        font-size: 2rem;
-        color: #111;
+    /* Styles for the latest newsletter section (full width) */
+    #latest-newsletter-section {
+        background-color: var(--color-light-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px var(--color-shadow);
+        padding: 2rem;
+        margin: 3rem auto; /* Center with vertical margin */
+        max-width: 1000px; /* Wider for full-width feel */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    #latest-newsletter-section h3 {
+        font-size: 1.8rem;
+        color: var(--color-accent-teal);
+        margin-top: 0;
+        margin-bottom: 1rem;
+        text-transform: lowercase;
+    }
+    #latest-newsletter-section .newsletter-image {
+        max-width: 150px; /* Adjust size */
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--color-border);
+    }
+    #latest-newsletter-section .newsletter-title {
+        font-size: 1.5rem;
+        color: var(--color-accent-gold);
+        margin-bottom: 0.5rem;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    #latest-newsletter-section .newsletter-title:hover {
+        color: var(--color-accent-teal);
+    }
+    #latest-newsletter-section .newsletter-subtitle {
+        font-size: 1rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 1.5rem;
+    }
+
+    /* How to Use Section */
+    #how-to-use-section {
+        padding: 3rem 2rem;
+        max-width: 1000px;
+        margin: 3rem auto;
+        background-color: var(--color-light-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px var(--color-shadow);
+        text-align: center;
+    }
+    #how-to-use-section h2 {
+        font-size: 1.8rem;
+        color: var(--color-accent-teal);
         margin-bottom: 1.5rem;
         text-transform: lowercase;
     }
-
-    #community-signup p {
-        font-size: 1.1rem;
-        color: #333;
-        max-width: 600px;
-        margin: 0 auto 2rem;
+    #how-to-use-section p {
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+        margin-bottom: 1rem;
     }
-
-    #community-signup .cta {
-        display: inline-block;
-        padding: 0.7rem 1.5rem;
-        border: 2px solid #111;
-        background: #111;
-        color: #fff;
-        text-decoration: none;
+    #how-to-use-section ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+    #how-to-use-section li {
+        margin-bottom: 0.8rem;
         font-size: 1rem;
-        font-weight: 600;
+        color: var(--color-text-primary);
         text-transform: lowercase;
-        border-radius: 4px;
-        transition: all 0.3s ease;
     }
-
-    #community-signup .cta:hover {
-        background-color: #fff;
-        color: #111;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    #how-to-use-section li strong {
+        color: var(--color-accent-gold);
     }
-
     /* Responsive adjustments */
     @media (max-width: 768px) {
-        .hero {
-            padding: 3rem 1rem;
+        .homepage-two-column {
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1rem;
         }
-        .hero .tagline {
+        #what-we-are-reading-homepage {
+            margin-left: 0; /* Remove left margin on mobile */
+            max-width: 100%; /* Take full width */
+        }
+        #latest-newsletter-section, #how-to-use-section {
+            padding: 1.5rem;
+            margin: 2rem auto;
+        }
+        #latest-newsletter-section h3, #how-to-use-section h2 {
             font-size: 1.5rem;
         }
-        .hero .intro {
-            font-size: 0.95rem;
-            text-align: center; /* Center on mobile for readability */
-        }
-        #platform-features, #community-signup {
-            padding: 2rem 1rem;
-        }
-        #platform-features h2, #community-signup h2 {
-            font-size: 1.6rem;
-            margin-bottom: 1.5rem;
-        }
-        #platform-features h3 {
+        #latest-newsletter-section .newsletter-title {
             font-size: 1.2rem;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
         }
-        .content-grid {
-            grid-template-columns: 1fr;
-        }
-        #community-signup p {
-            font-size: 1rem;
+        #latest-newsletter-section .newsletter-subtitle, #how-to-use-section p, #how-to-use-section li {
+            font-size: 0.95rem;
         }
     }
   </style>
@@ -239,14 +262,14 @@
         <li><a href="index.html">Home</a></li>
         <li class="dropdown">
           <a href="fields.html">Fields</a>
-        <ul class="dropdown-menu">
-              <li><a href="fields.html?name=heterodox-economics">Heterodox Economics</a></li>
+          <ul class="dropdown-menu">
+            <li><a href="fields.html?name=heterodox-economics">Heterodox Economics</a></li>
             <li><a href="fields.html?name=architectures-of-power">Architectures of Power</a></li>
             <li><a href="fields.html?name=the-digital-apparatus">The Digital Apparatus</a></li>
             <li><a href="fields.html?name=earth-systems">Earth Systems</a></li>
             <li><a href="fields.html?name=the-social-commons">The Social Commons</a></li>
             <li><a href="fields.html?name=critical-methodologies">Critical Methodologies</a></li>
-        </ul>
+          </ul>
         </li>
         <li><a href="resources.html">Archive</a></li>
         <li><a href="network.html">Network</a></li>
@@ -257,40 +280,49 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline">Critical Fields is a public knowledge project built by a network of thinkers, mapping the landscape of critical thought.</h2>
+      <h2 class="tagline">Critical Fields: A Public Knowledge Project for Critical Thought.</h2>
       <p class="intro">
-       We believe learning should be a commons—especially for a generation navigating a world of algorithm-driven feeds and saturation. With infinite resources scattered across the web, we are returning to a more intentional model: one where people can follow their own curiosity, contribute to the learning of others, and build a knowledge commons together. To that end, we believe it is essential to archive, organize, and connect these resources with focus and intent.
-       <br><br>
-       At our core is the Archive, an open-access repository where our community preserves essential resources. From that foundation, we build "Fields": curated, interdisciplinary lenses used to interpret the collection. Guided by our editors, these thematic paradigms provide the structure needed to move beyond passive consumption to active, collective synthesis.
-       <br><br>
-       We rely on contributions from our community to identify, categorize, and preserve the essential learning resources that are often lost to the void. If you have a resource that belongs here, we invite you to submit it to our learning commons. But an archive is only the beginning. The interpretive work of making sense of this material within our "Fields" is a demanding and essential task, and we invite you to lend your voice and analysis to this living project.
+        We are a decentralized platform built by a network of scholars to map the landscape of critical studies. We believe knowledge should be a commons: a space for intentional learning, collective synthesis, and open exchange. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.
       </p>
       <a href="fields.html" class="cta">enter the fields</a>
     </section>
 
-    <section id="platform-features">
-      <h2>Platform-Wide Features</h2>
-
-      <div id="field-notes-section">
-        <h3>Recently Published Field Notes</h3>
-        <div id="field-notes-container" class="content-grid">
-            <p class="loading-message" id="field-notes-loading">Loading field notes...</p>
+    <div class="homepage-two-column">
+        <!-- Middle Left: Platform-Wide Features (Field Notes) -->
+        <div id="field-notes-section" style="flex: 2;"> <!-- Takes more space -->
+            <h3 class="section-title">Recently Published Field Notes</h3>
+            <div id="field-notes-container" class="content-grid">
+                <p class="loading-message" id="field-notes-loading">loading field notes...</p>
+            </div>
         </div>
-      </div>
 
-      <div id="what-were-reading-section">
-        <h3>Chief Editors’ "What We're Reading"</h3>
-        <div id="what-were-reading-container" class="content-grid">
-            <p class="loading-message" id="what-were-reading-loading">Loading selections...</p>
+        <!-- Middle Right: What We're Reading -->
+        <div id="what-we-are-reading-homepage" style="flex: 1;"> <!-- Takes less space, more compact -->
+            <h3>Chief Editors’ "What We're Reading"</h3>
+            <div id="what-we-are-reading-container-homepage">
+                <p class="loading-message" id="what-we-are-reading-loading-homepage">loading selections...</p>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div id="newsletters-section">
-        <h3>Latest Weekly Newsletters</h3>
-        <div id="newsletters-container" class="content-grid">
-            <p class="loading-message" id="newsletters-loading">Loading newsletters...</p>
+    <!-- Latest Newsletter Section (Full Width) -->
+    <section id="latest-newsletter-section">
+        <h3 class="section-title">Latest Weekly Newsletter</h3>
+        <div id="latest-newsletter-container">
+            <p class="loading-message" id="latest-newsletter-loading">loading newsletter...</p>
         </div>
-      </div>
+    </section>
+
+    <!-- How to Use Website Section -->
+    <section id="how-to-use-section">
+        <h2>How to Use This Site</h2>
+        <p>Critical Fields is designed to be an interactive digital library and archive. Here’s a brief guide:</p>
+        <ul>
+            <li><strong>The Archive:</strong> Dive into our comprehensive, user-fed repository of critical resources. Use the advanced filters and search to find exactly what you need. Hover over items to read descriptions.</li>
+            <li><strong>Fields:</strong> Explore curated, interdisciplinary lenses on specific critical conversations. Each field offers a focused collection of relevant archive content, essays, editor selections, and more.</li>
+            <li><strong>Contribute:</strong> We believe in a knowledge commons. If you have a resource, insight, or analysis that aligns with our mission, we invite you to contribute and help build this collective project.</li>
+        </ul>
+        <p>This platform is a living project, growing and evolving with the contributions of its community.</p>
     </section>
 
     <section id="community-signup">
@@ -306,13 +338,11 @@
 
   <script>
     // --- Configuration for Homepage Dynamic Content ---
-    // IMPORTANT: REPLACE THESE URLs with YOUR published Google Sheet CSV URLs
-    // Ensure your Google Sheets are published to the web as CSV (File > Share > Publish to web)
-    const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_ID/pub?gid=0&single=true&output=csv';
-    const WHAT_WERE_READING_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_PLACEHOLDER_READING_ID/pub?gid=0&single=true&output=csv';
-    const NEWSLETTERS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_PLACEHOLDER_NEWSLETTERS_ID/pub?gid=0&single=true&output=csv';
+    const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_ID/pub?gid=0&single=true&output=csv'; // Example: Could be a general sheet with a 'homepage' flag
+    const WHAT_WE_ARE_READING_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_READING_ID/pub?gid=0&single=true&output=csv';
+    const NEWSLETTERS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_NEWSLETTERS_ID/pub?gid=0&single=true&output=csv';
 
-    // Helper function to parse CSV data (reused from resources.html)
+    // Helper function to parse CSV data (reused across site)
     function parseCSV(csvText) {
         const lines = csvText.trim().split('\n');
         if (lines.length === 0) return [];
@@ -360,15 +390,15 @@
         return data;
     }
 
-    // Generic function to fetch and display data (reused and adapted)
-    async function fetchDataAndDisplay(url, targetContainerId, renderFunction) {
+    // Generic function to fetch and display data
+    async function fetchDataAndDisplay(url, targetContainerId, renderFunction, limit = 3) {
         const loadingElement = document.getElementById(`${targetContainerId.replace('-container', '')}-loading`);
         const container = document.getElementById(targetContainerId);
         
         if (loadingElement) {
-            loadingElement.style.display = 'block'; // Show loading message
+            loadingElement.style.display = 'block';
         }
-        container.innerHTML = ''; // Clear previous content / placeholders
+        container.innerHTML = '';
 
         try {
             const response = await fetch(url);
@@ -383,8 +413,7 @@
                 return;
             }
 
-            // Limit to a few items for homepage sections (e.g., first 3)
-            const itemsToShow = data.slice(0, 3); 
+            const itemsToShow = data.slice(0, limit); 
 
             itemsToShow.forEach(item => {
                 const card = renderFunction(item);
@@ -397,15 +426,13 @@
             container.innerHTML = `<p class="loading-message error-message">failed to load content. please check the sheet URL.</p>`;
         } finally {
             if (loadingElement) {
-                loadingElement.style.display = 'none'; // Hide loading message
+                loadingElement.style.display = 'none';
             }
         }
     }
 
     // --- Render Functions for Each Homepage Section Type ---
 
-    // Renders a Field Note card
-    // Expected CSV columns: Title, Link, Summary, Date, Author
     function renderFieldNoteCard(item) {
         const card = document.createElement('a');
         card.href = item.Link || '#';
@@ -424,51 +451,38 @@
         return card;
     }
 
-    // Renders a "What We're Reading" card
-    // Expected CSV columns: Title, Link, Description, Medium, Author/Curator
     function renderReadingCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled selection'}</h4>
-                <p>${item.Description || 'no description provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Medium || 'item'} by ${item.AuthorCurator || 'the editors'}
-                </div>
-            </div>
+        const div = document.createElement('div'); // Using div as it's not a direct link card
+        div.className = 'reading-item';
+        div.innerHTML = `
+            <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer">${item.Title || 'untitled selection'}</a>
+            <p>${item.Description || 'no description provided.'}</p>
+            <p style="font-size: 0.75rem; color: var(--color-text-secondary); opacity: 0.7;">${item.Medium || 'item'} by ${item.AuthorCurator || 'the editors'}</p>
         `;
-        return card;
+        return div;
     }
 
-    // Renders a Newsletter card
-    // Expected CSV columns: Title, Link, Date, Summary
     function renderNewsletterCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled newsletter'}</h4>
-                <p>${item.Summary || 'no summary provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Date || 'n.d.'}
-                </div>
-            </div>
+        const div = document.createElement('div');
+        div.innerHTML = `
+            ${item.ImageLink && item.ImageLink.startsWith('http') ? `<img src="${item.ImageLink}" alt="${item.Title || 'Newsletter image'}" class="newsletter-image" onerror="this.style.display='none';">` : ''}
+            <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer" class="newsletter-title">${item.Title || 'untitled newsletter'}</a>
+            <p class="newsletter-subtitle">${item.Summary || 'no summary provided.'}</p>
+            <p style="font-size: 0.8rem; color: var(--color-text-secondary); opacity: 0.7;">published ${item.Date || 'n.d.'}</p>
         `;
-        return card;
+        return div;
     }
 
     // --- Initialize Data Loading on Page Load ---
     document.addEventListener('DOMContentLoaded', () => {
-        fetchDataAndDisplay(FIELD_NOTES_SHEET_URL, 'field-notes-container', renderFieldNoteCard);
-        fetchDataAndDisplay(WHAT_WERE_READING_SHEET_URL, 'what-were-reading-container', renderReadingCard);
-        fetchDataAndDisplay(NEWSLETTERS_SHEET_URL, 'newsletters-container', renderNewsletterCard);
+        // Field Notes section (Middle Left)
+        fetchDataAndDisplay(FIELD_NOTES_SHEET_URL, 'field-notes-container', renderFieldNoteCard, 3); // Limit to 3 for homepage
+
+        // What We're Reading section (Middle Right)
+        fetchDataAndDisplay(WHAT_WE_ARE_READING_SHEET_URL, 'what-we-are-reading-container-homepage', renderReadingCard, 5); // Limit to 5 for compact list
+
+        // Latest Newsletter (Full Width)
+        fetchDataAndDisplay(NEWSLETTERS_SHEET_URL, 'latest-newsletter-container', renderNewsletterCard, 1); // Only the latest (1)
     });
   </script>
 </body>
