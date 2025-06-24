@@ -10,11 +10,14 @@
     /* Minimal inline styles to complement styles.css for the Fields page */
     body {
         font-family: 'IBM Plex Mono', monospace;
-        background-color: #f5f5f5;
-        color: #111;
+        background-color: var(--color-main-bg);
+        color: var(--color-text-primary);
         margin: 0;
         padding: 0;
-        line-height: 1.6;
+        line-height: 1.7;
+        letter-spacing: -0.01em;
+        overflow-x: hidden;
+        position: relative;
     }
     main {
         padding: 2rem;
@@ -24,32 +27,40 @@
     .field-hero {
         text-align: center;
         padding: 3rem 2rem;
-        background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
-        color: #1e293b;
-        border-bottom: 1px solid #cbd5e1;
+        background: var(--color-secondary-bg); /* Use secondary background for hero */
+        color: var(--color-text-primary);
+        border-bottom: 1px solid var(--color-border-dark);
         margin-bottom: 3rem;
+        box-shadow: var(--shadow-element); /* Add a subtle shadow */
+        border-radius: 4px;
+        border: 1px solid var(--color-border-dark);
     }
     .field-hero h2 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
         text-transform: lowercase;
+        color: var(--color-accent-highlight); /* Red for hero title */
+        text-shadow: 0 0 8px rgba(255, 65, 54, 0.5);
     }
     .field-hero p {
         font-size: 1.1rem;
         max-width: 700px;
         margin: 0 auto;
         line-height: 1.6;
+        color: var(--color-text-secondary);
     }
     .field-section-title {
         text-align: center;
-        font-size: 1.8rem;
-        margin-top: 3rem;
-        margin-bottom: 2rem;
-        color: #111;
-        text-transform: lowercase;
-        border-bottom: 2px solid #ccc;
+        font-size: 2.2rem;
+        margin-top: 3.5rem;
+        margin-bottom: 2.5rem;
+        color: var(--color-accent-highlight); /* Red for section titles */
+        border-bottom: 1px solid var(--color-border-dark);
         padding-bottom: 0.5rem;
-        display: inline-block;
+        display: block;
+        max-width: fit-content;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -62,10 +73,11 @@
         gap: 1.5rem;
     }
     .feature-card {
-        background: #fdfdfd;
-        border: 1px solid #eee;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        background: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
         overflow: hidden;
         text-decoration: none;
         color: inherit;
@@ -76,7 +88,8 @@
     }
     .feature-card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    6px 6px 0px rgba(0,0,0,0.4);
     }
     .feature-card-content {
         padding: 1rem;
@@ -87,31 +100,36 @@
     .feature-card-content h4 {
         margin: 0 0 0.5rem;
         font-size: 1.05rem;
-        color: #111;
+        color: var(--color-accent-highlight);
         line-height: 1.4;
     }
     .feature-card-content p {
         font-size: 0.85rem;
-        color: #555;
+        color: var(--color-text-secondary);
         line-height: 1.5;
         margin-bottom: 0.75rem;
         flex-grow: 1;
     }
     .feature-card-meta {
         font-size: 0.75rem;
-        color: #777;
+        color: var(--color-text-secondary);
         margin-top: auto;
         text-align: right;
+        opacity: 0.8;
     }
     .loading-message {
         text-align: center;
         padding: 1.5rem;
         font-size: 1rem;
-        color: #888;
-        grid-column: 1 / -1; /* Span all columns in grid */
+        color: var(--color-text-secondary);
+        grid-column: 1 / -1;
+        font-style: italic;
+        border: 1px dashed var(--color-border-dark);
+        border-radius: 4px;
+        background-color: var(--color-secondary-bg);
     }
     .error-message {
-        color: #d9534f;
+        color: var(--color-ui-red);
     }
 
     /* People & Institutions specific styling (simple list for now) */
@@ -124,55 +142,59 @@
         gap: 1rem;
     }
     .people-institutions-list li {
-        background: #fff;
-        border: 1px solid #eee;
-        border-radius: 8px;
+        background: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
         padding: 1rem;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.03);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 2px 2px 0px var(--color-border-dark);
     }
     .people-institutions-list li strong {
         display: block;
         font-size: 1.1rem;
         margin-bottom: 0.3rem;
-        color: #111;
+        color: var(--color-accent-highlight);
     }
     .people-institutions-list li p {
         font-size: 0.9rem;
-        color: #444;
+        color: var(--color-text-secondary);
         margin: 0;
     }
     .coming-soon {
         text-align: center;
         padding: 2rem;
         font-style: italic;
-        color: #777;
+        color: var(--color-text-secondary);
         font-size: 1.1rem;
-        grid-column: 1 / -1; /* Ensure "coming soon" spans grid */
+        grid-column: 1 / -1;
+        border: 1px dashed var(--color-border-dark);
+        border-radius: 4px;
+        background-color: var(--color-secondary-bg);
     }
 
     /* --- RSS Rotator Styles (New) --- */
     #rss-rotator-section {
         margin-bottom: 3rem;
-        background-color: #fdfdfd;
+        background-color: var(--color-card-bg);
         padding: 2rem;
         border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        position: relative; /* For absolute positioning of controls */
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 4px 4px 0px var(--color-border-dark);
+        position: relative;
+        border: 1px solid var(--color-border-dark);
     }
     .rss-rotator-container {
         position: relative;
         overflow: hidden;
         width: 100%;
-        min-height: 200px; /* Adjust as needed */
+        min-height: 200px;
         margin: 0 auto;
     }
     .rss-slides-wrapper {
         display: flex;
-        transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+        transition: transform 0.5s ease-in-out;
     }
     .rss-slide {
-        flex: 0 0 100%; /* Each slide takes full width */
-        width: 100%; /* Explicit width for flex item */
+        flex: 0 0 100%;
+        width: 100%;
         box-sizing: border-box;
         padding: 1.5rem;
         text-align: center;
@@ -184,26 +206,26 @@
     .rss-slide h4 {
         font-size: 1.5rem;
         margin-bottom: 0.8rem;
-        color: #111;
+        color: var(--color-accent-highlight);
         text-transform: lowercase;
         line-height: 1.3;
     }
     .rss-slide p {
         font-size: 1rem;
-        color: #444;
+        color: var(--color-text-secondary);
         max-width: 800px;
         margin: 0 auto 1rem;
         line-height: 1.6;
     }
     .rss-slide .source-link {
         font-size: 0.9rem;
-        color: #0d9488; /* Teal link color */
-        text-decoration: none;
+        color: var(--color-ui-red);
+        text-decoration: underline;
         font-weight: 600;
         text-transform: lowercase;
     }
     .rss-slide .source-link:hover {
-        text-decoration: underline;
+        color: var(--color-ui-red-light);
     }
     .rss-pagination-dots {
         text-align: center;
@@ -213,14 +235,14 @@
         height: 10px;
         width: 10px;
         margin: 0 5px;
-        background-color: #bbb;
+        background-color: var(--color-border-dark);
         border-radius: 50%;
         display: inline-block;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
     .rss-dot.active {
-        background-color: #111;
+        background-color: var(--color-accent-highlight);
     }
     .rss-arrow {
         position: absolute;
@@ -247,72 +269,252 @@
     .rss-arrow.next {
         right: 10px;
     }
-    .rss-rotator-section .loading-message {
-        padding: 5rem 0;
-        min-height: 150px;
-    }
     .rss-rotator-image {
-        max-width: 150px; /* Smaller image size for rotator */
+        max-width: 150px;
         max-height: 100px;
-        object-fit: contain; /* Contain to show full image */
+        object-fit: contain;
         margin-bottom: 1rem;
         border-radius: 4px;
+        border: 1px solid var(--color-border-dark);
+        box-shadow: 1px 1px 0px var(--color-border-dark);
     }
 
-    /* --- Field Index Page Styles --- */
-    #field-index-container {
-        padding: 3rem 2rem;
+    /* --- Field Index Page Styles (CLI/Directory Browser Style) --- */
+    #field-index-wrapper { /* Wrapper to apply shared styling like padding and box-shadow */
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        padding: 2rem;
         max-width: 1000px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 2rem;
+        margin: 3rem auto; /* Consistent margin */
     }
-    .field-index-card {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    #field-cli-container {
+        background-color: #212121; /* Darker, terminal-like background */
+        border: 2px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: inset 1px 1px 5px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.3); /* Terminal glow/depth */
         padding: 1.5rem;
-        text-align: left;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        text-decoration: none; /* Remove underline from card link */
-        color: inherit; /* Inherit text color */
+        max-height: 600px; /* Constrain height */
+        overflow-y: auto; /* Scroll if content overflows */
+        font-family: 'IBM Plex Mono', monospace; /* Ensure monospace */
+        color: #00FF00; /* Classic green terminal text (subtle) */
+        line-height: 1.4;
+        font-size: 1rem;
+    }
+
+    .cli-prompt {
+        color: var(--color-ui-red); /* Red for prompt */
+        font-weight: bold;
+    }
+    .cli-path {
+        color: var(--color-accent-highlight); /* Highlight for path */
+    }
+
+    .cli-entry-line {
+        position: relative;
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1); /* Subtle separator */
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        overflow: hidden; /* For description animation */
+    }
+
+    .cli-entry-line:last-of-type {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .cli-entry-line:hover {
+        background-color: rgba(255, 255, 255, 0.05); /* Light hover effect */
+    }
+
+    .cli-entry-title {
+        color: var(--color-text-primary); /* Primary text color for title */
+        font-weight: bold;
+        text-transform: lowercase;
+        display: inline-block; /* Ensure it wraps if needed */
+        margin-right: 0.5rem; /* Space before description label */
+    }
+
+    .cli-entry-label {
+        color: var(--color-text-secondary); /* Muted color for label */
+        font-size: 0.9em;
+    }
+
+    .cli-entry-description {
+        max-height: 0; /* Hidden by default */
+        overflow: hidden;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+        opacity: 0;
+        color: var(--color-text-secondary);
+        font-size: 0.9rem;
+        padding-top: 0.5rem;
+        line-height: 1.6;
+        text-transform: lowercase;
+    }
+
+    .cli-entry-line:hover .cli-entry-description {
+        max-height: 100px; /* Arbitrary max height for reveal */
+        opacity: 1;
+    }
+    .cli-entry-line a { /* Link styling within CLI entry */
+        text-decoration: none;
+        color: inherit;
+    }
+    .cli-entry-line a:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* People & Institutions specific styling (simple list for now) */
+    .people-institutions-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    .people-institutions-list li {
+        background: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        padding: 1rem;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 2px 2px 0px var(--color-border-dark);
+    }
+    .people-institutions-list li strong {
+        display: block;
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+        color: var(--color-accent-highlight);
+    }
+    .people-institutions-list li p {
+        font-size: 0.9rem;
+        color: var(--color-text-secondary);
+        margin: 0;
+    }
+    .coming-soon {
+        text-align: center;
+        padding: 2rem;
+        font-style: italic;
+        color: var(--color-text-secondary);
+        font-size: 1.1rem;
+        grid-column: 1 / -1;
+        border: 1px dashed var(--color-border-dark);
+        border-radius: 4px;
+        background-color: var(--color-secondary-bg);
+    }
+
+    /* --- RSS Rotator Styles (New) --- */
+    #rss-rotator-section {
+        margin-bottom: 3rem;
+        background-color: var(--color-card-bg);
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 4px 4px 0px var(--color-border-dark);
+        position: relative;
+        border: 1px solid var(--color-border-dark);
+    }
+    .rss-rotator-container {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        min-height: 200px;
+        margin: 0 auto;
+    }
+    .rss-slides-wrapper {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .rss-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 1.5rem;
+        text-align: center;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
     }
-    .field-index-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .field-index-card h3 {
-        font-size: 1.4rem;
-        margin-top: 0;
+    .rss-slide h4 {
+        font-size: 1.5rem;
         margin-bottom: 0.8rem;
-        color: #111;
+        color: var(--color-accent-highlight);
         text-transform: lowercase;
+        line-height: 1.3;
     }
-    .field-index-card p {
-        font-size: 0.95rem;
-        color: #444;
-        line-height: 1.5;
-        margin-bottom: 0.5rem;
-        flex-grow: 1; /* Allow description to take space */
+    .rss-slide p {
+        font-size: 1rem;
+        color: var(--color-text-secondary);
+        max-width: 800px;
+        margin: 0 auto 1rem;
+        line-height: 1.6;
     }
-    .field-index-card .cta-link {
-        display: inline-block;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #0d9488; /* Teal color for action link */
-        text-decoration: none;
-        margin-top: 1rem;
-        text-transform: lowercase;
-    }
-    .field-index-card .cta-link:hover {
+    .rss-slide .source-link {
+        color: var(--color-ui-red);
         text-decoration: underline;
+        font-weight: 600;
+        text-transform: lowercase;
     }
-
+    .rss-slide .source-link:hover {
+        color: var(--color-ui-red-light);
+    }
+    .rss-pagination-dots {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    .rss-dot {
+        height: 10px;
+        width: 10px;
+        margin: 0 5px;
+        background-color: var(--color-border-dark);
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .rss-dot.active {
+        background-color: var(--color-accent-highlight);
+    }
+    .rss-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        padding: 0.5rem 0.8rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        line-height: 1;
+        border-radius: 5px;
+        z-index: 10;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+    .rss-arrow:hover {
+        opacity: 1;
+    }
+    .rss-arrow.prev {
+        left: 10px;
+    }
+    .rss-arrow.next {
+        right: 10px;
+    }
+    .rss-rotator-image {
+        max-width: 150px;
+        max-height: 100px;
+        object-fit: contain;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        border: 1px solid var(--color-border-dark);
+        box-shadow: 1px 1px 0px var(--color-border-dark);
+    }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -339,9 +541,22 @@
         .rss-slide p {
             font-size: 0.9rem;
         }
-        #field-index-container {
-            grid-template-columns: 1fr;
+        #field-index-wrapper {
             padding: 1.5rem;
+            margin: 2rem auto;
+        }
+        #field-cli-container {
+            padding: 1rem;
+        }
+        .cli-entry-line {
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+        }
+        .cli-entry-title {
+            font-size: 0.95rem;
+        }
+        .cli-entry-description {
+            font-size: 0.8rem;
         }
     }
   </style>
@@ -381,7 +596,7 @@
 
   <script>
     // --- Configuration for Field Page Dynamic Content ---
-    const ARCHIVE_FEED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+    const ARCHIVE_FEED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv'; // Your main Archive sheet
     const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_GENERAL_ID/pub?gid=0&single=true&output=csv';
     const EDITOR_SELECTIONS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_EDITOR_SELECTIONS_GENERAL_ID/pub?gid=0&single=true&output=csv';
     const WEEKLY_BRIEFING_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_WEEKLY_BRIEFING_GENERAL_ID/pub?gid=0&single=true&output=csv';
@@ -394,6 +609,7 @@
     const RSS_TO_JSON_PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
     // Map of field names (from URL param) to their display titles and descriptions
+    // Use lowercase, hyphenated versions for the keys to match URL params
     const fieldData = {
         'heterodox-economics': {
             title: 'Heterodox Economics',
@@ -511,14 +727,18 @@
             }
             const rowObject = {};
             headers.forEach((header, index) => {
-                rowObject[header] = values[index];
+                rowObject[header] = values[index] ? values[index] : ''; // Store original value for display
+                // For internal logic/filtering, also store a lowercase, trimmed version
+                rowObject[`${header}Normalized`] = values[index] ? values[index].toLowerCase().trim() : '';
             });
 
-            // Ensure 'Field' column is parsed as a lowercase, trimmed array
+            // Ensure 'Field' column is parsed as a lowercase, trimmed array for filtering
             if (rowObject.Field) {
-                rowObject.Field = rowObject.Field.split(',').map(f => f.toLowerCase().trim()).filter(Boolean);
+                rowObject.Field = rowObject.FieldNormalized.split(',').map(f => f.trim()).filter(Boolean); // Store original case for display
+                rowObject.FieldNormalized = rowObject.Field.map(f => f.toLowerCase()); // Store normalized for filtering
             } else {
                 rowObject.Field = [];
+                rowObject.FieldNormalized = [];
             }
             data.push(rowObject);
         }
@@ -544,7 +764,7 @@
             let data = parseCSV(csvText);
 
             if (currentFieldName && data.length > 0 && data[0].Field && Array.isArray(data[0].Field)) {
-                const normalizedFieldName = currentFieldName.toLowerCase().replace(/ /g, '-'); // Convert "Heterodox Economics" to "heterodox-economics"
+                const normalizedFieldName = currentFieldName.toLowerCase().replace(/ /g, '-'); 
                 data = data.filter(item => 
                     item.Field && item.Field.includes(normalizedFieldName)
                 );
@@ -698,11 +918,11 @@
             const csvText = await response.text();
             const archiveData = parseCSV(csvText);
 
-            const normalizedFieldName = currentFieldName.toLowerCase().replace(/-/g, ' ');
+            const normalizedFieldName = currentFieldName.toLowerCase().replace(/ /g, '-');
 
             const rssSources = archiveData.filter(item => 
                 item.RSSFeed && item.RSSFeed.startsWith('http') && 
-                item.Field && item.Field.includes(normalizedFieldName)
+                item.FieldNormalized && item.FieldNormalized.includes(normalizedFieldName) // Use normalized field for filtering
             );
             
             const fetchedArticles = [];
@@ -935,8 +1155,7 @@
                     </div>
                 `;
 
-                // Load dynamic content for the specific field
-                fetchFieldRssFeeds(fieldNameParam); // Call dedicated RSS fetcher
+                fetchFieldRssFeeds(fieldNameParam);
                 fetchDataAndDisplay(fieldDetails.fieldNotesUrl, 'field-notes-container', renderFieldNotesCard, fieldDetails.title);
                 fetchDataAndDisplay(fieldDetails.editorSelectionsUrl, 'editor-selections-container', renderEditorSelectionsCard, fieldDetails.title);
                 fetchDataAndDisplay(fieldDetails.weeklyBriefingUrl, 'weekly-briefing-container', renderWeeklyBriefingCard, fieldDetails.title);
@@ -957,14 +1176,17 @@
 
         } else {
             // --- Render Fields Index Page ---
-            document.title = 'Fields | Critical Fields'; // Correct title for index page
+            document.title = 'Fields | Critical Fields';
             mainContentArea.innerHTML = `
                 <section class="field-hero">
                     <h2>Our Fields of Inquiry</h2>
                     <p>Explore the critical conversations shaping our understanding of the world.</p>
                 </section>
-                <div id="field-index-container">
-                    <!-- Field index cards will be generated here -->
+                <div id="field-index-wrapper">
+                    <div id="field-cli-container">
+                        <p class="cli-prompt"><span class="cli-path">critical-fields:/fields/&gt;</span> ls -l</p>
+                        <!-- Field index entries will be generated here -->
+                    </div>
                 </div>
             `;
             renderFieldIndexPage(); // Call function to render index cards
@@ -973,23 +1195,29 @@
 
     // New function to render the main Fields landing page
     function renderFieldIndexPage() {
-        const container = document.getElementById('field-index-container');
-        container.innerHTML = ''; // Clear any loading messages
+        const container = document.getElementById('field-cli-container');
+        // Check if container exists before trying to clear/append
+        if (!container) return; 
+
+        // Clear existing content, but keep initial prompt
+        container.innerHTML = `<p class="cli-prompt"><span class="cli-path">critical-fields:/fields/&gt;</span> ls -l</p>`;
 
         for (const key in fieldData) {
             if (fieldData.hasOwnProperty(key)) {
                 const field = fieldData[key];
-                const card = document.createElement('a');
-                card.href = `fields.html?name=${key}`; // Link to the dynamic field page
-                card.className = 'field-index-card';
-                card.innerHTML = `
-                    <h3>${field.title}</h3>
-                    <p>${field.description}</p>
-                    <span class="cta-link">explore field &rsaquo;</span>
+                const cliEntry = document.createElement('a'); // Make the whole entry a link
+                cliEntry.href = `fields.html?name=${key}`;
+                cliEntry.className = 'cli-entry-line';
+                cliEntry.innerHTML = `
+                    <span class="cli-entry-title">${key.replace(/-/g, ' ')}</span> <span class="cli-entry-label">(type: directory)</span>
+                    <div class="cli-entry-description">${field.description}</div>
                 `;
-                container.appendChild(card);
+                container.appendChild(cliEntry);
             }
         }
+        // Add a final blinking cursor line
+        container.innerHTML += `<p class="cli-prompt"><span class="cli-path">critical-fields:/fields/&gt;</span> <span class="typewriter-text" style="animation: none; border-right: 2px solid var(--color-accent-highlight); animation: blink-caret 0.75s step-end infinite;">_</span></p>`;
+
     }
   </script>
 </body>
