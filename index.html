@@ -425,7 +425,13 @@
 
   <script>
     // --- Configuration for Homepage Dynamic Content ---
-    const MAIN_ARCHIVE_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+    // Original Google Sheet CSV URL
+    const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+    // CORS Proxy URL
+    const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
+    // Combined URL for fetching via proxy
+    const MAIN_ARCHIVE_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_CSV_URL);
+
 
     // Helper function to parse CSV data (reused across site)
     function parseCSV(csvText) {
@@ -484,8 +490,8 @@
         const container = document.getElementById(targetContainerId);
         
         if (loadingElement) {
-            loadingElement.innerHTML = '<div class="loader"></div>' + (loadingElement.dataset.originalText || loadingElement.textContent || 'loading...');
-            loadingElement.dataset.originalText = loadingElement.dataset.originalText || loadingElement.textContent;
+            loadingElement.innerHTML = '<div class="loader"></div>' + (loadingElement.dataset.originalText || loadingElement.textContent || 'loading...'); // Preserve original text
+            loadingElement.dataset.originalText = loadingElement.dataset.originalText || loadingElement.textContent; // Store original text
             loadingElement.style.display = 'block';
         }
         container.innerHTML = ''; // Clear previous content / placeholders
@@ -502,6 +508,7 @@
             if (filterCriterion) {
                 data = data.filter(item => {
                     const itemValue = item[filterCriterion.column];
+                    // Ensure robust comparison for comma-separated values in the target column
                     if (itemValue) {
                         const valuesInCell = itemValue.toLowerCase().split(',').map(v => v.trim());
                         return valuesInCell.includes(filterCriterion.value.toLowerCase());
