@@ -185,12 +185,13 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        min-height: 200px;
+        min-height: 250px; /* Increased min-height for bigger images/text */
         margin: 0 auto;
     }
     .rss-slides-wrapper {
         display: flex;
         transition: transform 0.5s ease-in-out;
+        height: 100%; /* Ensure wrapper fills container for vertical alignment */
     }
     .rss-slide {
         flex: 0 0 100%;
@@ -270,17 +271,17 @@
         right: 10px;
     }
     .rss-rotator-image {
-        max-width: 150px;
-        max-height: 100px;
-        object-fit: contain;
+        max-width: 250px; /* Increased size significantly */
+        max-height: 180px; /* Increased size significantly */
+        object-fit: contain; /* Ensure full image is visible */
         margin-bottom: 1rem;
         border-radius: 4px;
         border: 1px solid var(--color-border-dark);
-        box-shadow: 1px 1px 0px var(--color-border-dark);
+        box-shadow: 2px 2px 0px var(--color-border-dark), 4px 4px 0px rgba(0,0,0,0.4); /* Added 3D shadow */
     }
 
-    /* --- Field Index Page Styles (CLI/Directory Browser Style) --- */
-    #field-index-wrapper { /* Wrapper to apply shared styling like padding and box-shadow */
+    /* --- Field Index Page Styles (Digital Card Catalog Style) --- */
+    #field-index-wrapper {
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
@@ -288,233 +289,73 @@
                     4px 4px 0px var(--color-border-dark);
         padding: 2rem;
         max-width: 1000px;
-        margin: 3rem auto; /* Consistent margin */
+        margin: 3rem auto;
+        text-align: center;
     }
 
-    #field-cli-container {
-        background-color: #212121; /* Darker, terminal-like background */
-        border: 2px solid var(--color-border-dark);
-        border-radius: 4px;
-        box-shadow: inset 1px 1px 5px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.3); /* Terminal glow/depth */
-        padding: 1.5rem;
-        max-height: 600px; /* Constrain height */
-        overflow-y: auto; /* Scroll if content overflows */
-        font-family: 'IBM Plex Mono', monospace; /* Ensure monospace */
-        color: #00FF00; /* Classic green terminal text (subtle) */
-        line-height: 1.4;
-        font-size: 1rem;
-    }
-
-    .cli-prompt {
-        color: var(--color-ui-red); /* Red for prompt */
-        font-weight: bold;
-    }
-    .cli-path {
-        color: var(--color-accent-highlight); /* Highlight for path */
-    }
-
-    .cli-entry-line {
-        position: relative;
-        padding: 0.5rem 0;
-        border-bottom: 1px dashed rgba(255, 255, 255, 0.1); /* Subtle separator */
-        margin-bottom: 0.5rem;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        overflow: hidden; /* For description animation */
-    }
-
-    .cli-entry-line:last-of-type {
-        border-bottom: none;
-        margin-bottom: 0;
-    }
-
-    .cli-entry-line:hover {
-        background-color: rgba(255, 255, 255, 0.05); /* Light hover effect */
-    }
-
-    .cli-entry-title {
-        color: var(--color-text-primary); /* Primary text color for title */
-        font-weight: bold;
-        text-transform: lowercase;
-        display: inline-block; /* Ensure it wraps if needed */
-        margin-right: 0.5rem; /* Space before description label */
-    }
-
-    .cli-entry-label {
-        color: var(--color-text-secondary); /* Muted color for label */
-        font-size: 0.9em;
-    }
-
-    .cli-entry-description {
-        max-height: 0; /* Hidden by default */
-        overflow: hidden;
-        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-        opacity: 0;
-        color: var(--color-text-secondary);
-        font-size: 0.9rem;
-        padding-top: 0.5rem;
-        line-height: 1.6;
-        text-transform: lowercase;
-    }
-
-    .cli-entry-line:hover .cli-entry-description {
-        max-height: 100px; /* Arbitrary max height for reveal */
-        opacity: 1;
-    }
-    .cli-entry-line a { /* Link styling within CLI entry */
-        text-decoration: none;
-        color: inherit;
-    }
-    .cli-entry-line a:hover {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    /* People & Institutions specific styling (simple list for now) */
-    .people-institutions-list {
-        list-style: none;
-        padding: 0;
-        margin-top: 1.5rem;
+    #field-catalog-container {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-    .people-institutions-list li {
-        background: var(--color-card-bg);
-        border: 1px solid var(--color-border-dark);
-        border-radius: 4px;
-        padding: 1rem;
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 2px 2px 0px var(--color-border-dark);
-    }
-    .people-institutions-list li strong {
-        display: block;
-        font-size: 1.1rem;
-        margin-bottom: 0.3rem;
-        color: var(--color-accent-highlight);
-    }
-    .people-institutions-list li p {
-        font-size: 0.9rem;
-        color: var(--color-text-secondary);
-        margin: 0;
-    }
-    .coming-soon {
-        text-align: center;
-        padding: 2rem;
-        font-style: italic;
-        color: var(--color-text-secondary);
-        font-size: 1.1rem;
-        grid-column: 1 / -1;
-        border: 1px dashed var(--color-border-dark);
-        border-radius: 4px;
-        background-color: var(--color-secondary-bg);
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem 0;
+        justify-content: center;
     }
 
-    /* --- RSS Rotator Styles (New) --- */
-    #rss-rotator-section {
-        margin-bottom: 3rem;
-        background-color: var(--color-card-bg);
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 4px 4px 0px var(--color-border-dark);
-        position: relative;
+    .field-catalog-item {
+        background-color: var(--color-secondary-bg);
         border: 1px solid var(--color-border-dark);
-    }
-    .rss-rotator-container {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        min-height: 200px;
-        margin: 0 auto;
-    }
-    .rss-slides-wrapper {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-    }
-    .rss-slide {
-        flex: 0 0 100%;
-        width: 100%;
-        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    2px 2px 0px var(--color-border-dark);
         padding: 1.5rem;
-        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.2s ease;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        text-align: center;
     }
-    .rss-slide h4 {
-        font-size: 1.5rem;
-        margin-bottom: 0.8rem;
+
+    .field-catalog-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px rgba(0,0,0,0.4);
+        background-color: var(--color-card-bg);
+        border-color: var(--color-ui-red);
+    }
+
+    .field-catalog-item .catalog-title {
+        font-size: 1.25rem;
+        font-weight: bold;
         color: var(--color-accent-highlight);
-        text-transform: lowercase;
-        line-height: 1.3;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+        line-height: 1.2;
     }
-    .rss-slide p {
-        font-size: 1rem;
+
+    .field-catalog-item .catalog-description {
+        font-size: 0.9rem;
         color: var(--color-text-secondary);
-        max-width: 800px;
-        margin: 0 auto 1rem;
         line-height: 1.6;
+        margin-bottom: 1rem;
+        flex-grow: 1;
     }
-    .rss-slide .source-link {
+
+    .field-catalog-item .cta-link {
+        display: inline-block;
+        font-size: 0.9rem;
+        font-weight: 600;
         color: var(--color-ui-red);
         text-decoration: underline;
-        font-weight: 600;
         text-transform: lowercase;
+        margin-top: auto;
     }
-    .rss-slide .source-link:hover {
+    .field-catalog-item .cta-link:hover {
         color: var(--color-ui-red-light);
     }
-    .rss-pagination-dots {
-        text-align: center;
-        margin-top: 1rem;
-    }
-    .rss-dot {
-        height: 10px;
-        width: 10px;
-        margin: 0 5px;
-        background-color: var(--color-border-dark);
-        border-radius: 50%;
-        display: inline-block;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .rss-dot.active {
-        background-color: var(--color-accent-highlight);
-    }
-    .rss-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(0,0,0,0.6);
-        color: white;
-        border: none;
-        padding: 0.5rem 0.8rem;
-        cursor: pointer;
-        font-size: 1.5rem;
-        line-height: 1;
-        border-radius: 5px;
-        z-index: 10;
-        opacity: 0.7;
-        transition: opacity 0.2s ease;
-    }
-    .rss-arrow:hover {
-        opacity: 1;
-    }
-    .rss-arrow.prev {
-        left: 10px;
-    }
-    .rss-arrow.next {
-        right: 10px;
-    }
-    .rss-rotator-image {
-        max-width: 150px;
-        max-height: 100px;
-        object-fit: contain;
-        margin-bottom: 1rem;
-        border-radius: 4px;
-        border: 1px solid var(--color-border-dark);
-        box-shadow: 1px 1px 0px var(--color-border-dark);
-    }
+
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -545,18 +386,18 @@
             padding: 1.5rem;
             margin: 2rem auto;
         }
-        #field-cli-container {
+        #field-catalog-container {
+            grid-template-columns: 1fr;
             padding: 1rem;
         }
-        .cli-entry-line {
-            padding: 0.4rem 0;
-            font-size: 0.9rem;
+        .field-catalog-item {
+            padding: 1rem;
         }
-        .cli-entry-title {
-            font-size: 0.95rem;
+        .field-catalog-item .catalog-title {
+            font-size: 1.1rem;
         }
-        .cli-entry-description {
-            font-size: 0.8rem;
+        .field-catalog-item .catalog-description {
+            font-size: 0.85rem;
         }
     }
   </style>
@@ -596,20 +437,20 @@
 
   <script>
     // --- Configuration for Field Page Dynamic Content ---
-    const ARCHIVE_FEED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv'; // Your main Archive sheet
+    // Your comprehensive Archive Sheet (used for RSS feed)
+    const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+    const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
+    const ARCHIVE_FEED_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL); // Corrected URL
+
+    // Placeholder URLs for other sections - these need to be updated to your actual sheets
     const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_GENERAL_ID/pub?gid=0&single=true&output=csv';
     const EDITOR_SELECTIONS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_EDITOR_SELECTIONS_GENERAL_ID/pub?gid=0&single=true&output=csv';
     const WEEKLY_BRIEFING_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_WEEKLY_BRIEFING_GENERAL_ID/pub?gid=0&single=true&output=csv';
-    const PEOPLE_INSTITUTIONS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_PEOPLE_INSTITUTIONS_GENERAL_ID/pub?gid=0&single=true&output=csv';
-    const FORMAL_PUBLICATION_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FORMAL_PUBLICATION_GENERAL_ID/pub?gid=0&single=true&output=csv';
-    const READING_LIST_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_READING_LIST_GENERAL_ID/pub?gid=0&single=true&output=csv';
-    const UPCOMING_EVENTS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_UPCOMING_EVENTS_GENERAL_ID/pub?gid=0&single=true&output=csv';
+    // Removed other unpopulated section URLs for clarity in this code block
 
-    // RSS to JSON proxy service - IMPORTANT for CORS issues
     const RSS_TO_JSON_PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
     // Map of field names (from URL param) to their display titles and descriptions
-    // Use lowercase, hyphenated versions for the keys to match URL params
     const fieldData = {
         'heterodox-economics': {
             title: 'Heterodox Economics',
@@ -617,11 +458,7 @@
             fieldNotesUrl: FIELD_NOTES_SHEET_URL,
             editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
             weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
-            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
-            readingListUrl: READING_LIST_SHEET_URL,
-            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL // Using the corrected archive sheet URL
         },
         'architectures-of-power': {
             title: 'Architectures of Power',
@@ -629,11 +466,7 @@
             fieldNotesUrl: FIELD_NOTES_SHEET_URL,
             editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
             weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
-            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
-            readingListUrl: READING_LIST_SHEET_URL,
-            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'the-digital-apparatus': {
             title: 'The Digital Apparatus',
@@ -641,11 +474,7 @@
             fieldNotesUrl: FIELD_NOTES_SHEET_URL,
             editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
             weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
-            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
-            readingListUrl: READING_LIST_SHEET_URL,
-            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'earth-systems': {
             title: 'Earth Systems',
@@ -653,11 +482,7 @@
             fieldNotesUrl: FIELD_NOTES_SHEET_URL,
             editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
             weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
-            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
-            readingListUrl: READING_LIST_SHEET_URL,
-            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'the-social-commons': {
             title: 'The Social Commons',
@@ -665,11 +490,7 @@
             fieldNotesUrl: FIELD_NOTES_SHEET_URL,
             editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
             weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
-            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
-            readingListUrl: READING_LIST_SHEET_URL,
-            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'critical-methodologies': {
             title: 'Critical Methodologies',
@@ -677,16 +498,12 @@
             fieldNotesUrl: FIELD_NOTES_SHEET_URL,
             editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
             weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            peopleInstitutionsUrl: PEOPLE_INSTITUTIONS_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL,
-            formalPublicationUrl: FORMAL_PUBLICATION_SHEET_URL,
-            readingListUrl: READING_LIST_SHEET_URL,
-            upcomingEventsUrl: UPCOMING_EVENTS_SHEET_URL
+            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         }
     };
 
 
-    // Helper function to parse CSV data (reused from resources.html, adjusted for Field array)
+    // Helper function to parse CSV data (reused across site)
     function parseCSV(csvText) {
         const lines = csvText.trim().split('\n');
         if (lines.length === 0) return [];
@@ -766,7 +583,7 @@
             if (currentFieldName && data.length > 0 && data[0].Field && Array.isArray(data[0].Field)) {
                 const normalizedFieldName = currentFieldName.toLowerCase().replace(/ /g, '-'); 
                 data = data.filter(item => 
-                    item.Field && item.Field.includes(normalizedFieldName)
+                    item.FieldNormalized && item.FieldNormalized.includes(normalizedFieldName) // Use Normalized field for filtering
                 );
             }
             
@@ -909,20 +726,23 @@
             loadingMessage.className = 'loading-message';
             rssRotatorContainer.appendChild(loadingMessage);
         }
-        loadingMessage.textContent = 'loading live rss articles...';
+        loadingMessage.innerHTML = '<div class="loader"></div>' + (loadingMessage.dataset.originalText || loadingMessage.textContent || 'loading...');
+        loadingMessage.dataset.originalText = loadingMessage.dataset.originalText || loadingMessage.textContent;
         loadingMessage.style.display = 'block';
 
+
         try {
-            const response = await fetch(ARCHIVE_FEED_SHEET_URL);
+            const response = await fetch(ARCHIVE_FEED_SHEET_URL); // This now points to the comprehensive sheet via proxy
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const csvText = await response.text();
             const archiveData = parseCSV(csvText);
 
-            const normalizedFieldName = currentFieldName.toLowerCase().replace(/ /g, '-');
+            // Normalize the currentFieldName from the URL to match sheet 'Field' values
+            const normalizedFieldNameForFilter = currentFieldName.toLowerCase().replace(/-/g, ' '); 
 
             const rssSources = archiveData.filter(item => 
                 item.RSSFeed && item.RSSFeed.startsWith('http') && 
-                item.FieldNormalized && item.FieldNormalized.includes(normalizedFieldName) // Use normalized field for filtering
+                item.FieldNormalized && item.FieldNormalized.includes(normalizedFieldNameForFilter)
             );
             
             const fetchedArticles = [];
@@ -1125,46 +945,14 @@
                             <p class="loading-message">Loading latest briefings...</p>
                         </div>
                     </div>
-
-                    <div class="content-area">
-                        <h3 class="field-section-title">Biannual Reading List</h3>
-                        <div id="reading-list-container" class="content-grid">
-                            <p class="coming-soon">Biannual Reading Lists are coming soon! Stay tuned.</p>
-                        </div>
-                    </div>
-
-                    <div class="content-area">
-                        <h3 class="field-section-title">Upcoming Events</h3>
-                        <div id="upcoming-events-container" class="content-grid">
-                            <p class="coming-soon">Upcoming events for this field are TBD. Check back soon!</p>
-                        </div>
-                    </div>
-
-                    <div class="content-area">
-                        <h3 class="field-section-title">People & Institutions</h3>
-                        <div id="people-institutions-container" class="people-institutions-list">
-                            <p class="coming-soon">Profiles of key thinkers and institutions are being developed.</p>
-                        </div>
-                    </div>
-
-                    <div class="content-area">
-                        <h3 class="field-section-title">Formal Publication</h3>
-                        <div id="formal-publication-container" class="content-grid">
-                            <p class="coming-soon">Long-form research and investigative reports are in progress.</p>
-                        </div>
-                    </div>
                 `;
+                // Removed unpopulated sections as requested
 
                 fetchFieldRssFeeds(fieldNameParam);
                 fetchDataAndDisplay(fieldDetails.fieldNotesUrl, 'field-notes-container', renderFieldNotesCard, fieldDetails.title);
                 fetchDataAndDisplay(fieldDetails.editorSelectionsUrl, 'editor-selections-container', renderEditorSelectionsCard, fieldDetails.title);
                 fetchDataAndDisplay(fieldDetails.weeklyBriefingUrl, 'weekly-briefing-container', renderWeeklyBriefingCard, fieldDetails.title);
-                fetchDataAndDisplay(fieldDetails.peopleInstitutionsUrl, 'people-institutions-container', renderPeopleInstitutionsCard, fieldDetails.title);
-                fetchDataAndDisplay(fieldDetails.formalPublicationUrl, 'formal-publication-container', renderFormalPublicationCard, fieldDetails.title);
-                fetchDataAndDisplay(fieldDetails.readingListUrl, 'reading-list-container', renderReadingListCard, fieldDetails.title);
-                fetchDataAndDisplay(fieldDetails.upcomingEventsUrl, 'upcoming-events-container', renderUpcomingEventCard, fieldDetails.title);
-
-
+                // Removed unpopulated section data calls
             } else {
                 mainContentArea.innerHTML = `
                     <section class="field-hero">
@@ -1183,9 +971,8 @@
                     <p>Explore the critical conversations shaping our understanding of the world.</p>
                 </section>
                 <div id="field-index-wrapper">
-                    <div id="field-cli-container">
-                        <p class="cli-prompt"><span class="cli-path">critical-fields:/fields/&gt;</span> ls -l</p>
-                        <!-- Field index entries will be generated here -->
+                    <div id="field-catalog-container">
+                        <!-- Field catalog items will be generated here -->
                     </div>
                 </div>
             `;
@@ -1193,31 +980,27 @@
         }
     });
 
-    // New function to render the main Fields landing page
+    // New function to render the main Fields landing page (Digital Card Catalog)
     function renderFieldIndexPage() {
-        const container = document.getElementById('field-cli-container');
-        // Check if container exists before trying to clear/append
+        const container = document.getElementById('field-catalog-container');
         if (!container) return; 
 
-        // Clear existing content, but keep initial prompt
-        container.innerHTML = `<p class="cli-prompt"><span class="cli-path">critical-fields:/fields/&gt;</span> ls -l</p>`;
+        container.innerHTML = '';
 
         for (const key in fieldData) {
             if (fieldData.hasOwnProperty(key)) {
                 const field = fieldData[key];
-                const cliEntry = document.createElement('a'); // Make the whole entry a link
-                cliEntry.href = `fields.html?name=${key}`;
-                cliEntry.className = 'cli-entry-line';
-                cliEntry.innerHTML = `
-                    <span class="cli-entry-title">${key.replace(/-/g, ' ')}</span> <span class="cli-entry-label">(type: directory)</span>
-                    <div class="cli-entry-description">${field.description}</div>
+                const catalogItem = document.createElement('a');
+                catalogItem.href = `fields.html?name=${key}`;
+                catalogItem.className = 'field-catalog-item';
+                catalogItem.innerHTML = `
+                    <h3 class="catalog-title">${field.title}</h3>
+                    <p class="catalog-description">${field.description}</p>
+                    <span class="cta-link">explore field &rsaquo;</span>
                 `;
-                container.appendChild(cliEntry);
+                container.appendChild(catalogItem);
             }
         }
-        // Add a final blinking cursor line
-        container.innerHTML += `<p class="cli-prompt"><span class="cli-path">critical-fields:/fields/&gt;</span> <span class="typewriter-text" style="animation: none; border-right: 2px solid var(--color-accent-highlight); animation: blink-caret 0.75s step-end infinite;">_</span></p>`;
-
     }
   </script>
 </body>
