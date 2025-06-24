@@ -11,28 +11,28 @@
     
     /* Hero Section (consistent with homepage) */
     .hero {
-      padding: 5rem 2rem;
+      padding: 3rem 2rem 2rem; /* Reduced top and bottom padding */
       text-align: center;
       max-width: 900px;
       margin: 0 auto;
       background-color: transparent;
       color: var(--color-text-primary);
       border-bottom: 1px solid var(--color-border-dark);
-      padding-bottom: 3rem;
     }
 
     .hero .tagline {
-      font-size: 2.8rem;
+      font-size: 2.2rem; /* Reduced font size for tagline */
       font-weight: normal;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem; /* Reduced margin below tagline */
       color: var(--color-accent-highlight);
       line-height: 1.2;
       text-shadow: 0 0 10px rgba(255, 65, 54, 0.5);
+      /* Typewriter effect styles are in styles.css for .typewriter-text */
     }
 
     .hero .intro {
-      margin: 1.5rem auto 2.5rem;
+      margin: 1rem auto 2rem; /* Reduced margins */
       font-size: 1.1rem;
       color: var(--color-text-secondary);
       line-height: 1.7;
@@ -47,13 +47,13 @@
         border-bottom: 1px solid var(--color-border-dark);
         border-top: 1px solid var(--color-border-dark);
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-                    4px 4px 0px var(--color-border-dark); /* Consistent 3D shadow */
+                    4px 4px 0px var(--color-border-dark);
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
         align-items: center;
-        max-width: 1200px; /* Aligned with other main content blocks */
-        margin: 3rem auto; /* Add margin for separation */
+        max-width: 1200px;
+        margin: 2rem auto; /* Reduced top margin */
     }
 
     /* Filter Group labels and tags (consistent) */
@@ -85,7 +85,7 @@
         user-select: none;
         white-space: nowrap;
         text-transform: lowercase;
-        box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.2); /* 3D effect */
+        box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.2);
     }
 
     .filter-tag:hover {
@@ -98,7 +98,7 @@
         background-color: var(--color-ui-red);
         color: white;
         border-color: var(--color-ui-red);
-        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light); /* Inset effect */
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
         transform: translate(1px, 1px);
     }
 
@@ -119,7 +119,7 @@
     }
     #search-bar:focus {
         outline: none;
-        border-color: var(--color-ui-red); /* Red glow on focus */
+        border-color: var(--color-ui-red);
         box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 0 5px rgba(220, 38, 38, 0.5);
     }
 
@@ -258,33 +258,33 @@
     }
 
     .resource-header {
-        padding: 0.8rem 1rem;
+        padding: 0.5rem 1rem 0.5rem; /* Reduced padding-top, added padding-bottom */
         border-bottom: 1px dashed var(--color-border-dark);
-        background-color: var(--color-secondary-bg); /* Slightly darker background for header */
-        flex-shrink: 0; /* Don't allow it to shrink */
-        color: var(--color-text-primary); /* Ensure header text is visible */
+        background-color: var(--color-secondary-bg); /* Background for header */
+        flex-shrink: 0;
+        color: var(--color-text-primary);
     }
     .resource-header h3 {
         margin: 0;
         font-size: 1.05rem;
-        color: var(--color-accent-highlight); /* Red for title */
+        color: var(--color-accent-highlight);
         line-height: 1.3;
         text-transform: lowercase;
     }
     .resource-header .tags-container {
         font-size: 0.75rem;
-        color: var(--color-text-secondary); /* Ensure tags text is visible */
+        color: var(--color-text-secondary);
         margin-top: 0.4rem;
         display: flex;
         flex-wrap: wrap;
         gap: 0.3rem;
     }
     .resource-header .tag-badge {
-        background-color: var(--color-card-bg); /* Lighter badge in header */
+        background-color: var(--color-main-bg); /* Changed to main-bg (lightest) */
         color: var(--color-text-primary); /* Dark text on light badge */
         padding: 0.15rem 0.4rem;
         border-radius: 2px;
-        border: 1px solid var(--color-border-light);
+        border: 1px solid var(--color-border-light); /* Lighter border */
         box-shadow: 0.5px 0.5px 0px var(--color-border-dark);
         text-transform: lowercase;
     }
@@ -292,11 +292,11 @@
     /* Hover Overlay for Description */
     .resource-hover-overlay {
         position: absolute;
-        top: 0; /* Cover the whole card */
+        top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.8); /* Slightly less opaque black overlay */
+        background-color: rgba(0, 0, 0, 0.85); /* Slightly more opaque black overlay */
         color: white; /* Ensure text is white for high contrast on dark overlay */
         display: flex;
         flex-direction: column;
@@ -304,7 +304,7 @@
         align-items: center;
         padding: 1rem;
         opacity: 0;
-        transform: translateY(100%); /* Start off-screen at bottom */
+        transform: translateY(100%);
         transition: opacity 0.3s ease, transform 0.3s ease;
         box-sizing: border-box;
         text-align: center;
@@ -312,7 +312,7 @@
 
     .resource-card:hover .resource-hover-overlay {
         opacity: 1;
-        transform: translateY(0); /* Slide up into view */
+        transform: translateY(0);
     }
 
     .resource-hover-overlay p {
@@ -409,7 +409,7 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline typewriter-text">Welcome to the Archive</h2> <!-- Added typewriter-text class -->
+      <h2 class="tagline typewriter-text" style="font-size: 2.2rem;">Welcome to the Archive</h2> <!-- Reduced font size via inline style -->
       <p class="intro">
         This is the living, open-access archive that powers our entire platform—a public, user-fed repository dedicated to collecting and preserving essential resources of critical learning. This archive is the raw material from which we build our Fields, deliver our analysis, and platform conversations. We believe knowledge should be a commons; this is our collective effort to build one.
       </p>
@@ -608,7 +608,7 @@
         card.rel = "noopener noreferrer";
         card.className = 'resource-card';
 
-        const imageUrl = item.ImageLink && item.ImageLink.startsWith('http') ? item.ImageLink : 'https://placehold.co/400x180/E0E0E0/666666?text=No+Image'; // Use updated placeholder colors
+        const imageUrl = item.ImageLink && item.ImageLink.startsWith('http') ? item.ImageLink : 'https://placehold.co/400x180/E0E0E0/666666?text=No+Image';
 
         let imageContent = imageUrl.includes('placehold.co') ? 
                             `<div class="resource-card-image" style="background-color: var(--color-secondary-bg); display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); font-size: 1.2rem;">No Image</div>` : 
