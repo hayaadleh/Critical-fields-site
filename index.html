@@ -62,6 +62,7 @@
     }
 
     /* section titles like "Platform-Wide Features" */
+    /* This rule is now effectively for the section title within #platform-features, if it exists */
     #platform-features .section-title {
         text-align: center;
         font-size: 2.2rem; /* Consistent with global section title */
@@ -131,12 +132,13 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        min-height: 180px; /* Base height for rotator content */
+        min-height: 250px; /* Increased min-height for image + text */
         margin: 0 auto;
     }
     .rotator-slides-wrapper {
         display: flex;
         transition: transform 0.5s ease-in-out;
+        height: 100%; /* Ensure wrapper fills container for vertical centering */
     }
     .rotator-slide {
         flex: 0 0 100%;
@@ -144,36 +146,34 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start; /* Align content to top */
         align-items: center;
-        position: relative; /* For text overlay */
-        min-height: 180px;
-        background-size: cover;
-        background-position: center;
-        border-radius: 4px; /* Inherit from parent container */
-    }
-    .rotator-slide .overlay-text {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)); /* Gradient overlay */
-        padding: 1rem;
-        color: white;
+        padding: 1rem; /* Padding inside slide */
         text-align: center;
     }
+    .rotator-slide img { /* Style for image *inside* the slide */
+        max-width: 100%;
+        max-height: 150px; /* Constrain image height */
+        object-fit: contain; /* Ensure image fits without cropping */
+        margin-bottom: 0.8rem; /* Space between image and text */
+        border: 1px solid var(--color-border-dark);
+        box-shadow: 1px 1px 0px var(--color-border-dark);
+        border-radius: 4px;
+    }
+    .rotator-slide .slide-content { /* Wrapper for title, description, meta */
+        width: 100%;
+    }
     .rotator-slide h4 {
-        margin: 0;
+        margin: 0 0 0.5rem;
         font-size: 1.2rem;
-        color: var(--color-accent-highlight); /* Red title */
+        color: var(--color-accent-highlight);
         text-transform: lowercase;
         line-height: 1.3;
-        margin-bottom: 0.5rem;
     }
     .rotator-slide p {
-        margin: 0;
+        margin: 0 0 0.5rem;
         font-size: 0.9rem;
-        color: var(--color-text-primary);
+        color: var(--color-text-secondary);
         line-height: 1.5;
         opacity: 0.9;
     }
@@ -363,7 +363,7 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline typewriter-text">Critical Fields: A Public Knowledge Project for Critical Thought.</h2>
+      <h2 class="tagline typewriter-text">A Public Knowledge Project for Critical Thought.</h2> <!-- Shortened tagline -->
       <p class="intro">
         We are a decentralized platform built by a network of scholars to map the landscape of critical studies. We believe knowledge should be a commons: a space for intentional learning, collective synthesis, and open exchange. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.
       </p>
@@ -372,7 +372,7 @@
 
     <!-- Unified section for "What We're Reading" and "Latest Newsletter" side-by-side -->
     <section id="platform-features">
-      <h2 class="section-title">Platform-Wide Features</h2>
+      <!-- Removed Platform-Wide Features h2 as requested -->
 
       <div class="homepage-two-column">
           <!-- What We're Reading Section (NOW A ROTATOR) -->
@@ -415,7 +415,9 @@
     <section id="community-signup">
       <h2 class="section-title">Join Our Network</h2>
       <p>Become part of our growing community of thinkers and contributors. Receive updates, participate in discussions, and shape the future of critical learning.</p>
-      <a href="#" class="cta">Sign Up Now</a> <!-- Link to actual signup form when ready -->
+      <div style="text-align: center; margin-top: 2rem;"> <!-- Wrapper div for centering CTA -->
+        <a href="#" class="cta">Sign Up Now</a> <!-- Link to actual signup form when ready -->
+      </div>
     </section>
   </main>
 
@@ -578,17 +580,13 @@
             slide.rel = 'noopener noreferrer';
             slide.className = 'rotator-slide';
             
-            const imageUrl = article.ImageLink && article.ImageLink.startsWith('http') ? article.ImageLink : ''; // Use ImageLink
-            if (imageUrl) {
-                slide.style.backgroundImage = `url('${imageUrl}')`;
-            } else {
-                 // Fallback if no image: simple background with text centered
-                slide.style.backgroundColor = 'var(--color-secondary-bg)';
-                slide.style.backgroundImage = 'none';
-            }
+            // Image (now as an <img> tag *inside* the slide for flexibility)
+            const imageUrl = article.ImageLink && article.ImageLink.startsWith('http') ? article.ImageLink : '';
+            const imageHtml = imageUrl ? `<img src="${imageUrl}" alt="${article.Title || 'Selection image'}" onerror="this.style.display='none';">` : '';
 
             slide.innerHTML = `
-                <div class="overlay-text">
+                ${imageHtml}
+                <div class="slide-content">
                     <h4>${article.Title || 'untitled selection'}</h4>
                     <p>${article.Description || 'no description provided.'}</p>
                     <div class="source-meta">${article.Medium || 'item'} by ${article.Author || 'the editors'}</div>
