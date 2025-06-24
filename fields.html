@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Field | Critical Fields</title> <!-- Dynamic title will be set by JS -->
+  <title>Fields | Critical Fields</title> <!-- Static title for the landing page -->
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
@@ -259,6 +259,60 @@
         border-radius: 4px;
     }
 
+    /* --- Field Index Page Styles --- */
+    #field-index-container {
+        padding: 3rem 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    .field-index-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        padding: 1.5rem;
+        text-align: left;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-decoration: none; /* Remove underline from card link */
+        color: inherit; /* Inherit text color */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .field-index-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .field-index-card h3 {
+        font-size: 1.4rem;
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+        color: #111;
+        text-transform: lowercase;
+    }
+    .field-index-card p {
+        font-size: 0.95rem;
+        color: #444;
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+        flex-grow: 1; /* Allow description to take space */
+    }
+    .field-index-card .cta-link {
+        display: inline-block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #0d9488; /* Teal color for action link */
+        text-decoration: none;
+        margin-top: 1rem;
+        text-transform: lowercase;
+    }
+    .field-index-card .cta-link:hover {
+        text-decoration: underline;
+    }
+
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
@@ -284,6 +338,10 @@
         }
         .rss-slide p {
             font-size: 0.9rem;
+        }
+        #field-index-container {
+            grid-template-columns: 1fr;
+            padding: 1.5rem;
         }
     }
   </style>
@@ -313,73 +371,8 @@
     </nav>
   </header>
 
-  <main>
-    <section class="field-hero">
-      <h2 id="field-title">Loading Field...</h2>
-      <p id="field-description">Discover curated insights and resources for this critical conversation.</p>
-    </section>
-
-    <div id="rss-rotator-section" class="content-area">
-        <h3 class="field-section-title">Live Archive Feed (RSS Articles)</h3>
-        <div id="rss-rotator-container" class="rss-rotator-container">
-            <p class="loading-message">Loading live RSS articles...</p>
-        </div>
-        <div id="rss-pagination-dots" class="rss-pagination-dots"></div>
-    </div>
-
-    <div class="content-area">
-        <h3 class="field-section-title">Field Notes</h3>
-        <div id="field-notes-container" class="content-grid">
-            <p class="loading-message">Loading original essays and critiques...</p>
-        </div>
-    </div>
-
-    <div class="content-area">
-        <h3 class="field-section-title">Field Editors’ Selections</h3>
-        <div id="editor-selections-container" class="content-grid">
-            <p class="loading-message">Loading foundational resources...</p>
-        </div>
-    </div>
-
-    <div class="content-area">
-        <h3 class="field-section-title">Weekly Briefing (Newsletter)</h3>
-        <div id="weekly-briefing-container" class="content-grid">
-            <p class="loading-message">Loading latest briefings...</p>
-        </div>
-    </div>
-
-    <div class="content-area">
-        <h3 class="field-section-title">Biannual Reading List</h3>
-        <div id="reading-list-container" class="content-grid">
-            <p class="coming-soon">Biannual Reading Lists are coming soon! Stay tuned.</p>
-            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
-        </div>
-    </div>
-
-    <div class="content-area">
-        <h3 class="field-section-title">Upcoming Events</h3>
-        <div id="upcoming-events-container" class="content-grid">
-            <p class="coming-soon">Upcoming events for this field are TBD. Check back soon!</p>
-            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
-        </div>
-    </div>
-
-    <div class="content-area">
-        <h3 class="field-section-title">People & Institutions</h3>
-        <div id="people-institutions-container" class="people-institutions-list">
-            <p class="coming-soon">Profiles of key thinkers and institutions are being developed.</p>
-            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
-        </div>
-    </div>
-
-    <div class="content-area">
-        <h3 class="field-section-title">Formal Publication</h3>
-        <div id="formal-publication-container" class="content-grid">
-            <p class="coming-soon">Long-form research and investigative reports are in progress.</p>
-            <!-- Content will be dynamically loaded from a Google Sheet for this field -->
-        </div>
-    </div>
-
+  <main id="main-content-area">
+    <!-- This section will either be the field hero/content or the field index -->
   </main>
 
   <footer class="site-footer">
@@ -388,11 +381,7 @@
 
   <script>
     // --- Configuration for Field Page Dynamic Content ---
-    // IMPORTANT: REPLACE THESE URLs with YOUR published Google Sheet CSV URLs for EACH SECTION
-    // The ARCHIVE_FEED_SHEET_URL should be your main Archive sheet.
-    // For other sections, you can use general sheets that have a 'Field' column,
-    // or specific sheets per field if you prefer.
-    const ARCHIVE_FEED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv'; // Your main Archive sheet
+    const ARCHIVE_FEED_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
     const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_GENERAL_ID/pub?gid=0&single=true&output=csv';
     const EDITOR_SELECTIONS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_EDITOR_SELECTIONS_GENERAL_ID/pub?gid=0&single=true&output=csv';
     const WEEKLY_BRIEFING_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_WEEKLY_BRIEFING_GENERAL_ID/pub?gid=0&single=true&output=csv';
@@ -405,7 +394,6 @@
     const RSS_TO_JSON_PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
     // Map of field names (from URL param) to their display titles and descriptions
-    // Use lowercase, hyphenated versions for the keys to match URL params
     const fieldData = {
         'heterodox-economics': {
             title: 'Heterodox Economics',
@@ -543,8 +531,8 @@
         const loadingElement = container.querySelector('.loading-message');
         const comingSoonElement = container.querySelector('.coming-soon');
 
-        if (comingSoonElement) comingSoonElement.style.display = 'none'; // Hide coming soon
-        if (loadingElement) loadingElement.style.display = 'block';     // Show loading
+        if (comingSoonElement) comingSoonElement.style.display = 'none';
+        if (loadingElement) loadingElement.style.display = 'block';
         container.innerHTML = ''; // Clear previous content
 
         try {
@@ -556,14 +544,14 @@
             let data = parseCSV(csvText);
 
             if (currentFieldName && data.length > 0 && data[0].Field && Array.isArray(data[0].Field)) {
-                const normalizedFieldName = currentFieldName.toLowerCase().replace(/-/g, ' '); 
+                const normalizedFieldName = currentFieldName.toLowerCase().replace(/ /g, '-'); // Convert "Heterodox Economics" to "heterodox-economics"
                 data = data.filter(item => 
                     item.Field && item.Field.includes(normalizedFieldName)
                 );
             }
             
             if (data.length === 0) {
-                if (comingSoonElement) comingSoonElement.style.display = 'block'; // Show coming soon if no data
+                if (comingSoonElement) comingSoonElement.style.display = 'block';
                 else container.innerHTML = `<p class="loading-message">no content available for this section yet.</p>`;
                 return;
             }
@@ -596,8 +584,8 @@
     function renderRssRotator() {
         const rotatorContainer = document.getElementById('rss-rotator-container');
         const dotsContainer = document.getElementById('rss-pagination-dots');
-        rotatorContainer.innerHTML = ''; // Clear previous slides
-        dotsContainer.innerHTML = '';    // Clear previous dots
+        rotatorContainer.innerHTML = '';
+        dotsContainer.innerHTML = '';
 
         if (rssArticles.length === 0) {
             rotatorContainer.innerHTML = `<p class="loading-message">no relevant RSS articles found for this field yet.</p>`;
@@ -611,7 +599,6 @@
         rssArticles.forEach((article, index) => {
             const slide = document.createElement('div');
             slide.className = 'rss-slide';
-            // Extract a relevant image if available, otherwise use placeholder
             const imageUrl = article.thumbnail || article.enclosure && article.enclosure.link || article.og_image || (article.description.match(/<img[^>]+src="([^">]+)"/) || [])[1];
             let imageHtml = '';
             if (imageUrl && imageUrl.startsWith('http')) {
@@ -632,15 +619,14 @@
             dot.addEventListener('click', () => {
                 stopRssRotator();
                 showRssSlide(index);
-                startRssRotator(); // Restart timer after manual interaction
+                startRssRotator();
             });
             dotsContainer.appendChild(dot);
         });
 
-        // Add navigation arrows
         const prevArrow = document.createElement('button');
         prevArrow.className = 'rss-arrow prev';
-        prevArrow.innerHTML = '&lsaquo;'; // Left arrow HTML entity
+        prevArrow.innerHTML = '&lsaquo;';
         prevArrow.addEventListener('click', () => {
             stopRssRotator();
             showRssSlide(currentRssIndex - 1);
@@ -650,7 +636,7 @@
 
         const nextArrow = document.createElement('button');
         nextArrow.className = 'rss-arrow next';
-        nextArrow.innerHTML = '&rsaquo;'; // Right arrow HTML entity
+        nextArrow.innerHTML = '&rsaquo;';
         nextArrow.addEventListener('click', () => {
             stopRssRotator();
             showRssSlide(currentRssIndex + 1);
@@ -684,8 +670,8 @@
     }
 
     function startRssRotator() {
-        stopRssRotator(); // Clear any existing interval
-        if (rssArticles.length > 1) { // Only rotate if more than one article
+        stopRssRotator();
+        if (rssArticles.length > 1) {
             rssIntervalId = setInterval(() => {
                 showRssSlide(currentRssIndex + 1);
             }, RSS_ROTATION_INTERVAL);
@@ -730,7 +716,7 @@
                     const rssJson = await proxyResponse.json();
                     if (rssJson.status === 'ok' && rssJson.items) {
                         rssJson.items.forEach(item => {
-                            item.feedTitle = rssJson.feed.title; // Add feed title for display
+                            item.feedTitle = rssJson.feed.title;
                             fetchedArticles.push(item);
                         });
                     }
@@ -739,9 +725,8 @@
                 }
             }
 
-            // Sort by pubDate (newest first)
             fetchedArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            rssArticles = fetchedArticles.slice(0, 10); // Get top 10 newest articles
+            rssArticles = fetchedArticles.slice(0, 10); 
 
             renderRssRotator();
 
@@ -754,36 +739,258 @@
     }
 
 
-    // --- Main Field Page Initialization ---
+    // --- Render Functions for Field Page Sections ---
+    function renderFieldNotesCard(item) {
+        const card = document.createElement('a');
+        card.href = item.Link || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'feature-card';
+        card.innerHTML = `
+            <div class="feature-card-content">
+                <h4>${item.Title || 'untitled field note'}</h4>
+                <p>${item.Summary || 'no summary provided.'}</p>
+                <div class="feature-card-meta">
+                    ${item.Author || 'anonymous'} &mdash; ${item.Date || 'n.d.'}
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    function renderEditorSelectionsCard(item) {
+        const card = document.createElement('a');
+        card.href = item.Link || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'feature-card';
+        card.innerHTML = `
+            <div class="feature-card-content">
+                <h4>${item.Title || 'untitled selection'}</h4>
+                <p>${item.Description || 'no description provided.'}</p>
+                <div class="feature-card-meta">
+                    ${item.Type || 'resource'} by ${item.Author || 'editor'}
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    function renderWeeklyBriefingCard(item) {
+        const card = document.createElement('a');
+        card.href = item.Link || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'feature-card';
+        card.innerHTML = `
+            <div class="feature-card-content">
+                <h4>${item.Title || 'untitled briefing'}</h4>
+                <p>${item.Summary || 'no summary provided.'}</p>
+                <div class="feature-card-meta">
+                    ${item.Date || 'n.d.'}
+                </div>
+            </div>
+        `;
+        return card;
+    }
+    
+    function renderPeopleInstitutionsCard(item) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <strong><a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer">${item.Name || 'untitled profile'}</a></strong>
+            <p>${item.BioSnippet || item.Type || 'no description available.'}</p>
+        `;
+        return li;
+    }
+
+    function renderFormalPublicationCard(item) {
+        const card = document.createElement('a');
+        card.href = item.Link || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'feature-card';
+        card.innerHTML = `
+            <div class="feature-card-content">
+                <h4>${item.Title || 'untitled publication'}</h4>
+                <p>${item.Summary || 'no summary provided.'}</p>
+                <div class="feature-card-meta">
+                    ${item.Author || 'anonymous'} &mdash; ${item.Date || 'n.d.'}
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    function renderReadingListCard(item) {
+        const card = document.createElement('a');
+        card.href = item.Link || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'feature-card';
+        card.innerHTML = `
+            <div class="feature-card-content">
+                <h4>${item.Title || 'untitled reading list'}</h4>
+                <p>${item.Description || 'no description provided.'}</p>
+                <div class="feature-card-meta">
+                    ${item.Date || 'n.d.'}
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    function renderUpcomingEventCard(item) {
+        const card = document.createElement('a');
+        card.href = item.Link || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.className = 'feature-card';
+        card.innerHTML = `
+            <div class="feature-card-content">
+                <h4>${item.Title || 'untitled event'}</h4>
+                <p>${item.Description || 'no description provided.'}</p>
+                <div class="feature-card-meta">
+                    ${item.Date || 'n.d.'} &mdash; ${item.Location || ''}
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+
+    // --- Main Field Page Initialization (handles both index and individual fields) ---
     document.addEventListener('DOMContentLoaded', () => {
+        const mainContentArea = document.getElementById('main-content-area');
         const urlParams = new URLSearchParams(window.location.search);
-        const fieldNameParam = urlParams.get('name'); // Get field name from URL parameter
+        const fieldNameParam = urlParams.get('name');
 
-        const fieldDetails = fieldData[fieldNameParam];
+        if (fieldNameParam) {
+            // --- Render Individual Field Page ---
+            const fieldDetails = fieldData[fieldNameParam];
 
-        if (fieldDetails) {
-            document.title = `${fieldDetails.title} | Critical Fields`; // Set page title
-            document.getElementById('field-title').textContent = fieldDetails.title;
-            document.getElementById('field-description').textContent = fieldDetails.description;
+            if (fieldDetails) {
+                document.title = `${fieldDetails.title} | Critical Fields`;
 
-            // Load dynamic content for the specific field, filtering by fieldDetails.title
-            fetchFieldRssFeeds(fieldNameParam); // Call dedicated RSS fetcher
-            fetchDataAndDisplay(fieldDetails.fieldNotesUrl, 'field-notes-container', renderFieldNotesCard, fieldDetails.title);
-            fetchDataAndDisplay(fieldDetails.editorSelectionsUrl, 'editor-selections-container', renderEditorSelectionsCard, fieldDetails.title);
-            fetchDataAndDisplay(fieldDetails.weeklyBriefingUrl, 'weekly-briefing-container', renderWeeklyBriefingCard, fieldDetails.title);
-            fetchDataAndDisplay(fieldDetails.peopleInstitutionsUrl, 'people-institutions-container', renderPeopleInstitutionsCard, fieldDetails.title);
-            fetchDataAndDisplay(fieldDetails.formalPublicationUrl, 'formal-publication-container', renderFormalPublicationCard, fieldDetails.title);
-            fetchDataAndDisplay(fieldDetails.readingListUrl, 'reading-list-container', renderReadingListCard, fieldDetails.title);
-            fetchDataAndDisplay(fieldDetails.upcomingEventsUrl, 'upcoming-events-container', renderUpcomingEventCard, fieldDetails.title);
+                mainContentArea.innerHTML = `
+                    <section class="field-hero">
+                        <h2 id="field-title">${fieldDetails.title}</h2>
+                        <p id="field-description">${fieldDetails.description}</p>
+                    </section>
 
+                    <div id="rss-rotator-section" class="content-area">
+                        <h3 class="field-section-title">Live Archive Feed (RSS Articles)</h3>
+                        <div id="rss-rotator-container" class="rss-rotator-container">
+                            <p class="loading-message">Loading live RSS articles...</p>
+                        </div>
+                        <div id="rss-pagination-dots" class="rss-pagination-dots"></div>
+                    </div>
+
+                    <div class="content-area">
+                        <h3 class="field-section-title">Field Notes</h3>
+                        <div id="field-notes-container" class="content-grid">
+                            <p class="loading-message">Loading original essays and critiques...</p>
+                        </div>
+                    </div>
+
+                    <div class="content-area">
+                        <h3 class="field-section-title">Field Editors’ Selections</h3>
+                        <div id="editor-selections-container" class="content-grid">
+                            <p class="loading-message">Loading foundational resources...</p>
+                        </div>
+                    </div>
+
+                    <div class="content-area">
+                        <h3 class="field-section-title">Weekly Briefing (Newsletter)</h3>
+                        <div id="weekly-briefing-container" class="content-grid">
+                            <p class="loading-message">Loading latest briefings...</p>
+                        </div>
+                    </div>
+
+                    <div class="content-area">
+                        <h3 class="field-section-title">Biannual Reading List</h3>
+                        <div id="reading-list-container" class="content-grid">
+                            <p class="coming-soon">Biannual Reading Lists are coming soon! Stay tuned.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-area">
+                        <h3 class="field-section-title">Upcoming Events</h3>
+                        <div id="upcoming-events-container" class="content-grid">
+                            <p class="coming-soon">Upcoming events for this field are TBD. Check back soon!</p>
+                        </div>
+                    </div>
+
+                    <div class="content-area">
+                        <h3 class="field-section-title">People & Institutions</h3>
+                        <div id="people-institutions-container" class="people-institutions-list">
+                            <p class="coming-soon">Profiles of key thinkers and institutions are being developed.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-area">
+                        <h3 class="field-section-title">Formal Publication</h3>
+                        <div id="formal-publication-container" class="content-grid">
+                            <p class="coming-soon">Long-form research and investigative reports are in progress.</p>
+                        </div>
+                    </div>
+                `;
+
+                // Load dynamic content for the specific field
+                fetchFieldRssFeeds(fieldNameParam); // Call dedicated RSS fetcher
+                fetchDataAndDisplay(fieldDetails.fieldNotesUrl, 'field-notes-container', renderFieldNotesCard, fieldDetails.title);
+                fetchDataAndDisplay(fieldDetails.editorSelectionsUrl, 'editor-selections-container', renderEditorSelectionsCard, fieldDetails.title);
+                fetchDataAndDisplay(fieldDetails.weeklyBriefingUrl, 'weekly-briefing-container', renderWeeklyBriefingCard, fieldDetails.title);
+                fetchDataAndDisplay(fieldDetails.peopleInstitutionsUrl, 'people-institutions-container', renderPeopleInstitutionsCard, fieldDetails.title);
+                fetchDataAndDisplay(fieldDetails.formalPublicationUrl, 'formal-publication-container', renderFormalPublicationCard, fieldDetails.title);
+                fetchDataAndDisplay(fieldDetails.readingListUrl, 'reading-list-container', renderReadingListCard, fieldDetails.title);
+                fetchDataAndDisplay(fieldDetails.upcomingEventsUrl, 'upcoming-events-container', renderUpcomingEventCard, fieldDetails.title);
+
+
+            } else {
+                mainContentArea.innerHTML = `
+                    <section class="field-hero">
+                        <h2 id="field-title">Field Not Found</h2>
+                        <p id="field-description">The requested field could not be found. Please check the URL or select a field from the navigation.</p>
+                    </section>
+                `;
+            }
 
         } else {
-            document.title = 'Field Not Found | Critical Fields';
-            document.getElementById('field-title').textContent = 'Field Not Found';
-            document.getElementById('field-description').textContent = 'The requested field could not be found. Please check the URL or select a field from the navigation.';
-            document.querySelectorAll('.content-area').forEach(area => area.style.display = 'none');
+            // --- Render Fields Index Page ---
+            document.title = 'Fields | Critical Fields'; // Correct title for index page
+            mainContentArea.innerHTML = `
+                <section class="field-hero">
+                    <h2>Our Fields of Inquiry</h2>
+                    <p>Explore the critical conversations shaping our understanding of the world.</p>
+                </section>
+                <div id="field-index-container">
+                    <!-- Field index cards will be generated here -->
+                </div>
+            `;
+            renderFieldIndexPage(); // Call function to render index cards
         }
     });
+
+    // New function to render the main Fields landing page
+    function renderFieldIndexPage() {
+        const container = document.getElementById('field-index-container');
+        container.innerHTML = ''; // Clear any loading messages
+
+        for (const key in fieldData) {
+            if (fieldData.hasOwnProperty(key)) {
+                const field = fieldData[key];
+                const card = document.createElement('a');
+                card.href = `fields.html?name=${key}`; // Link to the dynamic field page
+                card.className = 'field-index-card';
+                card.innerHTML = `
+                    <h3>${field.title}</h3>
+                    <p>${field.description}</p>
+                    <span class="cta-link">explore field &rsaquo;</span>
+                `;
+                container.appendChild(card);
+            }
+        }
+    }
   </script>
 </body>
 </html>
