@@ -7,344 +7,377 @@
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
-    /*
-      Minimal inline styles added here.
-      Most design should come from your styles.css.
-      These primarily style the new filter UI components and enhance user experience.
-    */
+    /* Styles for the Archive Page, integrated with the new retro-tech theme */
     
-    /* Ensure body font and background are from styles.css */
-    body {
-        font-family: 'IBM Plex Mono', monospace;
-        background-color: #f5f5f5; /* From styles.css */
-        color: #111; /* From styles.css */
-        margin: 0;
-        padding: 0;
-        line-height: 1.6;
+    /* Hero Section (consistent with homepage) */
+    .hero {
+      padding: 5rem 2rem;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: transparent;
+      color: var(--color-text-primary);
+      border-bottom: 1px solid var(--color-border-dark);
+      padding-bottom: 3rem;
     }
 
-    /* Override hero padding to match initial resources.html, if desired, otherwise styles.css will rule */
-   .hero {
-      padding: 2rem; /* Adjusted from 4rem in styles.css to match original resources.html padding */
+    .hero .tagline {
+      font-size: 2.8rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      color: var(--color-accent-highlight);
+      line-height: 1.2;
+      text-shadow: 0 0 10px rgba(255, 65, 54, 0.5);
+    }
+
+    .hero .intro {
+      margin: 1.5rem auto 2.5rem;
+      font-size: 1.1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      max-width: 700px;
       text-align: center;
     }
 
-    /* Main filter container styling */
+    /* Main Filter Container (consistent with homepage's content sections) */
     #main-filter-container {
-        background-color: #ffffff; /* White background for the filter bar */
+        background-color: var(--color-card-bg);
         padding: 1.5rem 2rem;
-        border-bottom: 1px solid #ddd;
-        border-top: 1px solid #ddd;
+        border-bottom: 1px solid var(--color-border-dark);
+        border-top: 1px solid var(--color-border-dark);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark); /* Consistent 3D shadow */
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
-        align-items: center; /* Center horizontally */
-    }
-
-    /* Filter group for labels and tags */
-   .filter-group {
-        display: flex;
-        flex-wrap: wrap;
         align-items: center;
-        gap: 1rem;
-        width: 100%; /* Take full width */
-        max-width: 800px; /* Constrain filters to a readable width */
-        justify-content: center; /* Center filter tags */
+        max-width: 1200px; /* Aligned with other main content blocks */
+        margin: 3rem auto; /* Add margin for separation */
     }
 
-   .filter-group label {
+    /* Filter Group labels and tags (consistent) */
+    .filter-group label {
         font-weight: bold;
-        color: #111; /* Match body text color */
-        font-size: 1.1rem; /* Consistent with nav-menu font size */
+        color: var(--color-text-primary);
+        font-size: 1rem;
         flex-shrink: 0;
-        text-transform: lowercase; /* Consistent with site's styling */
+        text-transform: lowercase;
+        margin-right: 0.5rem;
     }
 
-   .filter-tags-container {
+    .filter-tags-container {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        flex-grow: 1; /* Allow tags to take up space */
-        justify-content: center; /* Center tags within their container */
+        flex-grow: 1;
+        justify-content: center;
     }
 
-   .filter-tag {
-        background-color: #eee; /* Lighter grey for unselected tags */
-        color: #333;
+    .filter-tag {
+        background-color: var(--color-secondary-bg);
+        color: var(--color-text-primary);
         padding: 0.4rem 0.8rem;
-        border-radius: 15px; /* Softer pill shape */
+        border-radius: 4px;
         cursor: pointer;
-        transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-        font-size: 0.85rem; /* Slightly smaller text for tags */
-        border: 1px solid #ddd;
-        user-select: none; /* Prevent text selection on tags */
-        white-space: nowrap; /* Keep tags from breaking onto multiple lines */
-        text-transform: lowercase; /* Consistent with site's styling */
+        transition: all 0.2s ease;
+        border: 1px solid var(--color-border-dark);
+        user-select: none;
+        white-space: nowrap;
+        text-transform: lowercase;
+        box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.2); /* 3D effect */
     }
 
-   .filter-tag:hover {
-        background-color: #ddd;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    .filter-tag:hover {
+        background-color: rgba(220, 38, 38, 0.1);
+        color: var(--color-ui-red-light);
+        box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.3);
     }
 
-   .filter-tag.selected {
-        background-color: #111; /* Darker, consistent with site's primary color */
+    .filter-tag.selected {
+        background-color: var(--color-ui-red);
         color: white;
-        border-color: #111;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        border-color: var(--color-ui-red);
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light); /* Inset effect */
+        transform: translate(1px, 1px);
     }
 
     #search-bar {
         width: 100%;
-        max-width: 800px; /* Match filter group width */
+        max-width: 800px;
         padding: 0.75rem 1rem;
-        border: 1px solid #ccc; /* Match site's borders */
-        border-radius: 6px; /* Match site's rounded corners */
-        font-size: 0.9rem; /* Match nav-menu font size */
-        color: #111;
-        background-color: #fff;
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        font-size: 0.95rem;
+        color: var(--color-text-primary);
+        background-color: var(--color-secondary-bg);
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
     }
     #search-bar::placeholder {
-        color: #666;
+        color: var(--color-text-secondary);
+        opacity: 0.7;
+    }
+    #search-bar:focus {
+        outline: none;
+        border-color: var(--color-ui-red); /* Red glow on focus */
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 0 5px rgba(220, 38, 38, 0.5);
     }
 
     #clear-filters-btn {
-        background-color: #e0e0e0; /* Neutral grey, less aggressive than red */
-        color: #333;
+        background-color: var(--color-ui-red);
+        color: white;
         padding: 0.75rem 1.5rem;
-        border-radius: 6px;
+        border-radius: 4px;
         cursor: pointer;
-        transition: background-color 0.2s ease, transform 0.1s ease;
-        border: 1px solid #ccc;
-        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        border: none;
+        font-size: 0.95rem;
         font-weight: 600;
-        text-transform: lowercase; /* Consistent with site's styling */
-        margin-top: 1rem; /* Space from search/filters */
+        text-transform: lowercase;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
     }
 
     #clear-filters-btn:hover {
-        background-color: #ccc;
-        transform: translateY(-1px);
+        background-color: var(--color-ui-red-light);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
+    }
+    #clear-filters-btn:active {
+        transform: translate(1px, 1px);
+        box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom);
     }
 
-    /* --- Active Filters Display --- */
+    /* Active Filters Display (consistent) */
     #active-filters-display {
         margin: 1.5rem auto;
         max-width: 1200px;
-        padding: 0 2rem; /* Match container padding */
-        min-height: 1.5rem; /* Give it some space even when empty */
+        padding: 0 2rem;
+        min-height: 1.5rem;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         gap: 0.75rem;
         font-size: 0.9rem;
-        color: #555;
+        color: var(--color-text-secondary);
+        border-top: 1px dashed var(--color-border-dark);
+        padding-top: 1rem;
     }
 
-   .active-filter-badge {
-        background-color: #111; /* Dark background to stand out */
+    .active-filter-badge {
+        background-color: var(--color-ui-red);
         color: white;
-        padding: 0.4rem 0.8rem;
-        padding-right: 0.5rem; /* Space for X */
-        border-radius: 15px;
-        font-size: 0.85rem;
+        padding: 0.3rem 0.6rem;
+        padding-right: 0.3rem;
+        border-radius: 3px;
+        font-size: 0.8rem;
         display: inline-flex;
         align-items: center;
-        gap: 0.3rem;
+        gap: 0.2rem;
         text-transform: lowercase;
-        border: 1px solid #111;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        border: 1px solid var(--color-border-dark);
+        box-shadow: 1px 1px 0px rgba(0,0,0,0.3);
     }
 
-   .active-filter-badge .remove-filter {
+    .active-filter-badge .remove-filter {
         background: none;
         border: none;
         color: white;
         font-weight: bold;
         cursor: pointer;
-        font-size: 0.9rem;
-        padding: 0 0.2rem;
+        font-size: 0.8rem;
+        padding: 0 0.1rem;
         line-height: 1;
-        opacity: 0.8;
+        opacity: 0.9;
         transition: opacity 0.2s ease;
     }
-   .active-filter-badge .remove-filter:hover {
+    .active-filter-badge .remove-filter:hover {
         opacity: 1;
+        text-shadow: 0 0 5px white;
     }
-   .active-filter-badge .filter-type-label {
+    .active-filter-badge .filter-type-label {
         font-weight: normal;
         opacity: 0.8;
         margin-right: 0.2rem;
+        color: var(--color-text-primary);
+    }
+    .active-filter-badge p {
+        color: var(--color-text-secondary);
+        font-style: italic;
+        font-size: 0.9rem;
     }
 
-    /* --- Resources Container & Card Styles (Reverted to styles.css base + minimal additions) --- */
+    /* Resource Cards (Archive Page) - Enhanced for Hover Effect & Bookshelf Feel */
     #resources-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem; /* Space between cards */
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-   .resource-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-      text-decoration: none;
-      color: inherit;
-      background: #fff;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+    .resource-card {
+        position: relative;
+        height: 350px; /* Fixed height for consistent "book" size */
+        overflow: hidden;
+        border-radius: 4px;
+        background: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
     }
 
-   .resource-card:hover {
-      transform: scale(1.02);
+    .resource-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    6px 6px 0px rgba(0,0,0,0.4);
     }
 
-   .resource-image {
+    .resource-card-image {
         width: 100%;
-        height: 180px;
+        height: 180px; /* Fixed height for image area */
         object-fit: cover;
-        background-color: #e2e8f0;
+        background-color: var(--color-secondary-bg);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #94a3b8;
+        color: var(--color-text-secondary);
         font-size: 1.2rem;
         font-weight: bold;
-        overflow: hidden;
+        border-bottom: 1px solid var(--color-border-dark);
     }
-   .resource-image img {
+    .resource-card-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-   .resource-overlay {
-      padding: 1rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
+    .resource-header {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px dashed var(--color-border-dark);
+        background-color: var(--color-secondary-bg); /* Slightly darker background for header */
+        flex-shrink: 0; /* Don't allow it to shrink */
     }
-
-   .resource-overlay h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
-      color: #111;
-    }
-
-   .resource-description {
-        font-size: 0.9rem;
-        color: #444;
-        margin-bottom: 0.75rem;
-        line-height: 1.4;
-        flex-grow: 1;
-    }
-
-   .tags-container {
-      font-size: 0.8rem;
-      color: #666;
-      margin-top: auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-   .tag-badge {
-        background-color: #f0f0f0;
-        color: #444;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
-        font-weight: 500;
-        white-space: nowrap;
+    .resource-header h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        color: var(--color-accent-highlight); /* Red for title */
+        line-height: 1.3;
         text-transform: lowercase;
-        border: 1px solid #e0e0e0;
+    }
+    .resource-header .tags-container {
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        margin-top: 0.4rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+    .resource-header .tag-badge {
+        background-color: var(--color-card-bg); /* Lighter badge in header */
+        color: var(--color-text-primary);
+        padding: 0.15rem 0.4rem;
+        border-radius: 2px;
+        border: 1px solid var(--color-border-light);
+        box-shadow: 0.5px 0.5px 0px var(--color-border-dark);
+        text-transform: lowercase;
     }
 
-   .loading-message {
+    /* Hover Overlay for Description */
+    .resource-hover-overlay {
+        position: absolute;
+        top: 0; /* Cover the whole card */
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        opacity: 0;
+        transform: translateY(100%); /* Start off-screen at bottom */
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .resource-card:hover .resource-hover-overlay {
+        opacity: 1;
+        transform: translateY(0); /* Slide up into view */
+    }
+
+    .resource-hover-overlay p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        color: var(--color-text-primary); /* Primary text color on dark overlay */
+        opacity: 0.9;
+    }
+
+    .resource-hover-overlay .read-more-link {
+        color: var(--color-ui-red-light);
+        text-decoration: underline;
+        font-weight: bold;
+        font-size: 0.9rem;
+        text-transform: lowercase;
+    }
+    .resource-hover-overlay .read-more-link:hover {
+        color: white;
+    }
+
+
+    /* Loading and Error Messages (consistent) */
+    .loading-message {
         text-align: center;
         padding: 2rem;
         font-size: 1.1rem;
-        color: #666;
+        color: var(--color-text-secondary);
         grid-column: 1 / -1;
+        font-style: italic;
+        border: 1px dashed var(--color-border-dark);
+        border-radius: 4px;
+        background-color: var(--color-secondary-bg);
     }
-   .error-message {
-        color: #d9534f;
+    .error-message {
+        color: var(--color-ui-red);
         font-weight: bold;
     }
 
-    /* Footer from styles.css */
+    /* Footer (consistent) */
     footer.site-footer {
       text-align: center;
-      font-size: 0.75rem;
-      padding: 1rem;
-      color: #888;
-      border-top: 1px solid #ccc;
+      font-size: 0.85rem;
+      padding: 1.5rem;
+      color: var(--color-text-secondary);
+      border-top: 1px solid var(--color-border-dark);
+      background-color: var(--color-secondary-bg);
+      margin-top: 4rem;
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-       .site-header {
-            flex-direction: column;
-            align-items: flex-start;
+        .resource-card {
+            height: 300px; /* Adjust height for smaller screens */
         }
-       .nav-menu {
-            margin-top: 1rem;
-            width: 100%;
-            justify-content: center;
-            gap: 1rem;
+        .resource-card-image {
+            height: 150px;
         }
-       .dropdown {
-            width: 100%;
-            text-align: center;
+        .resource-header h3 {
+            font-size: 1rem;
         }
-       .dropdown-menu {
-            width: 100%;
-            left: 0;
-            right: 0;
+        .resource-header .tags-container {
+            font-size: 0.7rem;
         }
-
-       .hero {
-            padding: 2rem 1rem;
-        }
-       .hero .tagline {
-            font-size: 1.8rem;
-        }
-       .hero .intro {
-            font-size: 0.95rem;
-        }
-
-        #main-filter-container {
-            padding: 1rem;
-            gap: 1rem;
-        }
-       .filter-group {
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-            gap: 0.8rem;
-        }
-       .filter-group label {
-            margin-bottom: 0.5rem;
-        }
-       .filter-tags-container {
-            width: 100%;
-            justify-content: center;
-        }
-        #clear-filters-btn {
-            width: 100%;
-            text-align: center;
-        }
-
-        #resources-container {
-            grid-template-columns: 1fr;
-            padding: 1rem;
-            gap: 1rem;
+        .resource-hover-overlay p {
+            font-size: 0.85rem;
         }
     }
   </style>
@@ -358,7 +391,7 @@
         <li class="dropdown">
           <a href="fields.html">Fields</a>
           <ul class="dropdown-menu">
-             <li><a href="fields.html?name=heterodox-economics">Heterodox Economics</a></li>
+            <li><a href="fields.html?name=heterodox-economics">Heterodox Economics</a></li>
             <li><a href="fields.html?name=architectures-of-power">Architectures of Power</a></li>
             <li><a href="fields.html?name=the-digital-apparatus">The Digital Apparatus</a></li>
             <li><a href="fields.html?name=earth-systems">Earth Systems</a></li>
@@ -405,7 +438,10 @@
         </div>
 
     <div id="resources-container">
-        <p class="loading-message" id="loading-resources">Loading resources from Google Sheet...</p>
+        <p class="loading-message" id="loading-resources">
+            <div class="loader"></div>
+            Loading resources from Google Sheet...
+        </p>
     </div>
   </main>
 
@@ -415,8 +451,13 @@
 
   <script>
     // --- Configuration ---
-    // Your published Google Sheet CSV URL
-    const GOOGLE_SHEET_RESOURCES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+    // Original Google Sheet CSV URL
+    const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+    // CORS Proxy URL
+    const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
+    // Combined URL for fetching via proxy
+    const MAIN_ARCHIVE_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_CSV_URL);
+
 
     let allResources = [];
     let selectedResourceTypes = new Set(['all']);
@@ -435,6 +476,7 @@
         "newsletter": "Literature",
         "substack": "Literature",
         "book reviews": "Literature",
+        "editor selection": "Literature", // Added 'Editor Selection' here
 
         // Multimedia
         "podcast": "Multimedia",
@@ -453,6 +495,7 @@
         "syllabi": "Educational Resources",
         "lecture series": "Educational Resources",
         "community": "Educational Resources",
+        "project": "Educational Resources", // Based on your console logs from earlier
 
         // Fallback for any unmapped mediums or empty values
         "other": "Other",
@@ -460,7 +503,8 @@
     };
 
     // Define priority for Resource Types (earlier in array means higher priority)
-    const resourceTypePriority = ["Multimedia", "Literature", "Educational Resources"]; // Prioritize Multimedia higher based on your latest issue
+    // Updated based on observed content. Adjust if needed.
+    const resourceTypePriority = ["Multimedia", "Literature", "Educational Resources", "Other"];
 
     // Helper function to parse CSV data
     function parseCSV(csvText) {
@@ -505,15 +549,17 @@
             }
             const rowObject = {};
             headers.forEach((header, index) => {
-                rowObject[header] = values[index];
+                rowObject[header] = values[index] ? values[index] : ''; // Store original value for display
+                // For internal logic/filtering, also store a lowercase, trimmed version
+                rowObject[`${header}Normalized`] = values[index] ? values[index].toLowerCase().trim() : '';
             });
             
             // --- REFINED LOGIC for handling multiple mediums and assigning ResourceType ---
-            const rawMediumString = rowObject.Medium ? rowObject.Medium.toLowerCase().trim() : '';
+            const rawMediumString = rowObject.MediumNormalized; // Use normalized for lookup
             const individualMediums = rawMediumString.split(',').map(m => m.trim()).filter(Boolean);
 
             let assignedResourceType = mediumCategoryMap['']; // Default to 'Other'
-            let foundTypesForThisRow = new Set(); // Keep track of all types found for THIS specific row
+            let foundTypesForThisRow = new Set(); 
 
             for (const medium of individualMediums) {
                 const mappedType = mediumCategoryMap[medium];
@@ -523,38 +569,38 @@
             }
 
             if (foundTypesForThisRow.size > 0) {
-                // Apply priority: iterate through our predefined priority list
                 for (const priorityType of resourceTypePriority) {
                     if (foundTypesForThisRow.has(priorityType)) {
                         assignedResourceType = priorityType;
-                        break; // Assign the highest priority type found and stop
+                        break;
                     }
                 }
             }
             rowObject.ResourceType = assignedResourceType;
-            // --- END REFINED LOGIC ---
             
             // Handle multiple fields: split the 'Field' string into an array of individual fields
             if (rowObject.Field) {
-                rowObject.Field = rowObject.Field.split(',').map(f => f.toLowerCase().trim()).filter(Boolean);
+                rowObject.Field = rowObject.FieldNormalized.split(',').map(f => f.trim()).filter(Boolean); // Store original case for display
+                rowObject.FieldNormalized = rowObject.Field.map(f => f.toLowerCase()); // Store normalized for filtering
             } else {
-                rowObject.Field = []; // Ensure it's an empty array if no fields
+                rowObject.Field = [];
+                rowObject.FieldNormalized = [];
             }
 
             // Detailed debug log for each row's medium processing
-            console.groupCollapsed(`Medium processing for row: "${rowObject.Title || 'Untitled'}"`);
-            console.log(`Original Medium: "${rowObject.Medium}"`);
-            console.log(`Individual mediums parsed: [${individualMediums.map(m => `"${m}"`).join(', ')}]`);
+            console.groupCollapsed(`Medium/Field processing for row: "${rowObject.Title}"`);
+            console.log(`Original Medium: "${rowObject.Medium}" -> Processed as: [${individualMediums.map(m => `"${m}"`).join(', ')}]`);
             console.log(`Mapped types found: [${[...foundTypesForThisRow].map(t => `"${t}"`).join(', ')}]`);
             console.log(`Final assigned ResourceType: "${rowObject.ResourceType}"`);
+            console.log(`Original Field: "${rowObject.Field}" -> Processed as: [${(rowObject.FieldNormalized || []).map(f => `"${f}"`).join(', ')}]`);
             console.groupEnd();
             
             data.push(rowObject);
         }
-        return data;
+        return data.sort((a, b) => (a.Title > b.Title) ? 1 : -1); // Alphabetical sort by Title
     }
 
-    // Renders a single resource card
+    // Renders a single resource card for Archive
     function renderResourceCard(item) {
         const card = document.createElement('a');
         card.href = item.Link || '#';
@@ -562,14 +608,12 @@
         card.rel = "noopener noreferrer";
         card.className = 'resource-card';
 
-        const imageUrl = item.ImageLink && item.ImageLink.startsWith('http') ? item.ImageLink : 'https://placehold.co/400x180/e2e8f0/94a3b8?text=No+Image';
+        const imageUrl = item.ImageLink && item.ImageLink.startsWith('http') ? item.ImageLink : 'https://placehold.co/400x180/E0E0E0/666666?text=No+Image'; // Use updated placeholder colors
 
-        let imageContent;
-        if (imageUrl.includes('placehold.co')) {
-            imageContent = `<div class="resource-image">No Image Available</div>`;
-        } else {
-            imageContent = `<img src="${imageUrl}" alt="${item.Title || 'Resource image'}" class="resource-image" onerror="this.onerror=null;this.src='https://placehold.co/400x180/e2e8f0/94a3b8?text=Image+Load+Error';"/>`;
-        }
+        let imageContent = imageUrl.includes('placehold.co') ? 
+                            `<div class="resource-card-image" style="background-color: var(--color-secondary-bg); display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); font-size: 1.2rem;">No Image</div>` : 
+                            `<img src="${imageUrl}" alt="${item.Title || 'Resource image'}" class="resource-card-image" onerror="this.onerror=null;this.src='https://placehold.co/400x180/E0E0E0/666666?text=Image+Load+Error';"/>`;
+
 
         const mediumTag = item.Medium ? `<span class="tag-badge">${item.Medium}</span>` : '';
         const fieldTagsHtml = item.Field && item.Field.length > 0
@@ -578,13 +622,16 @@
 
         card.innerHTML = `
             ${imageContent}
-            <div class="resource-overlay">
+            <div class="resource-header">
                 <h3>${item.Title || 'untitled resource'}</h3>
-                <p class="resource-description">${item.Description || 'no description provided.'}</p>
                 <div class="tags-container">
                     ${mediumTag}
                     ${fieldTagsHtml}
                 </div>
+            </div>
+            <div class="resource-hover-overlay">
+                <p>${item.Description || 'no description provided.'}</p>
+                <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer" class="read-more-link">read more &rsaquo;</a>
             </div>
         `;
         return card;
@@ -618,15 +665,15 @@
             allItems.forEach(item => {
                 if (item.Field && Array.isArray(item.Field)) {
                     item.Field.forEach(field => {
-                        if (field.toLowerCase() !== 'all') { // Avoid adding 'all' if it's a data value
+                        if (field.toLowerCase() !== 'all') {
                             uniqueItems.add(field);
                         }
                     });
                 }
             });
         } else {
-            // This case should ideally not be hit with current filter types, but kept for robustness
-            allItems.map(item => item[filterType]).filter(Boolean).forEach(val => uniqueItems.add(val));
+            // Fallback for other filter types, using Normalized value
+            allItems.map(item => item[`${filterType}Normalized`]).filter(Boolean).forEach(val => uniqueItems.add(val));
         }
 
         // Sort unique items and create tags
@@ -637,7 +684,6 @@
             tag.dataset.filterType = filterType;
             tag.dataset.filterValue = itemValue.toLowerCase();
 
-            // Check against the correct selected Set
             const selectedSet = filterType === 'ResourceType' ? selectedResourceTypes : selectedField;
             if (selectedSet.has(itemValue.toLowerCase())) {
                 tag.classList.add('selected');
@@ -656,32 +702,28 @@
         const appendBadge = (type, value) => {
             const badge = document.createElement('span');
             badge.className = 'active-filter-badge';
-            const label = type === 'ResourceType' ? 'type' : 'field'; // Customize label based on filter type
+            const label = type === 'ResourceType' ? 'type' : 'field';
             badge.innerHTML = `<span class="filter-type-label">${label}:</span> ${value} <button class="remove-filter" data-filter-type="${type}" data-filter-value="${value}">&times;</button>`;
             badge.querySelector('.remove-filter').addEventListener('click', (event) => {
                 const filterTypeToRemove = event.target.dataset.filterType;
                 const filterValueToRemove = event.target.dataset.filterValue;
                 
-                // Simulate clicking the original filter tag to deselect it
                 const originalTag = document.querySelector(`.filter-tag[data-filter-type="${filterTypeToRemove}"][data-filter-value="${filterValueToRemove}"]`);
                 if (originalTag) {
-                    originalTag.click(); // This will trigger handleFilterTagClick and re-filter
+                    originalTag.click();
                 }
             });
             activeFiltersDisplay.appendChild(badge);
         };
 
-        // Add badges for Resource Types
         if (!selectedResourceTypes.has('all') && selectedResourceTypes.size > 0) {
             selectedResourceTypes.forEach(val => appendBadge('ResourceType', val));
         }
 
-        // Add badges for Fields
         if (!selectedField.has('all') && selectedField.size > 0) {
             selectedField.forEach(val => appendBadge('Field', val));
         }
 
-        // Add search query badge if active
         if (searchQuery.trim() !== '') {
             const searchBadge = document.createElement('span');
             searchBadge.className = 'active-filter-badge';
@@ -690,19 +732,17 @@
                 searchQuery = '';
                 document.getElementById('search-bar').value = '';
                 filterAndDisplayResources();
-                renderActiveFilters(); // Re-render to remove search badge
+                renderActiveFilters();
             });
             activeFiltersDisplay.appendChild(searchBadge);
         }
 
-        // Show "no filters applied" if nothing is selected and no search query
         if (selectedResourceTypes.has('all') && selectedField.has('all') && searchQuery.trim() === '') {
-            activeFiltersDisplay.innerHTML = `<p style="margin:0; color:#888;">no active filters.</p>`;
+            activeFiltersDisplay.innerHTML = `<p style="margin:0; color:var(--color-text-secondary);">no active filters.</p>`;
         }
     }
 
-
-    // Handles clicks on filter tags (existing logic, with added renderActiveFilters call)
+    // Handles clicks on filter tags
     function handleFilterTagClick(event) {
         const clickedTag = event.target;
         const filterType = clickedTag.dataset.filterType;
@@ -735,22 +775,22 @@
             }
         }
         filterAndDisplayResources();
-        renderActiveFilters(); // Update active filter display
+        renderActiveFilters();
     }
 
     // Main function to apply all filters and display results
     function filterAndDisplayResources() {
         let currentFilteredResources = allResources.filter(resource => {
             const resourceResourceType = resource.ResourceType ? resource.ResourceType.toLowerCase() : '';
-            const resourceTitle = resource.Title ? resource.Title.toLowerCase() : '';
-            const resourceDescription = resource.Description ? resource.Description.toLowerCase() : '';
+            const resourceTitle = resource.TitleNormalized; // Use normalized for filtering
+            const resourceDescription = resource.DescriptionNormalized; // Use normalized for filtering
 
             // ResourceType filter logic
             const matchesResourceType = selectedResourceTypes.has('all') || selectedResourceTypes.has(resourceResourceType);
 
             // Field filter logic: Check if ANY selected field is present in the resource's Field array
             const matchesField = selectedField.has('all') ||
-                                 (resource.Field && resource.Field.some(field => selectedField.has(field)));
+                                 (resource.FieldNormalized && resource.FieldNormalized.some(field => selectedField.has(field)));
 
             // Search filter logic
             const matchesSearch = !searchQuery ||
@@ -771,9 +811,9 @@
         const clearFiltersBtn = document.getElementById('clear-filters-btn');
 
         try {
-            const response = await fetch(GOOGLE_SHEET_RESOURCES_URL);
+            const response = await fetch(MAIN_ARCHIVE_SHEET_URL);
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}. Please ensure the Google Sheet URL is correct and published to web.`);
+                throw new Error(`HTTP error! Status: ${response.status}. Please ensure the Google Sheet URL is correct and published to web, and CORS proxy is working.`);
             }
             const csvText = await response.text();
             allResources = parseCSV(csvText);
@@ -782,11 +822,11 @@
             renderFilterTags('Field', 'field-filters', allResources);
 
             filterAndDisplayResources();
-            renderActiveFilters(); // Initial render of active filters
+            renderActiveFilters();
 
         } catch (error) {
             console.error('Error fetching or processing resources:', error);
-            resourcesContainer.innerHTML = `<p class="loading-message error-message">Error loading resources. Please check the console for details and ensure the Google Sheet URL is correct and published.</p>`;
+            resourcesContainer.innerHTML = `<p class="loading-message error-message">Error loading resources. Please check the console for details. Make sure the Google Sheet URL is correct and published, and CORS proxy is accessible.</p>`;
         } finally {
             if (loadingMessage) {
                  loadingMessage.style.display = 'none';
@@ -796,7 +836,7 @@
         searchBar.addEventListener('input', (event) => {
             searchQuery = event.target.value;
             filterAndDisplayResources();
-            renderActiveFilters(); // Update active filter display
+            renderActiveFilters();
         });
 
         clearFiltersBtn.addEventListener('click', () => {
@@ -805,13 +845,13 @@
             selectedField.clear();
             selectedField.add('all');
             searchQuery = '';
-            document.getElementById('search-bar').value = ''; // Clear search bar input
+            document.getElementById('search-bar').value = '';
 
             document.querySelectorAll('.filter-tag').forEach(tag => tag.classList.remove('selected'));
             document.querySelectorAll('.filter-tag.all-tag').forEach(tag => tag.classList.add('selected'));
 
             filterAndDisplayResources();
-            renderActiveFilters(); // Update active filter display
+            renderActiveFilters();
         });
     });
   </script>
