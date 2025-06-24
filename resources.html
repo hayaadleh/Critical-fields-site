@@ -262,6 +262,7 @@
         border-bottom: 1px dashed var(--color-border-dark);
         background-color: var(--color-secondary-bg); /* Slightly darker background for header */
         flex-shrink: 0; /* Don't allow it to shrink */
+        color: var(--color-text-primary); /* Ensure header text is visible */
     }
     .resource-header h3 {
         margin: 0;
@@ -272,7 +273,7 @@
     }
     .resource-header .tags-container {
         font-size: 0.75rem;
-        color: var(--color-text-secondary);
+        color: var(--color-text-secondary); /* Ensure tags text is visible */
         margin-top: 0.4rem;
         display: flex;
         flex-wrap: wrap;
@@ -280,7 +281,7 @@
     }
     .resource-header .tag-badge {
         background-color: var(--color-card-bg); /* Lighter badge in header */
-        color: var(--color-text-primary);
+        color: var(--color-text-primary); /* Dark text on light badge */
         padding: 0.15rem 0.4rem;
         border-radius: 2px;
         border: 1px solid var(--color-border-light);
@@ -295,8 +296,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
-        color: white;
+        background-color: rgba(0, 0, 0, 0.8); /* Slightly less opaque black overlay */
+        color: white; /* Ensure text is white for high contrast on dark overlay */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -318,7 +319,7 @@
         font-size: 0.95rem;
         line-height: 1.6;
         margin-bottom: 1rem;
-        color: var(--color-text-primary); /* Primary text color on dark overlay */
+        color: white; /* Explicitly white for readability */
         opacity: 0.9;
     }
 
@@ -408,7 +409,7 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline">Welcome to the Archive</h2>
+      <h2 class="tagline typewriter-text">Welcome to the Archive</h2> <!-- Added typewriter-text class -->
       <p class="intro">
         This is the living, open-access archive that powers our entire platform—a public, user-fed repository dedicated to collecting and preserving essential resources of critical learning. This archive is the raw material from which we build our Fields, deliver our analysis, and platform conversations. We believe knowledge should be a commons; this is our collective effort to build one.
       </p>
@@ -476,7 +477,7 @@
         "newsletter": "Literature",
         "substack": "Literature",
         "book reviews": "Literature",
-        "editor selection": "Literature", // Added 'Editor Selection' here
+        "editor selection": "Literature",
 
         // Multimedia
         "podcast": "Multimedia",
@@ -495,7 +496,7 @@
         "syllabi": "Educational Resources",
         "lecture series": "Educational Resources",
         "community": "Educational Resources",
-        "project": "Educational Resources", // Based on your console logs from earlier
+        "project": "Educational Resources",
 
         // Fallback for any unmapped mediums or empty values
         "other": "Other",
@@ -503,7 +504,6 @@
     };
 
     // Define priority for Resource Types (earlier in array means higher priority)
-    // Updated based on observed content. Adjust if needed.
     const resourceTypePriority = ["Multimedia", "Literature", "Educational Resources", "Other"];
 
     // Helper function to parse CSV data
