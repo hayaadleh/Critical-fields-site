@@ -121,46 +121,118 @@
     }
 
     /* What We're Reading section specific styles */
-    #what-we-are-reading-container-homepage .reading-item {
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px dashed var(--color-border-dark);
+    /* This section is now a rotator, so its content is dynamically generated inside rotator-container */
+    #what-we-are-reading-homepage-rotator-section { /* Added for clarity */
+        min-height: 250px; /* Ensure it has height even when loading */
+        position: relative; /* For arrow positioning */
     }
-    #what-we-are-reading-container-homepage .reading-item:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
+
+    .rotator-container { /* Common style for rotators */
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        min-height: 180px; /* Base height for rotator content */
+        margin: 0 auto;
     }
-    #what-we-are-reading-container-homepage .reading-item a {
+    .rotator-slides-wrapper {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .rotator-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative; /* For text overlay */
+        min-height: 180px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 4px; /* Inherit from parent container */
+    }
+    .rotator-slide .overlay-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)); /* Gradient overlay */
+        padding: 1rem;
+        color: white;
+        text-align: center;
+    }
+    .rotator-slide h4 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--color-accent-highlight); /* Red title */
+        text-transform: lowercase;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+    }
+    .rotator-slide p {
+        margin: 0;
+        font-size: 0.9rem;
         color: var(--color-text-primary);
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.2s ease;
+        line-height: 1.5;
+        opacity: 0.9;
     }
-    #what-we-are-reading-container-homepage .reading-item a:hover {
-        color: var(--color-ui-red-light);
-        text-decoration: underline;
-    }
-    #what-we-are-reading-container-homepage .reading-item p {
-        font-size: 0.85rem;
+    .rotator-slide .source-meta {
+        font-size: 0.8rem;
         color: var(--color-text-secondary);
-        margin-top: 0.2rem;
+        opacity: 0.7;
+        margin-top: 0.5rem;
     }
+
+    .rotator-pagination-dots {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    .rotator-dot {
+        height: 8px; /* Smaller dots */
+        width: 8px;
+        margin: 0 4px;
+        background-color: var(--color-border-dark); /* Dark dot */
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .rotator-dot.active {
+        background-color: var(--color-accent-highlight); /* Red when active */
+        transform: scale(1.2);
+    }
+    .rotator-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        padding: 0.3rem 0.6rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+        line-height: 1;
+        border-radius: 3px;
+        z-index: 10;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+    .rotator-arrow:hover {
+        opacity: 1;
+    }
+    .rotator-arrow.prev {
+        left: 5px;
+    }
+    .rotator-arrow.next {
+        right: 5px;
+    }
+
 
     /* Latest Newsletter Section (Full Width) */
     #latest-newsletter-section {
-        background-color: var(--color-card-bg);
-        border: 1px solid var(--color-border-dark);
-        border-radius: 4px;
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-                    4px 4px 0px var(--color-border-dark);
-        padding: 2rem;
-        margin: 3rem auto;
-        max-width: 1000px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        /* Already inheriting core card styles from homepage-two-column > div */
+        /* Specific overrides if needed */
     }
     #latest-newsletter-section .newsletter-image {
         max-width: 200px;
@@ -255,6 +327,13 @@
             padding: 1.5rem;
             margin: 2rem auto;
         }
+        /* Specific adjustments for homepage rotators on mobile */
+        #what-we-are-reading-homepage-rotator-section .rotator-slide h4 {
+            font-size: 1.1rem;
+        }
+        #what-we-are-reading-homepage-rotator-section .rotator-slide p {
+            font-size: 0.85rem;
+        }
     }
   </style>
 </head>
@@ -296,18 +375,19 @@
       <h2 class="section-title">Platform-Wide Features</h2>
 
       <div class="homepage-two-column">
-          <!-- What We're Reading Section -->
-          <div id="what-we-are-reading-homepage">
+          <!-- What We're Reading Section (NOW A ROTATOR) -->
+          <div id="what-we-are-reading-homepage-rotator-section">
               <h3 class="homepage-content-h3">Chief Editors’ "What We're Reading"</h3>
-              <div id="what-we-are-reading-container-homepage">
+              <div id="what-we-are-reading-rotator-container" class="rotator-container">
                   <p class="loading-message" id="what-we-are-reading-loading-homepage">
                       <div class="loader"></div>
                       loading selections...
                   </p>
               </div>
+              <div id="what-we-are-reading-pagination-dots" class="rotator-pagination-dots"></div>
           </div>
 
-          <!-- Latest Newsletter Section (now beside "What We're Reading") -->
+          <!-- Latest Newsletter Section -->
           <div id="latest-newsletter-section">
               <h3 class="homepage-content-h3">Latest Weekly Newsletter</h3>
               <div id="latest-newsletter-container">
@@ -388,7 +468,9 @@
             }
             const rowObject = {};
             headers.forEach((header, index) => {
-                rowObject[header] = values[index];
+                // IMPORTANT: Trim and lowercase *all* values immediately upon parsing
+                // This ensures consistency for filtering later
+                rowObject[header] = values[index] ? values[index].toLowerCase().trim() : '';
             });
             data.push(rowObject);
         }
@@ -396,13 +478,14 @@
     }
 
     // Generic function to fetch and display data, now with added filtering capability
+    // Adjusted to handle both single items and rotator data
     async function fetchDataAndDisplay(url, targetContainerId, renderFunction, limit = 3, filterCriterion = null) {
         const loadingElement = document.getElementById(`${targetContainerId.replace('-container', '')}-loading`);
         const container = document.getElementById(targetContainerId);
         
         if (loadingElement) {
-            loadingElement.innerHTML = '<div class="loader"></div>' + (loadingElement.dataset.originalText || loadingElement.textContent || 'loading...'); // Preserve original text
-            loadingElement.dataset.originalText = loadingElement.dataset.originalText || loadingElement.textContent; // Store original text
+            loadingElement.innerHTML = '<div class="loader"></div>' + (loadingElement.dataset.originalText || loadingElement.textContent || 'loading...');
+            loadingElement.dataset.originalText = loadingElement.dataset.originalText || loadingElement.textContent;
             loadingElement.style.display = 'block';
         }
         container.innerHTML = ''; // Clear previous content / placeholders
@@ -419,7 +502,6 @@
             if (filterCriterion) {
                 data = data.filter(item => {
                     const itemValue = item[filterCriterion.column];
-                    // Ensure robust comparison for comma-separated values in the target column
                     if (itemValue) {
                         const valuesInCell = itemValue.toLowerCase().split(',').map(v => v.trim());
                         return valuesInCell.includes(filterCriterion.value.toLowerCase());
@@ -435,12 +517,18 @@
 
             const itemsToShow = data.slice(0, limit); 
 
-            itemsToShow.forEach(item => {
-                const card = renderFunction(item);
-                if (card) {
-                    container.appendChild(card);
-                }
-            });
+            // If it's the "What We're Reading" rotator, handle it specially
+            if (targetContainerId === 'what-we-are-reading-rotator-container') {
+                readingArticles = itemsToShow; // Store for rotator
+                renderReadingRotator();
+            } else {
+                itemsToShow.forEach(item => {
+                    const card = renderFunction(item);
+                    if (card) {
+                        container.appendChild(card);
+                    }
+                });
+            }
         } catch (error) {
             console.error(`Error fetching or rendering data for ${targetContainerId}:`, error);
             container.innerHTML = `<p class="loading-message error-message">failed to load content. please check the sheet URL.</p>`;
@@ -451,19 +539,124 @@
         }
     }
 
-    // --- Render Functions for Homepage Sections ---
+    // --- Rotator Variables for "What We're Reading" ---
+    let readingArticles = [];
+    let currentReadingIndex = 0;
+    let readingIntervalId;
+    const READING_ROTATION_INTERVAL = 8000; // 8 seconds for rotation
 
-    function renderReadingCard(item) {
-        const div = document.createElement('div');
-        div.className = 'reading-item';
-        div.innerHTML = `
-            <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer">${item.Title || 'untitled selection'}</a>
-            <p>${item.Description || 'no description provided.'}</p>
-            <p style="font-size: 0.75rem; color: var(--color-text-secondary); opacity: 0.7;">${item.Medium || 'item'} by ${item.Author || 'the editors'}</p>
-        `;
-        return div;
+    // --- Rotator Functions for "What We're Reading" ---
+    function renderReadingRotator() {
+        const rotatorContainer = document.getElementById('what-we-are-reading-rotator-container');
+        const dotsContainer = document.getElementById('what-we-are-reading-pagination-dots');
+        rotatorContainer.innerHTML = ''; // Clear previous slides
+        dotsContainer.innerHTML = '';    // Clear previous dots
+
+        if (readingArticles.length === 0) {
+            rotatorContainer.innerHTML = `<p class="loading-message">no selections available yet.</p>`;
+            return;
+        }
+
+        const slidesWrapper = document.createElement('div');
+        slidesWrapper.className = 'rotator-slides-wrapper';
+        rotatorContainer.appendChild(slidesWrapper);
+
+        readingArticles.forEach((article, index) => {
+            const slide = document.createElement('a'); // Make whole slide a link
+            slide.href = article.Link || '#';
+            slide.target = '_blank';
+            slide.rel = 'noopener noreferrer';
+            slide.className = 'rotator-slide';
+            
+            const imageUrl = article.ImageLink && article.ImageLink.startsWith('http') ? article.ImageLink : ''; // Use ImageLink
+            if (imageUrl) {
+                slide.style.backgroundImage = `url('${imageUrl}')`;
+            } else {
+                 // Fallback if no image: simple background with text centered
+                slide.style.backgroundColor = 'var(--color-secondary-bg)';
+                slide.style.backgroundImage = 'none';
+            }
+
+            slide.innerHTML = `
+                <div class="overlay-text">
+                    <h4>${article.Title || 'untitled selection'}</h4>
+                    <p>${article.Description || 'no description provided.'}</p>
+                    <div class="source-meta">${article.Medium || 'item'} by ${article.Author || 'the editors'}</div>
+                </div>
+            `;
+            slidesWrapper.appendChild(slide);
+
+            const dot = document.createElement('span');
+            dot.className = 'rotator-dot';
+            dot.dataset.index = index;
+            dot.addEventListener('click', () => {
+                stopReadingRotator();
+                showReadingSlide(index);
+                startReadingRotator(); // Restart timer after manual interaction
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        // Add navigation arrows
+        const prevArrow = document.createElement('button');
+        prevArrow.className = 'rotator-arrow prev';
+        prevArrow.innerHTML = '&lsaquo;';
+        prevArrow.addEventListener('click', () => {
+            stopReadingRotator();
+            showReadingSlide(currentReadingIndex - 1);
+            startReadingRotator();
+        });
+        rotatorContainer.appendChild(prevArrow);
+
+        const nextArrow = document.createElement('button');
+        nextArrow.className = 'rotator-arrow next';
+        nextArrow.innerHTML = '&rsaquo;';
+        nextArrow.addEventListener('click', () => {
+            stopReadingRotator();
+            showReadingSlide(currentReadingIndex + 1);
+            startReadingRotator();
+        });
+        rotatorContainer.appendChild(nextArrow);
+
+        showReadingSlide(currentReadingIndex);
+        startReadingRotator();
     }
 
+    function showReadingSlide(index) {
+        const slidesWrapper = document.querySelector('#what-we-are-reading-rotator-container .rotator-slides-wrapper');
+        const dots = document.querySelectorAll('#what-we-are-reading-pagination-dots .rotator-dot');
+
+        if (!slidesWrapper || slidesWrapper.children.length === 0) return;
+
+        if (index >= readingArticles.length) {
+            currentReadingIndex = 0;
+        } else if (index < 0) {
+            currentReadingIndex = readingArticles.length - 1;
+        } else {
+            currentReadingIndex = index;
+        }
+
+        slidesWrapper.style.transform = `translateX(-${currentReadingIndex * 100}%)`;
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentReadingIndex);
+        });
+    }
+
+    function startReadingRotator() {
+        stopReadingRotator(); // Clear any existing interval
+        if (readingArticles.length > 1) { // Only rotate if more than one article
+            readingIntervalId = setInterval(() => {
+                showReadingSlide(currentReadingIndex + 1);
+            }, READING_ROTATION_INTERVAL);
+        }
+    }
+
+    function stopReadingRotator() {
+        clearInterval(readingIntervalId);
+    }
+
+    // --- Render Functions for other Homepage Sections (not rotators) ---
     function renderNewsletterCard(item) {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -477,10 +670,10 @@
 
     // --- Initialize Data Loading on Page Load ---
     document.addEventListener('DOMContentLoaded', () => {
-        // What We're Reading section
-        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'what-we-are-reading-container-homepage', renderReadingCard, 5, { column: 'Medium', value: 'Editor Selection' });
+        // What We're Reading section (now a rotator)
+        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'what-we-are-reading-rotator-container', null, 5, { column: 'Medium', value: 'Editor Selection' }); // Max 5 items for rotator
 
-        // Latest Newsletter
+        // Latest Newsletter (remains single card)
         fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'latest-newsletter-container', renderNewsletterCard, 1, { column: 'Medium', value: 'Newsletter' });
     });
   </script>
