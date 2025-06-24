@@ -1,31 +1,33 @@
 /* Custom CSS Properties (Variables) - Centralize your colors for easy theme management */
 :root {
-  /* Core Palette - Darker, but with old UI feel */
-  --color-main-bg: #22222a; /* Dark background, subtle blue tint */
-  --color-secondary-bg: #2a2a35; /* Slightly lighter bg for elements */
-  --color-card-bg: #333340; /* Even lighter bg for cards */
-  --color-text-primary: #e0e0e0; /* Main text color */
-  --color-text-secondary: #aaaaaa; /* Muted text for descriptions, metadata */
-  --color-border-dark: #1a1a20; /* Darkest border for inner shadows */
-  --color-border-light: #444450; /* Lighter border for outer highlights */
+  /* Core Palette - Darker, with old UI feel and blue accents */
+  --color-main-bg: #1A1A22; /* Very dark background */
+  --color-secondary-bg: #2B2B38; /* Slightly lighter bg for elements/headers */
+  --color-card-bg: #3A3A4A; /* Even lighter bg for cards/sections */
+  --color-text-primary: #E0E0E0; /* Main text color */
+  --color-text-secondary: #AAAAAA; /* Muted text for descriptions, metadata */
   
-  /* UI Accents - Classic digital age colors */
-  --color-ui-blue: #007bff; /* Standard UI blue, like hyperlinks or active states */
-  --color-ui-green: #28a745; /* Green for success/confirm */
-  --color-ui-red: #dc3545; /* Red for errors/clear actions */
-  --color-ui-yellow: #ffc107; /* Yellow for warnings/highlights */
+  /* UI Borders & Shadows - For the classic 3D effect */
+  --color-border-dark: #121218; /* Darkest for inner shadows/bottom right border */
+  --color-border-light: #4A4A58; /* Lighter for outer highlights/top left border */
+  --color-border-accent: #007BFF; /* A clean blue border for focus/selection */
 
-  /* Text Accents */
-  --color-link-primary: var(--color-ui-blue);
-  --color-link-hover: #50bbff; /* Lighter blue on hover */
-  --color-accent-highlight: var(--color-ui-yellow); /* For key headings/logos */
-  --color-accent-secondary: var(--color-ui-green); /* Another accent for subtle emphasis */
+  /* UI Accents - Leaning into blues and subtle contrast */
+  --color-ui-blue: #007BFF; /* Standard UI blue */
+  --color-ui-blue-light: #50BBFF; /* Lighter blue for hover */
+  --color-ui-green: #28A745; /* Green for success/confirm */
+  --color-ui-red: #DC3545; /* Red for errors/clear actions */
+  --color-accent-highlight: #00BFFF; /* A bright sky blue for main highlights/logo */
+  --color-accent-secondary: #20C997; /* A teal/cyan for secondary accents */
 
-  /* Shadows for 3D UI effect */
+  /* Shadows for 3D UI effect (consistent naming for reusability) */
   --shadow-inset-top: inset 1px 1px 0px var(--color-border-dark);
   --shadow-inset-bottom: inset -1px -1px 0px var(--color-border-light);
   --shadow-outset-top: 1px 1px 0px var(--color-border-light);
   --shadow-outset-bottom: -1px -1px 0px var(--color-border-dark);
+
+  /* Noise/CRT Effect - for subtle background texture */
+  --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Base Body Styles - Apply primary font and new theme colors */
@@ -41,7 +43,7 @@ body {
   position: relative; /* For subtle noise effect */
 }
 
-/* Subtle Noise/CRT Overlay for Retro Feel (replaces previous noise) */
+/* Subtle Noise/CRT Overlay for Retro Feel */
 body::before {
   content: '';
   position: fixed;
@@ -56,24 +58,22 @@ body::before {
     transparent 1px,
     transparent 2px /* Subtle scanline effect */
   );
-  /* Optional: VHS static effect */
-  /* background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0cAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACtJREFUeNpiYGBgoGDkYsAAAwMjAwOjPzAwgEwGSDMwMDAgADAAACqQAqN102sAAAAASUVORK5CYII='); */
   background-size: 2px 2px;
   opacity: 0.1; /* Very subtle */
   pointer-events: none; /* Allow clicks through */
-  z-index: -1;
+  z-index: -1; /* Place behind content */
 }
-
 
 /* General Link Styling */
 a {
-  color: var(--color-link-primary);
+  color: var(--color-ui-blue); /* Primary blue for links */
   text-decoration: underline;
+  text-decoration-color: var(--color-ui-blue);
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 a:hover {
-  color: var(--color-link-hover);
-  text-decoration-color: var(--color-link-hover);
+  color: var(--color-ui-blue-light);
+  text-decoration-color: var(--color-ui-blue-light);
 }
 
 /* Site Header */
@@ -101,11 +101,11 @@ a:hover {
   font-size: 1.8rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--color-accent-highlight); /* Use a strong accent for the logo */
+  color: var(--color-accent-highlight); /* Bright blue for logo */
   margin: 0;
   padding: 0;
   line-height: 1;
-  text-shadow: 0 0 5px rgba(255, 255, 0, 0.3); /* Subtle glow effect */
+  text-shadow: 0 0 8px rgba(0, 191, 255, 0.5); /* Subtle glow effect */
 }
 
 /* Navigation Menu */
@@ -123,18 +123,19 @@ a:hover {
   text-transform: lowercase;
   font-size: 1rem;
   font-weight: 600;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  transition: all 0.3s ease; /* Transition all properties for smooth effect */
   position: relative;
   /* Add subtle 3D border effect for menu items */
   border: 1px solid transparent;
   padding: 0.2em 0.4em;
+  box-sizing: border-box; /* Include padding in element's total width/height */
 }
 
 .nav-menu li a:hover {
-  color: var(--color-accent-secondary); /* Greenish hover */
-  text-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
-  border-color: var(--color-accent-secondary);
-  box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+  color: var(--color-ui-blue-light); /* Lighter blue on hover */
+  text-shadow: 0 0 8px rgba(80, 187, 255, 0.5); /* Subtle blue glow */
+  border-color: var(--color-ui-blue); /* Blue border on hover */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
   border-radius: 2px;
 }
 
@@ -151,6 +152,8 @@ a:hover {
   z-index: 10;
   border-radius: 4px;
   border: 1px solid var(--color-border-light);
+  /* 3D inset effect for dropdown container */
+  box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 4px 10px rgba(0, 0, 0, 0.7);
 }
 
 .dropdown-menu li a {
@@ -158,14 +161,13 @@ a:hover {
   display: block;
   white-space: nowrap;
   color: var(--color-text-primary);
-  /* Reset link styles within dropdown */
   text-decoration: none;
   font-weight: normal;
 }
 
 .dropdown-menu li a:hover {
   background-color: rgba(0, 123, 255, 0.2); /* Light blue highlight on dark */
-  color: var(--color-link-hover);
+  color: var(--color-ui-blue-light);
 }
 
 /* Hero Section (Homepage & Archive) */
@@ -177,21 +179,22 @@ a:hover {
   background-color: transparent;
   color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 3rem; /* Extra space at bottom */
 }
 
 .tagline {
-  font-size: 2.8rem; /* Even larger, more impactful */
+  font-size: 2.8rem;
   font-weight: normal;
-  text-transform: uppercase; /* More digital age feel */
+  text-transform: uppercase;
   margin-bottom: 1.5rem;
-  color: var(--color-accent-highlight);
+  color: var(--color-accent-highlight); /* Bright blue for tagline */
   line-height: 1.2;
-  text-shadow: 0 0 10px rgba(255, 255, 0, 0.5); /* Stronger glow */
+  text-shadow: 0 0 10px rgba(0, 191, 255, 0.5); /* Stronger glow */
 }
 
 .intro {
   margin: 1.5rem auto 2.5rem;
-  font-size: 1.1rem; /* Slightly smaller to fit monospace well */
+  font-size: 1.1rem;
   color: var(--color-text-secondary);
   line-height: 1.7;
   max-width: 700px;
@@ -202,41 +205,35 @@ a:hover {
 .cta {
   display: inline-block;
   padding: 0.8rem 1.6rem;
-  background-color: var(--color-ui-blue); /* Default blue button */
+  background-color: var(--color-ui-blue);
   color: white;
   text-decoration: none;
   font-size: 1rem;
   text-transform: lowercase;
   font-weight: 600;
-  border-radius: 2px; /* Sharp corners */
+  border-radius: 2px;
   cursor: pointer;
-  /* 3D button effect */
-  border: none; /* Remove default border */
-  box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom),
-              var(--shadow-outset-top), var(--shadow-outset-bottom);
-  transition: all 0.1s ease-out; /* Quick transition for click feel */
-  transform: translate(0, 0); /* Initial state for transition */
+  border: none;
+  box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
+  transition: all 0.1s ease-out;
+  transform: translate(0, 0);
 }
 
 .cta:hover {
-  background-color: var(--color-link-hover);
-  box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom),
-              var(--shadow-outset-top), var(--shadow-outset-bottom); /* Maintain 3D effect on hover */
+  background-color: var(--color-ui-blue-light);
+  box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
 }
 
 .cta:active {
-  /* Simulate pressed state */
   transform: translate(1px, 1px);
-  box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom); /* Inset shadow only */
-  background-color: var(--color-ui-blue); /* Keep base color */
-  border: none;
+  box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom);
+  background-color: var(--color-ui-blue);
 }
-
 
 /* Footer */
 .site-footer {
   text-align: center;
-  font-size: 0.85rem; /* Slightly larger */
+  font-size: 0.85rem;
   padding: 1.5rem;
   color: var(--color-text-secondary);
   border-top: 1px solid var(--color-border-light);
@@ -244,18 +241,18 @@ a:hover {
   margin-top: 4rem;
 }
 
-/* Global Section Titles */
+/* Global Section Titles - More prominent for retro UI */
 .section-title {
   text-align: center;
-  font-size: 2.2rem; /* Larger and more impactful */
+  font-size: 2.2rem;
   margin: 3.5rem auto 2.5rem;
   font-family: 'IBM Plex Mono', monospace;
-  color: var(--color-accent-teal); /* Teal accent */
-  border-bottom: 1px solid var(--color-border-light); /* Thinner, lighter border */
+  color: var(--color-accent-secondary); /* Teal/Cyan accent */
+  border-bottom: 1px solid var(--color-border-light);
   padding-bottom: 0.5rem;
   display: block;
   max-width: fit-content;
-  text-transform: uppercase; /* More emphasis */
+  text-transform: uppercase;
   letter-spacing: 1px;
 }
 
@@ -273,8 +270,10 @@ a:hover {
 .feature-card {
   background: var(--color-card-bg);
   border: 1px solid var(--color-border-light);
-  border-radius: 4px; /* Sharper corners */
-  box-shadow: 2px 2px 0px var(--color-border-dark), 4px 4px 0px rgba(0,0,0,0.4); /* Stepped 3D shadow */
+  border-radius: 4px;
+  /* Outset 3D effect */
+  box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+              4px 4px 0px var(--color-border-dark); /* Deeper main shadow */
   overflow: hidden;
   text-decoration: none;
   color: inherit;
@@ -286,7 +285,8 @@ a:hover {
 
 .feature-card:hover {
   transform: translate(-2px, -2px); /* Lift slightly towards top-left */
-  box-shadow: 4px 4px 0px var(--color-border-dark), 6px 6px 0px rgba(0,0,0,0.6); /* Enhanced shadow on hover */
+  box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+              6px 6px 0px rgba(0,0,0,0.8); /* Enhanced, darker shadow on hover */
 }
 
 .feature-card-content {
@@ -299,7 +299,7 @@ a:hover {
 .feature-card-content h4 {
   margin: 0 0 0.6rem;
   font-size: 1.15rem;
-  color: var(--color-accent-gold); /* Gold accent for card titles */
+  color: var(--color-accent-highlight); /* Bright blue for card titles */
   line-height: 1.3;
   text-transform: lowercase;
 }
@@ -350,21 +350,20 @@ a:hover {
 .homepage-two-column > div {
     flex: 1;
     min-width: 300px;
-}
-
-#what-we-are-reading-homepage {
+    /* Apply common card styling to these sections for consistency */
     background-color: var(--color-card-bg);
     border: 1px solid var(--color-border-light);
     border-radius: 4px;
-    box-shadow: 2px 2px 0px var(--color-border-dark), 4px 4px 0px rgba(0,0,0,0.4);
-    padding: 1.5rem;
-    flex-grow: 1;
+    box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                4px 4px 0px var(--color-border-dark);
+    padding: 1.5rem; /* Adjust padding for inner content */
 }
+
 #what-we-are-reading-homepage h3 {
     font-size: 1.25rem;
     margin-top: 0;
     margin-bottom: 1rem;
-    color: var(--color-accent-teal);
+    color: var(--color-accent-secondary); /* Use teal/cyan accent */
     text-align: center;
     border-bottom: 1px dashed var(--color-border-light);
     padding-bottom: 0.5rem;
@@ -373,7 +372,7 @@ a:hover {
 #what-we-are-reading-homepage .reading-item {
     margin-bottom: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px dashed var(--color-border);
+    border-bottom: 1px dashed var(--color-border-dark); /* Darker dashed line for internal separation */
 }
 #what-we-are-reading-homepage .reading-item:last-child {
     border-bottom: none;
@@ -400,7 +399,8 @@ a:hover {
     background-color: var(--color-card-bg);
     border: 1px solid var(--color-border-light);
     border-radius: 4px;
-    box-shadow: 2px 2px 0px var(--color-border-dark), 4px 4px 0px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                4px 4px 0px var(--color-border-dark);
     padding: 2rem;
     margin: 3rem auto;
     max-width: 1000px;
@@ -409,26 +409,26 @@ a:hover {
     align-items: center;
     text-align: center;
 }
-#latest-newsletter-section h3.section-title { /* Target specific h3 */
-    font-size: 1.8rem; /* Smaller than global section title */
-    color: var(--color-accent-teal);
+#latest-newsletter-section h3.section-title {
+    font-size: 1.8rem;
+    color: var(--color-accent-secondary); /* Use teal/cyan accent */
     margin-top: 0;
     margin-bottom: 1rem;
     text-transform: lowercase;
-    border-bottom: none; /* Remove section title border here */
+    border-bottom: none;
     padding-bottom: 0;
 }
 #latest-newsletter-section .newsletter-image {
-    max-width: 200px; /* Larger image */
+    max-width: 200px;
     height: auto;
     border-radius: 4px;
     margin-bottom: 1.5rem;
     border: 1px solid var(--color-border-light);
-    box-shadow: 1px 1px 0px var(--color-border-dark); /* Subtle 3D for image */
+    box-shadow: 1px 1px 0px var(--color-border-dark);
 }
 #latest-newsletter-section .newsletter-title {
     font-size: 1.5rem;
-    color: var(--color-accent-gold);
+    color: var(--color-accent-highlight); /* Bright blue for newsletter title */
     margin-bottom: 0.5rem;
     text-decoration: none;
     transition: color 0.3s ease;
@@ -449,12 +449,13 @@ a:hover {
     background-color: var(--color-card-bg);
     border: 1px solid var(--color-border-light);
     border-radius: 4px;
-    box-shadow: 2px 2px 0px var(--color-border-dark), 4px 4px 0px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                4px 4px 0px var(--color-border-dark);
     text-align: center;
 }
 #how-to-use-section h2 {
     font-size: 2.2rem;
-    color: var(--color-accent-teal);
+    color: var(--color-accent-secondary); /* Teal/Cyan accent */
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -463,16 +464,21 @@ a:hover {
     font-size: 1.05rem;
     color: var(--color-text-secondary);
     line-height: 1.7;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem; /* Increased margin for better spacing */
 }
 #how-to-use-section ul {
     list-style: none;
     padding: 0;
     margin-top: 1.5rem;
-    text-align: left; /* Align list items left */
+    text-align: left;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    border: 1px solid var(--color-border-dark); /* Border around list */
+    padding: 1.5rem;
+    background-color: var(--color-secondary-bg);
+    border-radius: 4px;
+    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light); /* Inset list look */
 }
 #how-to-use-section li {
     margin-bottom: 0.8rem;
@@ -480,17 +486,24 @@ a:hover {
     color: var(--color-text-primary);
     text-transform: lowercase;
     position: relative;
-    padding-left: 1.5em; /* Space for custom bullet */
+    padding-left: 1.5em;
+    border-bottom: 1px dashed var(--color-border-dark); /* Dashed separator */
+    padding-bottom: 0.8rem;
+}
+#how-to-use-section li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 #how-to-use-section li::before {
-    content: '> '; /* Custom bullet point */
-    color: var(--color-accent-gold);
+    content: '> ';
+    color: var(--color-accent-highlight); /* Bright blue bullet */
     position: absolute;
     left: 0;
     font-weight: bold;
 }
 #how-to-use-section li strong {
-    color: var(--color-accent-gold);
+    color: var(--color-accent-highlight); /* Bright blue for strong text */
     font-weight: bold;
 }
 
@@ -503,7 +516,7 @@ a:hover {
     padding: 1.5rem 2rem;
     border-bottom: 1px solid var(--color-border-light);
     border-top: 1px solid var(--color-border-light);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4); /* Consistent shadow */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -512,7 +525,7 @@ a:hover {
 
 .filter-group label {
     font-weight: bold;
-    color: var(--color-accent-teal); /* Teal for filter labels */
+    color: var(--color-accent-secondary); /* Teal for filter labels */
     font-size: 1rem;
     flex-shrink: 0;
     text-transform: lowercase;
@@ -531,28 +544,28 @@ a:hover {
     background-color: var(--color-secondary-bg);
     color: var(--color-text-primary);
     padding: 0.4rem 0.8rem;
-    border-radius: 4px; /* Sharper corners for tags */
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
     border: 1px solid var(--color-border-light);
     user-select: none;
     white-space: nowrap;
     text-transform: lowercase;
-    box-shadow: 1px 1px 0px var(--color-border-dark); /* Subtle 3D effect */
+    box-shadow: 1px 1px 0px var(--color-border-dark);
 }
 
 .filter-tag:hover {
-    background-color: rgba(0, 123, 255, 0.2); /* Subtle blue hover */
-    color: var(--color-link-hover);
-    box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.3); /* Lifted shadow */
+    background-color: rgba(0, 123, 255, 0.2);
+    color: var(--color-ui-blue-light);
+    box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.3);
 }
 
 .filter-tag.selected {
-    background-color: var(--color-ui-blue); /* Strong blue for selected */
+    background-color: var(--color-ui-blue);
     color: white;
     border-color: var(--color-ui-blue);
-    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light); /* Inset effect for selected */
-    transform: translate(1px, 1px); /* Push in */
+    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
+    transform: translate(1px, 1px);
 }
 
 #search-bar {
@@ -564,7 +577,7 @@ a:hover {
     font-size: 0.95rem;
     color: var(--color-text-primary);
     background-color: var(--color-secondary-bg);
-    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light); /* Inset field effect */
+    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
 }
 #search-bar::placeholder {
     color: var(--color-text-secondary);
@@ -572,12 +585,12 @@ a:hover {
 }
 #search-bar:focus {
     outline: none;
-    border-color: var(--color-accent-teal);
-    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 0 5px rgba(13, 148, 136, 0.5); /* Subtle glow on focus */
+    border-color: var(--color-accent-secondary); /* Teal glow on focus */
+    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 0 5px rgba(32, 201, 151, 0.5);
 }
 
 #clear-filters-btn {
-    background-color: var(--color-ui-red); /* Red for clear button */
+    background-color: var(--color-ui-red);
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 4px;
@@ -587,11 +600,11 @@ a:hover {
     font-size: 0.95rem;
     font-weight: 600;
     text-transform: lowercase;
-    box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom); /* 3D button effect */
+    box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
 }
 
 #clear-filters-btn:hover {
-    background-color: #ef4444; /* Slightly lighter red on hover */
+    background-color: #ef4444;
     box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
 }
 #clear-filters-btn:active {
@@ -620,14 +633,14 @@ a:hover {
     color: white;
     padding: 0.3rem 0.6rem;
     padding-right: 0.3rem;
-    border-radius: 3px; /* Sharper badge corners */
+    border-radius: 3px;
     font-size: 0.8rem;
     display: inline-flex;
     align-items: center;
     gap: 0.2rem;
     text-transform: lowercase;
     border: 1px solid var(--color-border-dark);
-    box-shadow: 1px 1px 0px rgba(0,0,0,0.3); /* Subtle 3D for active badge */
+    box-shadow: 1px 1px 0px rgba(0,0,0,0.3);
 }
 
 .active-filter-badge .remove-filter {
@@ -650,9 +663,9 @@ a:hover {
     font-weight: normal;
     opacity: 0.8;
     margin-right: 0.2rem;
-    color: var(--color-text-primary); /* Light text for label within badge */
+    color: var(--color-text-primary);
 }
-.active-filter-badge p { /* Style for 'no active filters' text */
+.active-filter-badge p {
     color: var(--color-text-secondary);
     font-style: italic;
     font-size: 0.9rem;
@@ -672,8 +685,9 @@ a:hover {
 .resource-card {
   position: relative;
   overflow: hidden;
-  border-radius: 4px; /* Sharper corners */
-  box-shadow: 2px 2px 0px var(--color-border-dark), 4px 4px 0px rgba(0,0,0,0.4); /* Stepped 3D shadow */
+  border-radius: 4px;
+  box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+              4px 4px 0px var(--color-border-dark);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
   color: inherit;
@@ -685,15 +699,16 @@ a:hover {
 }
 
 .resource-card:hover {
-  transform: translate(-2px, -2px); /* Lift slightly towards top-left */
-  box-shadow: 4px 4px 0px var(--color-border-dark), 6px 6px 0px rgba(0,0,0,0.6); /* Enhanced shadow on hover */
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+              6px 6px 0px rgba(0,0,0,0.6);
 }
 
 .resource-image {
     width: 100%;
     height: 180px;
     object-fit: cover;
-    background-color: var(--color-secondary-bg); /* Darker placeholder background */
+    background-color: var(--color-secondary-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -701,7 +716,7 @@ a:hover {
     font-size: 1.2rem;
     font-weight: bold;
     overflow: hidden;
-    border-bottom: 1px solid var(--color-border-dark); /* Separator for image */
+    border-bottom: 1px solid var(--color-border-dark);
 }
 .resource-image img {
     width: 100%;
@@ -718,8 +733,8 @@ a:hover {
 
 .resource-overlay h3 {
   margin: 0 0 0.5rem;
-  font-size: 1.15rem; /* Consistent card title size */
-  color: var(--color-accent-gold); /* Gold accent for card titles */
+  font-size: 1.15rem;
+  color: var(--color-accent-highlight); /* Bright blue for card titles */
   line-height: 1.3;
   text-transform: lowercase;
 }
@@ -750,7 +765,57 @@ a:hover {
     white-space: nowrap;
     text-transform: lowercase;
     border: 1px solid var(--color-border-light);
-    box-shadow: 0.5px 0.5px 0px var(--color-border-dark); /* Very subtle 3D */
+    box-shadow: 0.5px 0.5px 0px var(--color-border-dark);
+}
+
+
+/* Retro Loading Animation - Provided by user, integrated */
+.loader {
+  height: 30px;
+  aspect-ratio: 2;
+  display: grid;
+  background:
+    radial-gradient(farthest-side, var(--color-ui-blue) 15%, #0000 18%)0 0/50% 100%,
+    radial-gradient(50% 100% at 50% 160%, var(--color-text-primary) 95%, #0000) 0 0 /50% 50%,
+    radial-gradient(50% 100% at 50% -60%, var(--color-text-primary) 95%, #0000) 0 100%/50% 50%;
+  background-repeat: repeat-x;
+  animation: l2 1.5s infinite linear;
+  margin: 20px auto; /* Center the loader */
+}
+@keyframes l2 {
+  0%,
+  15% {background-position:0   0,0 0,0 100%}
+  20%,
+  40% {background-position:5px 0,0 0,0 100%}
+  45%,
+  55% {background-position:0   0,0 0,0 100%}
+  60%,
+  80%{background-position:-5px 0,0 0,0 100%}
+  85%,
+  100% {background-position:0   0,0 0,0 100%}
+}
+
+/* Typewriter Effect CSS */
+.typewriter-text {
+  overflow: hidden; /* Ensures the text is hidden until typed */
+  white-space: nowrap; /* Keeps all text on a single line */
+  border-right: 2px solid var(--color-accent-highlight); /* Blinking cursor */
+  animation: 
+    typing 4s steps(60, end) forwards, /* Adjust steps to match text length */
+    blink-caret 0.75s step-end infinite;
+  display: inline-block; /* Essential for animation */
+  max-width: 0; /* Starts with no width */
+  text-align: left; /* Align text within its growing width */
+}
+
+@keyframes typing {
+  from { max-width: 0 }
+  to { max-width: 100% } /* Expands to full width */
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--color-accent-highlight); }
 }
 
 
@@ -812,6 +877,9 @@ a:hover {
       padding: 1rem;
       gap: 1rem;
   }
+  .homepage-two-column > div { /* Apply consistent padding to direct children */
+      padding: 1rem;
+  }
   #what-we-are-reading-homepage {
       margin-left: 0;
       max-width: 100%;
@@ -821,5 +889,11 @@ a:hover {
   }
   #latest-newsletter-section h3.section-title {
       font-size: 1.5rem;
+  }
+  .rss-slide h4 {
+      font-size: 1.3rem; /* Adjust for smaller screens */
+  }
+  .rss-slide p {
+      font-size: 0.9rem;
   }
 }
