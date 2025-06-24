@@ -1,32 +1,41 @@
 /* Custom CSS Properties (Variables) - Centralize your colors for easy theme management */
 :root {
-  /* Core Palette - Darker, with old UI feel and blue accents */
-  --color-main-bg: #1A1A22; /* Very dark background */
-  --color-secondary-bg: #2B2B38; /* Slightly lighter bg for elements/headers */
-  --color-card-bg: #3A3A4A; /* Even lighter bg for cards/sections */
-  --color-text-primary: #E0E0E0; /* Main text color */
-  --color-text-secondary: #AAAAAA; /* Muted text for descriptions, metadata */
+  /* Core Palette - Lighter background, red accents */
+  --color-main-bg: #EFEFEF; /* Very light gray/off-white */
+  --color-secondary-bg: #DCDCDC; /* Slightly darker light gray for elements/headers */
+  --color-card-bg: #F8F8F8; /* Even lighter bg for cards/sections, almost white */
+  --color-text-primary: #333333; /* Dark charcoal for main text */
+  --color-text-secondary: #666666; /* Medium gray for muted text, descriptions */
   
-  /* UI Borders & Shadows - For the classic 3D effect */
-  --color-border-dark: #121218; /* Darkest for inner shadows/bottom right border */
-  --color-border-light: #4A4A58; /* Lighter for outer highlights/top left border */
-  --color-border-accent: #007BFF; /* A clean blue border for focus/selection */
+  /* UI Borders & Shadows - For the classic 3D effect on a light background */
+  --color-border-dark: #A0A0A0; /* Darker gray for inner shadows/bottom right border */
+  --color-border-light: #FBFBFB; /* Lighter gray for outer highlights/top left border */
+  --color-border-accent: #E74C3C; /* A vibrant red border for focus/selection */
 
-  /* UI Accents - Leaning into blues and subtle contrast */
-  --color-ui-blue: #007BFF; /* Standard UI blue */
-  --color-ui-blue-light: #50BBFF; /* Lighter blue for hover */
-  --color-ui-green: #28A745; /* Green for success/confirm */
-  --color-ui-red: #DC3545; /* Red for errors/clear actions */
-  --color-accent-highlight: #00BFFF; /* A bright sky blue for main highlights/logo */
-  --color-accent-secondary: #20C997; /* A teal/cyan for secondary accents */
+  /* UI Accents - Leaning into reds and subtle contrast */
+  --color-ui-red: #E74C3C; /* Primary red accent */
+  --color-ui-red-light: #FF6B5C; /* Lighter red for hover */
+  --color-ui-green: #28A745; /* Green for success/confirm (unchanged, standard) */
+  --color-ui-blue: #007BFF; /* Blue (can be used subtly, e.g., for loader) */
+  
+  --color-accent-highlight: var(--color-ui-red); /* Main highlight is now red */
+  --color-accent-secondary: #5BC0DE; /* A muted cyan/sky blue for secondary accents (e.g., section titles) */
 
   /* Shadows for 3D UI effect (consistent naming for reusability) */
+  /* Outset shadow for raised effect */
+  --shadow-outset-top: 1px 1px 0px var(--color-border-light), 
+                       2px 2px 0px var(--color-border-dark); /* Stronger 3D */
+  --shadow-outset-bottom: -1px -1px 0px var(--color-border-dark), 
+                          -2px -2px 0px var(--color-border-light); /* Stronger 3D */
+
+  /* Inset shadow for pressed effect */
   --shadow-inset-top: inset 1px 1px 0px var(--color-border-dark);
   --shadow-inset-bottom: inset -1px -1px 0px var(--color-border-light);
-  --shadow-outset-top: 1px 1px 0px var(--color-border-light);
-  --shadow-outset-bottom: -1px -1px 0px var(--color-border-dark);
 
-  /* Noise/CRT Effect - for subtle background texture */
+  /* General shadow for elements without strong 3D borders */
+  --shadow-element: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+  /* Noise/CRT Effect - subtle background texture */
   --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
@@ -37,7 +46,7 @@ body {
   color: var(--color-text-primary);
   margin: 0;
   padding: 0;
-  line-height: 1.7; /* Adjusted for better readability on dark backgrounds */
+  line-height: 1.7; /* Adjusted for better readability */
   letter-spacing: -0.01em; /* Slight tightening */
   overflow-x: hidden; /* Prevent horizontal scroll */
   position: relative; /* For subtle noise effect */
@@ -53,38 +62,41 @@ body::before {
   height: 100%;
   background-image: repeating-linear-gradient(
     0deg,
-    rgba(34, 34, 42, 0.05),
-    rgba(34, 34, 42, 0.05) 1px,
+    rgba(0, 0, 0, 0.03), /* Very faint dark lines */
+    rgba(0, 0, 0, 0.03) 1px,
     transparent 1px,
     transparent 2px /* Subtle scanline effect */
   );
   background-size: 2px 2px;
-  opacity: 0.1; /* Very subtle */
+  opacity: 0.2; /* Slightly more visible on light background */
   pointer-events: none; /* Allow clicks through */
   z-index: -1; /* Place behind content */
 }
 
 /* General Link Styling */
 a {
-  color: var(--color-ui-blue); /* Primary blue for links */
+  color: var(--color-ui-red); /* Primary red for links */
   text-decoration: underline;
-  text-decoration-color: var(--color-ui-blue);
+  text-decoration-color: var(--color-ui-red);
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 a:hover {
-  color: var(--color-ui-blue-light);
-  text-decoration-color: var(--color-ui-blue-light);
+  color: var(--color-ui-red-light);
+  text-decoration-color: var(--color-ui-red-light);
 }
 
 /* Site Header */
 .site-header {
-  border-bottom: 1px solid var(--color-border-light);
+  border-bottom: 1px solid var(--color-border-dark);
   padding: 1.2rem 2rem;
   background: var(--color-secondary-bg);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); /* More pronounced shadow */
+  box-shadow: var(--shadow-element); /* Simple shadow */
   position: sticky;
   top: 0;
   z-index: 100;
+  border-left: 1px solid var(--color-border-light); /* Add left/right borders for UI feel */
+  border-right: 1px solid var(--color-border-dark);
+  box-sizing: border-box; /* Include padding/border in element's total width/height */
 }
 
 .navbar {
@@ -101,11 +113,11 @@ a:hover {
   font-size: 1.8rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--color-accent-highlight); /* Bright blue for logo */
+  color: var(--color-accent-highlight); /* Red for logo */
   margin: 0;
   padding: 0;
   line-height: 1;
-  text-shadow: 0 0 8px rgba(0, 191, 255, 0.5); /* Subtle glow effect */
+  text-shadow: 0 0 8px rgba(255, 65, 54, 0.5); /* Subtle glow effect */
 }
 
 /* Navigation Menu */
@@ -123,19 +135,18 @@ a:hover {
   text-transform: lowercase;
   font-size: 1rem;
   font-weight: 600;
-  transition: all 0.3s ease; /* Transition all properties for smooth effect */
+  transition: all 0.3s ease;
   position: relative;
-  /* Add subtle 3D border effect for menu items */
   border: 1px solid transparent;
   padding: 0.2em 0.4em;
-  box-sizing: border-box; /* Include padding in element's total width/height */
+  box-sizing: border-box;
 }
 
 .nav-menu li a:hover {
-  color: var(--color-ui-blue-light); /* Lighter blue on hover */
-  text-shadow: 0 0 8px rgba(80, 187, 255, 0.5); /* Subtle blue glow */
-  border-color: var(--color-ui-blue); /* Blue border on hover */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  color: var(--color-ui-red-light);
+  text-shadow: 0 0 8px rgba(255, 107, 92, 0.5);
+  border-color: var(--color-ui-red);
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
   border-radius: 2px;
 }
 
@@ -147,13 +158,11 @@ a:hover {
   list-style: none;
   padding: 0.5rem 0;
   margin: 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7); /* Darker shadow for depth */
   min-width: 200px;
   z-index: 10;
   border-radius: 4px;
-  border: 1px solid var(--color-border-light);
-  /* 3D inset effect for dropdown container */
-  box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 4px 10px rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--color-border-dark);
+  box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom), 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .dropdown-menu li a {
@@ -166,8 +175,8 @@ a:hover {
 }
 
 .dropdown-menu li a:hover {
-  background-color: rgba(0, 123, 255, 0.2); /* Light blue highlight on dark */
-  color: var(--color-ui-blue-light);
+  background-color: rgba(231, 76, 60, 0.1); /* Light red highlight */
+  color: var(--color-ui-red-light);
 }
 
 /* Hero Section (Homepage & Archive) */
@@ -178,8 +187,8 @@ a:hover {
   margin: 0 auto;
   background-color: transparent;
   color: var(--color-text-primary);
-  border-bottom: 1px solid var(--color-border-light);
-  padding-bottom: 3rem; /* Extra space at bottom */
+  border-bottom: 1px solid var(--color-border-dark);
+  padding-bottom: 3rem;
 }
 
 .tagline {
@@ -187,9 +196,9 @@ a:hover {
   font-weight: normal;
   text-transform: uppercase;
   margin-bottom: 1.5rem;
-  color: var(--color-accent-highlight); /* Bright blue for tagline */
+  color: var(--color-accent-highlight); /* Red for tagline */
   line-height: 1.2;
-  text-shadow: 0 0 10px rgba(0, 191, 255, 0.5); /* Stronger glow */
+  text-shadow: 0 0 10px rgba(255, 65, 54, 0.5);
 }
 
 .intro {
@@ -201,11 +210,11 @@ a:hover {
   text-align: center;
 }
 
-/* Call to Action Buttons - Now with 3D button effect */
+/* Call to Action Buttons - 3D button effect */
 .cta {
   display: inline-block;
   padding: 0.8rem 1.6rem;
-  background-color: var(--color-ui-blue);
+  background-color: var(--color-ui-red); /* Red button */
   color: white;
   text-decoration: none;
   font-size: 1rem;
@@ -220,14 +229,14 @@ a:hover {
 }
 
 .cta:hover {
-  background-color: var(--color-ui-blue-light);
+  background-color: var(--color-ui-red-light);
   box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
 }
 
 .cta:active {
   transform: translate(1px, 1px);
   box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom);
-  background-color: var(--color-ui-blue);
+  background-color: var(--color-ui-red);
 }
 
 /* Footer */
@@ -236,7 +245,7 @@ a:hover {
   font-size: 0.85rem;
   padding: 1.5rem;
   color: var(--color-text-secondary);
-  border-top: 1px solid var(--color-border-light);
+  border-top: 1px solid var(--color-border-dark);
   background-color: var(--color-secondary-bg);
   margin-top: 4rem;
 }
@@ -247,8 +256,8 @@ a:hover {
   font-size: 2.2rem;
   margin: 3.5rem auto 2.5rem;
   font-family: 'IBM Plex Mono', monospace;
-  color: var(--color-accent-secondary); /* Teal/Cyan accent */
-  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-accent-secondary); /* Cyan/Sky Blue for section titles */
+  border-bottom: 1px solid var(--color-border-dark);
   padding-bottom: 0.5rem;
   display: block;
   max-width: fit-content;
@@ -269,11 +278,10 @@ a:hover {
 /* Feature Cards (Homepage dynamic sections and Field sections) */
 .feature-card {
   background: var(--color-card-bg);
-  border: 1px solid var(--color-border-light);
+  border: 1px solid var(--color-border-dark);
   border-radius: 4px;
-  /* Outset 3D effect */
   box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-              4px 4px 0px var(--color-border-dark); /* Deeper main shadow */
+              4px 4px 0px var(--color-border-dark); /* Adjusted shadow on light bg */
   overflow: hidden;
   text-decoration: none;
   color: inherit;
@@ -284,9 +292,9 @@ a:hover {
 }
 
 .feature-card:hover {
-  transform: translate(-2px, -2px); /* Lift slightly towards top-left */
+  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-              6px 6px 0px rgba(0,0,0,0.8); /* Enhanced, darker shadow on hover */
+              6px 6px 0px rgba(0,0,0,0.4); /* Stronger shadow on hover */
 }
 
 .feature-card-content {
@@ -299,7 +307,7 @@ a:hover {
 .feature-card-content h4 {
   margin: 0 0 0.6rem;
   font-size: 1.15rem;
-  color: var(--color-accent-highlight); /* Bright blue for card titles */
+  color: var(--color-accent-highlight); /* Red for card titles */
   line-height: 1.3;
   text-transform: lowercase;
 }
@@ -328,7 +336,7 @@ a:hover {
   color: var(--color-text-secondary);
   grid-column: 1 / -1;
   font-style: italic;
-  border: 1px dashed var(--color-border-light);
+  border: 1px dashed var(--color-border-dark);
   border-radius: 4px;
   background-color: var(--color-secondary-bg);
 }
@@ -350,29 +358,34 @@ a:hover {
 .homepage-two-column > div {
     flex: 1;
     min-width: 300px;
-    /* Apply common card styling to these sections for consistency */
     background-color: var(--color-card-bg);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-dark);
     border-radius: 4px;
     box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
                 4px 4px 0px var(--color-border-dark);
-    padding: 1.5rem; /* Adjust padding for inner content */
+    padding: 1.5rem;
 }
 
-#what-we-are-reading-homepage h3 {
-    font-size: 1.25rem;
+/* Styling for h3 titles within homepage content areas */
+.homepage-content-h3 {
+    font-size: 1.4rem;
+    color: var(--color-accent-secondary); /* Cyan/Sky Blue for H3s */
     margin-top: 0;
-    margin-bottom: 1rem;
-    color: var(--color-accent-secondary); /* Use teal/cyan accent */
-    text-align: center;
-    border-bottom: 1px dashed var(--color-border-light);
-    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
     text-transform: lowercase;
+    text-align: center;
+    border-bottom: 1px dashed var(--color-border-dark);
+    padding-bottom: 0.5rem;
+    display: block;
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 #what-we-are-reading-homepage .reading-item {
     margin-bottom: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px dashed var(--color-border-dark); /* Darker dashed line for internal separation */
+    border-bottom: 1px dashed var(--color-border-dark);
 }
 #what-we-are-reading-homepage .reading-item:last-child {
     border-bottom: none;
@@ -386,7 +399,7 @@ a:hover {
     transition: color 0.2s ease;
 }
 #what-we-are-reading-homepage .reading-item a:hover {
-    color: var(--color-link-hover);
+    color: var(--color-ui-red-light);
     text-decoration: underline;
 }
 #what-we-are-reading-homepage .reading-item p {
@@ -397,7 +410,7 @@ a:hover {
 
 #latest-newsletter-section {
     background-color: var(--color-card-bg);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-dark);
     border-radius: 4px;
     box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
                 4px 4px 0px var(--color-border-dark);
@@ -409,32 +422,23 @@ a:hover {
     align-items: center;
     text-align: center;
 }
-#latest-newsletter-section h3.section-title {
-    font-size: 1.8rem;
-    color: var(--color-accent-secondary); /* Use teal/cyan accent */
-    margin-top: 0;
-    margin-bottom: 1rem;
-    text-transform: lowercase;
-    border-bottom: none;
-    padding-bottom: 0;
-}
 #latest-newsletter-section .newsletter-image {
     max-width: 200px;
     height: auto;
     border-radius: 4px;
     margin-bottom: 1.5rem;
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-dark);
     box-shadow: 1px 1px 0px var(--color-border-dark);
 }
 #latest-newsletter-section .newsletter-title {
     font-size: 1.5rem;
-    color: var(--color-accent-highlight); /* Bright blue for newsletter title */
+    color: var(--color-accent-highlight); /* Red for newsletter title */
     margin-bottom: 0.5rem;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 #latest-newsletter-section .newsletter-title:hover {
-    color: var(--color-link-hover);
+    color: var(--color-ui-red-light);
 }
 #latest-newsletter-section .newsletter-subtitle {
     font-size: 1rem;
@@ -447,24 +451,28 @@ a:hover {
     max-width: 1000px;
     margin: 3rem auto;
     background-color: var(--color-card-bg);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-dark);
     border-radius: 4px;
     box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
                 4px 4px 0px var(--color-border-dark);
     text-align: center;
 }
-#how-to-use-section h2 {
-    font-size: 2.2rem;
-    color: var(--color-accent-secondary); /* Teal/Cyan accent */
+#how-to-use-section h2.homepage-content-h3 {
+    font-size: 1.8rem;
+    color: var(--color-accent-secondary);
+    margin-top: 0;
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    border-bottom: 1px solid var(--color-border-light);
+    padding-bottom: 0.5rem;
+    display: inline-block;
 }
 #how-to-use-section p {
     font-size: 1.05rem;
     color: var(--color-text-secondary);
     line-height: 1.7;
-    margin-bottom: 1.5rem; /* Increased margin for better spacing */
+    margin-bottom: 1.5rem;
 }
 #how-to-use-section ul {
     list-style: none;
@@ -474,11 +482,11 @@ a:hover {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid var(--color-border-dark); /* Border around list */
+    border: 1px solid var(--color-border-dark);
     padding: 1.5rem;
     background-color: var(--color-secondary-bg);
     border-radius: 4px;
-    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light); /* Inset list look */
+    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
 }
 #how-to-use-section li {
     margin-bottom: 0.8rem;
@@ -487,7 +495,7 @@ a:hover {
     text-transform: lowercase;
     position: relative;
     padding-left: 1.5em;
-    border-bottom: 1px dashed var(--color-border-dark); /* Dashed separator */
+    border-bottom: 1px dashed var(--color-border-dark);
     padding-bottom: 0.8rem;
 }
 #how-to-use-section li:last-child {
@@ -497,13 +505,13 @@ a:hover {
 }
 #how-to-use-section li::before {
     content: '> ';
-    color: var(--color-accent-highlight); /* Bright blue bullet */
+    color: var(--color-accent-highlight); /* Red bullet */
     position: absolute;
     left: 0;
     font-weight: bold;
 }
 #how-to-use-section li strong {
-    color: var(--color-accent-highlight); /* Bright blue for strong text */
+    color: var(--color-accent-highlight); /* Red for strong text */
     font-weight: bold;
 }
 
@@ -514,9 +522,9 @@ a:hover {
 #main-filter-container {
     background-color: var(--color-card-bg);
     padding: 1.5rem 2rem;
-    border-bottom: 1px solid var(--color-border-light);
-    border-top: 1px solid var(--color-border-light);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    border-bottom: 1px solid var(--color-border-dark);
+    border-top: 1px solid var(--color-border-dark);
+    box-shadow: var(--shadow-element);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -525,7 +533,7 @@ a:hover {
 
 .filter-group label {
     font-weight: bold;
-    color: var(--color-accent-secondary); /* Teal for filter labels */
+    color: var(--color-accent-secondary); /* Cyan/Sky Blue for filter labels */
     font-size: 1rem;
     flex-shrink: 0;
     text-transform: lowercase;
@@ -547,23 +555,23 @@ a:hover {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-dark);
     user-select: none;
     white-space: nowrap;
     text-transform: lowercase;
-    box-shadow: 1px 1px 0px var(--color-border-dark);
+    box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.2);
 }
 
 .filter-tag:hover {
-    background-color: rgba(0, 123, 255, 0.2);
-    color: var(--color-ui-blue-light);
+    background-color: rgba(231, 76, 60, 0.1); /* Light red highlight */
+    color: var(--color-ui-red-light);
     box-shadow: 1px 1px 0px var(--color-border-dark), 2px 2px 0px rgba(0,0,0,0.3);
 }
 
 .filter-tag.selected {
-    background-color: var(--color-ui-blue);
+    background-color: var(--color-ui-red);
     color: white;
-    border-color: var(--color-ui-blue);
+    border-color: var(--color-ui-red);
     box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
     transform: translate(1px, 1px);
 }
@@ -572,7 +580,7 @@ a:hover {
     width: 100%;
     max-width: 800px;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border-light);
+    border: 1px solid var(--color-border-dark);
     border-radius: 4px;
     font-size: 0.95rem;
     color: var(--color-text-primary);
@@ -585,8 +593,8 @@ a:hover {
 }
 #search-bar:focus {
     outline: none;
-    border-color: var(--color-accent-secondary); /* Teal glow on focus */
-    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 0 5px rgba(32, 201, 151, 0.5);
+    border-color: var(--color-accent-secondary); /* Cyan glow on focus */
+    box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light), 0 0 5px rgba(91, 192, 222, 0.5);
 }
 
 #clear-filters-btn {
@@ -604,7 +612,7 @@ a:hover {
 }
 
 #clear-filters-btn:hover {
-    background-color: #ef4444;
+    background-color: var(--color-ui-red-light);
     box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
 }
 #clear-filters-btn:active {
@@ -629,7 +637,7 @@ a:hover {
 }
 
 .active-filter-badge {
-    background-color: var(--color-ui-blue);
+    background-color: var(--color-ui-red);
     color: white;
     padding: 0.3rem 0.6rem;
     padding-right: 0.3rem;
@@ -701,7 +709,7 @@ a:hover {
 .resource-card:hover {
   transform: translate(-2px, -2px);
   box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-              6px 6px 0px rgba(0,0,0,0.6);
+              6px 6px 0px rgba(0,0,0,0.4);
 }
 
 .resource-image {
@@ -734,7 +742,7 @@ a:hover {
 .resource-overlay h3 {
   margin: 0 0 0.5rem;
   font-size: 1.15rem;
-  color: var(--color-accent-highlight); /* Bright blue for card titles */
+  color: var(--color-accent-highlight); /* Red for card titles */
   line-height: 1.3;
   text-transform: lowercase;
 }
@@ -775,7 +783,7 @@ a:hover {
   aspect-ratio: 2;
   display: grid;
   background:
-    radial-gradient(farthest-side, var(--color-ui-blue) 15%, #0000 18%)0 0/50% 100%,
+    radial-gradient(farthest-side, var(--color-ui-red) 15%, #0000 18%)0 0/50% 100%, /* Red accent for loader */
     radial-gradient(50% 100% at 50% 160%, var(--color-text-primary) 95%, #0000) 0 0 /50% 50%,
     radial-gradient(50% 100% at 50% -60%, var(--color-text-primary) 95%, #0000) 0 100%/50% 50%;
   background-repeat: repeat-x;
@@ -799,7 +807,7 @@ a:hover {
 .typewriter-text {
   overflow: hidden; /* Ensures the text is hidden until typed */
   white-space: nowrap; /* Keeps all text on a single line */
-  border-right: 2px solid var(--color-accent-highlight); /* Blinking cursor */
+  border-right: 2px solid var(--color-accent-highlight); /* Blinking cursor, now red */
   animation: 
     typing 4s steps(60, end) forwards, /* Adjust steps to match text length */
     blink-caret 0.75s step-end infinite;
