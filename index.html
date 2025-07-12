@@ -10,31 +10,31 @@
     /* Styles specific to index.html sections to complement styles.css */
     /* Adjustments for the hero section's new copy length */
     .hero {
-        padding: 4rem 2rem;
+        padding: 2rem 2rem 1rem; /* Reduced padding */
         text-align: center;
         max-width: 800px;
         margin: 0 auto;
-        border-bottom: 1px solid var(--color-border-dark); /* Keep separator */
-        padding-bottom: 3rem;
+        border-bottom: 1px solid var(--color-border-dark);
+        padding-bottom: 1.5rem; /* Reduced padding-bottom */
     }
 
     .hero .tagline {
         font-size: 1.8rem;
         font-weight: normal;
         text-transform: uppercase;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem; /* Reduced margin */
         color: var(--color-accent-highlight);
     }
 
-    .hero .intro { /* This will now be used by the blurb section below */
-        margin: 1.5rem 0 2.5rem;
+    .hero .intro { /* This class is now used by the blurb section below */
+        margin: 1rem 0 1.5rem; /* Reduced margins */
         font-size: 1.05rem;
         color: var(--color-text-secondary);
         line-height: 1.7;
-        text-align: left; /* Align left within its column */
+        text-align: left;
     }
 
-    .hero .cta { /* This will now be used by the blurb section below */
+    .hero .cta {
         display: inline-block;
         padding: 0.6rem 1.2rem;
         border: 1px solid var(--color-accent-highlight);
@@ -52,41 +52,35 @@
 
     /* --- New Section Layouts for Homepage Content Blocks --- */
     .homepage-content-section {
-        padding: 3rem 2rem;
+        padding: 2rem 2rem; /* Reduced padding */
         max-width: 1200px;
-        margin: 3rem auto; /* Consistent vertical margin between sections */
+        margin: 2rem auto; /* Reduced vertical margin between sections */
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
                     4px 4px 0px var(--color-border-dark);
-        text-align: center; /* Center content within these sections by default */
+        text-align: center;
     }
 
     /* New Spotlight Section Title */
     .spotlight-title {
-        font-size: 1.6rem; /* Thin writing, slightly smaller than main section titles */
+        font-size: 1.6rem;
         font-weight: normal;
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: var(--color-text-secondary); /* Muted color */
-        margin-bottom: 1.5rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 1rem; /* Reduced margin */
         text-align: center;
         display: block;
     }
 
-    /* Section titles within homepage content areas */
-    .homepage-content-section .section-title {
-        margin-top: 0; /* Override global margin-top */
-        margin-bottom: 2.5rem; /* Consistent margin below title */
-    }
-
-    /* H3 titles within homepage content areas (for sub-sections like "What We're Reading") */
+    /* H3 titles within homepage content areas */
     .homepage-content-h3 {
         font-size: 1.4rem;
         color: var(--color-text-primary);
         margin-top: 0;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem; /* Reduced margin */
         text-transform: lowercase;
         text-align: center;
         border-bottom: 1px dashed var(--color-border-dark);
@@ -99,15 +93,15 @@
 
     /* What We're Reading Rotator specific styles (now the main spotlight) */
     #what-we-are-reading-homepage-rotator-section {
-        padding: 3rem 2rem; /* Consistent padding with other sections */
+        padding: 2rem 2rem; /* Reduced padding */
         max-width: 1200px;
-        margin: 3rem auto;
+        margin: 2rem auto; /* Reduced vertical margin */
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
                     4px 4px 0px var(--color-border-dark);
-        position: relative; /* For arrow positioning */
+        position: relative;
         text-align: center;
     }
 
@@ -115,9 +109,9 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        min-height: 350px; /* Increased min-height for a prominent spotlight */
+        min-height: 450px; /* Significantly increased min-height for dominant image */
         margin: 0 auto;
-        border: 1px solid var(--color-border-light); /* Subtle border around rotator slides */
+        border: 1px solid var(--color-border-light);
         border-radius: 4px;
         box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
     }
@@ -132,46 +126,46 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-end; /* Align content to bottom */
         align-items: center;
         position: relative;
-        min-height: 350px; /* Match container height */
+        min-height: 450px; /* Match container height */
         background-size: cover;
         background-position: center;
         border-radius: 4px;
-        color: white; /* Default text color for overlay */
+        color: white;
     }
-    .rotator-slide .overlay-content { /* New wrapper for text content */
+    .rotator-slide .overlay-content {
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0)); /* Stronger gradient */
-        padding: 1.5rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2)); /* Stronger gradient for readability */
+        padding: 1.5rem; /* Increased padding for more space */
         text-align: center;
         width: 100%;
         box-sizing: border-box;
     }
     .rotator-slide h4 {
         margin: 0;
-        font-size: 1.8rem; /* Larger title for spotlight */
+        font-size: 2rem; /* Larger title for spotlight */
         color: var(--color-accent-highlight);
-        text-transform: lowercase;
-        line-height: 1.3;
-        margin-bottom: 0.5rem;
+        text-transform: uppercase; /* Uppercase for impact */
+        line-height: 1.2;
+        margin-bottom: 0.8rem;
     }
     .rotator-slide p {
         margin: 0;
         font-size: 1.1rem; /* Larger description for spotlight */
         color: var(--color-text-primary); /* Primary text color for readability */
-        line-height: 1.5;
+        line-height: 1.6;
         opacity: 0.9;
     }
     .rotator-slide .source-meta {
         font-size: 0.9rem;
         color: var(--color-text-secondary);
         opacity: 0.8;
-        margin-top: 0.5rem;
+        margin-top: 0.8rem; /* More space */
     }
 
     .rotator-pagination-dots {
@@ -220,16 +214,16 @@
 
 
     /* Homepage Two-Column Layout (Newsletter & Blurb) */
-    .homepage-two-column-main { /* New wrapper for these two sections */
+    .homepage-two-column-main {
         display: flex;
         flex-wrap: wrap;
         gap: 2rem;
         padding: 2rem;
         max-width: 1200px;
-        margin: 3rem auto; /* Consistent vertical margin */
-        align-items: flex-start; /* Align tops of columns */
+        margin: 2rem auto; /* Reduced vertical margin */
+        align-items: flex-start;
     }
-    .homepage-two-column-main > section { /* Apply common section styling to children */
+    .homepage-two-column-main > section {
         flex: 1;
         min-width: 300px;
         background-color: var(--color-card-bg);
@@ -267,28 +261,28 @@
 
     /* Blurb Section */
     #blurb-section {
-        text-align: center; /* Center content within blurb section */
+        text-align: center;
     }
     #blurb-section .homepage-content-h3 {
-        margin-top: 0; /* Override default margin-top */
+        margin-top: 0;
     }
-    #blurb-section .intro-blurb { /* Specific class for blurb text */
+    .intro-blurb { /* Specific class for blurb text */
         margin: 1.5rem auto 2.5rem;
         font-size: 1.05rem;
         color: var(--color-text-secondary);
         line-height: 1.7;
-        text-align: left; /* Align text left within its column */
+        text-align: left;
     }
     #blurb-section .cta {
-        margin-top: 1rem; /* Space below blurb text */
+        margin-top: 1rem;
     }
 
 
     /* How to Use Section */
     #how-to-use-section {
-        padding: 3rem 2rem;
+        padding: 2rem 2rem; /* Reduced padding */
         max-width: 1000px;
-        margin: 3rem auto;
+        margin: 2rem auto; /* Reduced margin */
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
@@ -340,9 +334,9 @@
 
     /* Community Signup Section */
     #community-signup {
-        padding: 3rem 2rem; /* Consistent padding */
-        max-width: 1000px; /* Max width */
-        margin: 3rem auto; /* Consistent margin */
+        padding: 2rem 2rem; /* Reduced padding */
+        max-width: 1000px;
+        margin: 2rem auto; /* Reduced margin */
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
@@ -351,50 +345,63 @@
         text-align: center;
     }
     #community-signup .section-title {
-        margin-top: 0; /* Override default margin-top */
+        margin-top: 0;
     }
     #community-signup p {
         font-size: 1.1rem;
         color: var(--color-text-secondary);
         max-width: 600px;
-        margin: 0 auto 2rem;
+        margin: 0 auto 1.5rem; /* Reduced margin-bottom */
     }
     #community-signup .cta {
-        margin-top: 0; /* Reset margin from previous inline style */
+        margin-top: 0;
     }
 
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
+        .hero {
+            padding: 2rem 1rem 1rem;
+        }
+        .tagline {
+            font-size: 1.8rem;
+        }
+        .intro {
+            font-size: 0.95rem;
+        }
+
         .homepage-content-section {
-            padding: 2rem 1rem;
-            margin: 2rem auto;
+            padding: 1.5rem 1rem;
+            margin: 1.5rem auto;
         }
         .spotlight-title {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
         }
-        .rotator-container {
-            min-height: 250px;
+        #what-we-are-reading-homepage-rotator-section .rotator-container {
+            min-height: 280px; /* Adjust for mobile */
         }
         .rotator-slide h4 {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
         .rotator-slide p {
             font-size: 0.9rem;
+        }
+        .rotator-slide .source-meta {
+            font-size: 0.8rem;
         }
 
         .homepage-two-column-main {
             flex-direction: column;
             padding: 1rem;
-            gap: 1rem;
-            margin: 2rem auto;
+            gap: 1.5rem;
+            margin: 1.5rem auto;
         }
         .homepage-two-column-main > section {
             padding: 1.5rem;
-            min-width: unset; /* Allow to shrink on mobile */
+            min-width: unset;
         }
-        #blurb-section .intro-blurb {
+        .intro-blurb {
             text-align: center; /* Center blurb text on mobile */
         }
 
@@ -439,9 +446,10 @@
   </header>
 
   <main>
-    <!-- Main Hero Section (now just tagline) -->
+    <!-- Main Hero Section (now just tagline and CTA) -->
     <section class="hero">
       <h2 class="tagline typewriter-text">A Public Knowledge Project for Critical Thought.</h2>
+      <a href="fields.html" class="cta">enter the fields</a>
     </section>
 
     <!-- What We're Reading Section (Main Spotlight) -->
@@ -473,8 +481,13 @@
         <section id="blurb-section" class="homepage-content-section">
             <h3 class="homepage-content-h3">About Critical Fields</h3>
             <p class="intro-blurb">
-              We are a decentralized platform built by a network of scholars to map the landscape of critical studies. We believe knowledge should be a commons: a space for intentional learning, collective synthesis, and open exchange. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.
+              Critical Fields is a public knowledge project built by a network of thinkers, mapping the landscape of critical thought. We believe learning should be a commons—especially for a generation navigating a world of algorithm-driven feeds and saturation. With infinite resources scattered across the web, we are returning to a more intentional model: one where people can follow their own curiosity, contribute to the learning of others, and build a knowledge commons together. To that end, we believe it is essential to archive, organize, and connect these resources with focus and intent.
+              <br><br>
+              At our core is the Archive, an open-access repository where our community preserves essential resources. From that foundation, we build "Fields": curated, interdisciplinary lenses used to interpret the collection. Guided by our editors, these thematic paradigms provide the structure needed to move beyond passive consumption to active, collective synthesis.
+              <br><br>
+              We rely on contributions from our community to identify, categorize, and preserve the essential learning resources that are often lost to the void. If you have a resource that belongs here, we invite you to submit it to our learning commons. But an archive is only the beginning. The interpretive work of making sense of this material within our "Fields" is a demanding and essential task, and we invite you to lend your voice and analysis to this living project.
             </p>
+            <!-- CTA is now part of this section's content -->
             <a href="fields.html" class="cta">enter the fields</a>
         </section>
     </div>
@@ -482,13 +495,7 @@
     <!-- How to Use Website Section -->
     <section id="how-to-use-section" class="homepage-content-section">
         <h2 class="section-title">How to Use This Site</h2>
-        <p>Critical Fields is designed to be an interactive digital library and archive. Here’s a brief guide:</p>
-        <ul>
-            <li><strong>The Archive:</strong> Dive into our comprehensive, user-fed repository of critical resources. Use the advanced filters and search to find exactly what you need. Hover over items to read descriptions.</li>
-            <li><strong>Fields:</strong> Explore curated, interdisciplinary lenses on specific critical conversations. Each field offers a focused collection of relevant archive content, essays, editor selections, and more.</li>
-            <li><strong>Contribute:</strong> We believe in a knowledge commons. If you have a resource, insight, or analysis that aligns with our mission, we invite you to contribute and help build this collective project.</li>
-        </ul>
-        <p>This platform is a living project, growing and evolving with the contributions of its community.</p>
+        <p>Critical Fields is a decentralized platform built by a network of scholars to map the landscape of critical studies. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.</p>
     </section>
 
     <!-- Community Signup Section -->
@@ -510,6 +517,7 @@
     const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRBl_Sy0Aw_idmkwuQSGVNloQj4PxOKr2J6d_4YDibJuOppgndtfFpH1HGgkecJR1M6LmDFsezIfaiC/pub?output=csv';
     const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
     const MAIN_ARCHIVE_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_CSV_URL);
+
 
     // Helper function to parse CSV data (reused across site)
     function parseCSV(csvText) {
@@ -649,7 +657,6 @@
             slide.rel = 'noopener noreferrer';
             slide.className = 'rotator-slide';
             
-            // Set background image for the slide
             const imageUrl = article.ImageLink && article.ImageLink.startsWith('http') ? article.ImageLink : '';
             if (imageUrl) {
                 slide.style.backgroundImage = `url('${imageUrl}')`;
@@ -658,7 +665,6 @@
                 slide.style.backgroundImage = 'none';
             }
 
-            // Content overlay
             slide.innerHTML = `
                 <div class="overlay-content">
                     <h4>${article.Title || 'untitled selection'}</h4>
