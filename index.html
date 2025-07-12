@@ -14,6 +14,8 @@
         text-align: center;
         max-width: 800px;
         margin: 0 auto;
+        border-bottom: 1px solid var(--color-border-dark); /* Keep separator */
+        padding-bottom: 3rem;
     }
 
     .hero .tagline {
@@ -24,15 +26,15 @@
         color: var(--color-accent-highlight);
     }
 
-    .hero .intro {
+    .hero .intro { /* This will now be used by the blurb section below */
         margin: 1.5rem 0 2.5rem;
         font-size: 1.05rem;
         color: var(--color-text-secondary);
         line-height: 1.7;
-        text-align: center;
+        text-align: left; /* Align left within its column */
     }
 
-    .hero .cta {
+    .hero .cta { /* This will now be used by the blurb section below */
         display: inline-block;
         padding: 0.6rem 1.2rem;
         border: 1px solid var(--color-accent-highlight);
@@ -48,38 +50,41 @@
         color: var(--color-main-bg);
     }
 
-    /* --- Platform Features Section Styles (now uses the new general styles) --- */
-    /* This main #platform-features section itself will apply common card styles */
-    #platform-features {
+    /* --- New Section Layouts for Homepage Content Blocks --- */
+    .homepage-content-section {
         padding: 3rem 2rem;
         max-width: 1200px;
-        margin: 0 auto;
-        background-color: var(--color-card-bg); /* Use card-bg for consistency */
-        border: 1px solid var(--color-border-dark); /* Apply card border */
+        margin: 3rem auto; /* Consistent vertical margin between sections */
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
         border-radius: 4px;
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-                    4px 4px 0px var(--color-border-dark); /* Apply card shadow */
+                    4px 4px 0px var(--color-border-dark);
+        text-align: center; /* Center content within these sections by default */
     }
 
-    /* section titles like "Platform-Wide Features" */
-    /* This rule is now effectively for the section title within #platform-features, if it exists */
-    #platform-features .section-title {
-        text-align: center;
-        font-size: 2.2rem; /* Consistent with global section title */
-        margin: 0 auto 2.5rem; /* Adjust margin */
-        color: var(--color-accent-highlight); /* Consistent red for main section title */
-        border-bottom: 1px solid var(--color-border-dark);
-        padding-bottom: 0.5rem;
-        display: block;
-        max-width: fit-content;
+    /* New Spotlight Section Title */
+    .spotlight-title {
+        font-size: 1.6rem; /* Thin writing, slightly smaller than main section titles */
+        font-weight: normal;
         text-transform: uppercase;
         letter-spacing: 1px;
+        color: var(--color-text-secondary); /* Muted color */
+        margin-bottom: 1.5rem;
+        text-align: center;
+        display: block;
     }
 
-    /* H3 titles within homepage content areas */
+    /* Section titles within homepage content areas */
+    .homepage-content-section .section-title {
+        margin-top: 0; /* Override global margin-top */
+        margin-bottom: 2.5rem; /* Consistent margin below title */
+    }
+
+    /* H3 titles within homepage content areas (for sub-sections like "What We're Reading") */
     .homepage-content-h3 {
         font-size: 1.4rem;
-        color: var(--color-text-primary); /* Primary text color for sub-headings */
+        color: var(--color-text-primary);
         margin-top: 0;
         margin-bottom: 1.5rem;
         text-transform: lowercase;
@@ -92,53 +97,34 @@
         margin-right: auto;
     }
 
-    .content-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    /* Homepage two-column layout */
-    .homepage-two-column {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        padding: 2rem;
+    /* What We're Reading Rotator specific styles (now the main spotlight) */
+    #what-we-are-reading-homepage-rotator-section {
+        padding: 3rem 2rem; /* Consistent padding with other sections */
         max-width: 1200px;
-        margin: 0 auto;
-        align-items: flex-start;
-    }
-    /* Apply feature-card styling directly to the children divs */
-    .homepage-two-column > div {
-        flex: 1;
-        min-width: 300px;
+        margin: 3rem auto;
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
                     4px 4px 0px var(--color-border-dark);
-        padding: 1.5rem;
-    }
-
-    /* What We're Reading section specific styles */
-    /* This section is now a rotator, so its content is dynamically generated inside rotator-container */
-    #what-we-are-reading-homepage-rotator-section { /* Added for clarity */
-        min-height: 250px; /* Ensure it has height even when loading */
         position: relative; /* For arrow positioning */
+        text-align: center;
     }
 
-    .rotator-container { /* Common style for rotators */
+    .rotator-container {
         position: relative;
         overflow: hidden;
         width: 100%;
-        min-height: 250px; /* Increased min-height for image + text */
+        min-height: 350px; /* Increased min-height for a prominent spotlight */
         margin: 0 auto;
+        border: 1px solid var(--color-border-light); /* Subtle border around rotator slides */
+        border-radius: 4px;
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
     }
     .rotator-slides-wrapper {
         display: flex;
         transition: transform 0.5s ease-in-out;
-        height: 100%; /* Ensure wrapper fills container for vertical centering */
+        height: 100%;
     }
     .rotator-slide {
         flex: 0 0 100%;
@@ -146,41 +132,45 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; /* Align content to top */
+        justify-content: center;
         align-items: center;
-        padding: 1rem; /* Padding inside slide */
-        text-align: center;
-    }
-    .rotator-slide img { /* Style for image *inside* the slide */
-        max-width: 100%;
-        max-height: 150px; /* Constrain image height */
-        object-fit: contain; /* Ensure image fits without cropping */
-        margin-bottom: 0.8rem; /* Space between image and text */
-        border: 1px solid var(--color-border-dark);
-        box-shadow: 1px 1px 0px var(--color-border-dark);
+        position: relative;
+        min-height: 350px; /* Match container height */
+        background-size: cover;
+        background-position: center;
         border-radius: 4px;
+        color: white; /* Default text color for overlay */
     }
-    .rotator-slide .slide-content { /* Wrapper for title, description, meta */
+    .rotator-slide .overlay-content { /* New wrapper for text content */
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0)); /* Stronger gradient */
+        padding: 1.5rem;
+        text-align: center;
         width: 100%;
+        box-sizing: border-box;
     }
     .rotator-slide h4 {
-        margin: 0 0 0.5rem;
-        font-size: 1.2rem;
+        margin: 0;
+        font-size: 1.8rem; /* Larger title for spotlight */
         color: var(--color-accent-highlight);
         text-transform: lowercase;
         line-height: 1.3;
+        margin-bottom: 0.5rem;
     }
     .rotator-slide p {
-        margin: 0 0 0.5rem;
-        font-size: 0.9rem;
-        color: var(--color-text-secondary);
+        margin: 0;
+        font-size: 1.1rem; /* Larger description for spotlight */
+        color: var(--color-text-primary); /* Primary text color for readability */
         line-height: 1.5;
         opacity: 0.9;
     }
     .rotator-slide .source-meta {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         color: var(--color-text-secondary);
-        opacity: 0.7;
+        opacity: 0.8;
         margin-top: 0.5rem;
     }
 
@@ -189,17 +179,17 @@
         margin-top: 1rem;
     }
     .rotator-dot {
-        height: 8px; /* Smaller dots */
+        height: 8px;
         width: 8px;
         margin: 0 4px;
-        background-color: var(--color-border-dark); /* Dark dot */
+        background-color: var(--color-border-dark);
         border-radius: 50%;
         display: inline-block;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
     .rotator-dot.active {
-        background-color: var(--color-accent-highlight); /* Red when active */
+        background-color: var(--color-accent-highlight);
         transform: scale(1.2);
     }
     .rotator-arrow {
@@ -229,13 +219,30 @@
     }
 
 
-    /* Latest Newsletter Section (Full Width) */
-    #latest-newsletter-section {
-        /* Already inheriting core card styles from homepage-two-column > div */
-        /* Specific overrides if needed */
+    /* Homepage Two-Column Layout (Newsletter & Blurb) */
+    .homepage-two-column-main { /* New wrapper for these two sections */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 3rem auto; /* Consistent vertical margin */
+        align-items: flex-start; /* Align tops of columns */
     }
+    .homepage-two-column-main > section { /* Apply common section styling to children */
+        flex: 1;
+        min-width: 300px;
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        padding: 1.5rem;
+    }
+
+    /* Newsletter Section */
     #latest-newsletter-section .newsletter-image {
-        max-width: 100%; /* Changed to 100% to fill container */
+        max-width: 100%;
         height: auto;
         border-radius: 4px;
         margin-bottom: 1.5rem;
@@ -258,6 +265,25 @@
         margin-bottom: 1.5rem;
     }
 
+    /* Blurb Section */
+    #blurb-section {
+        text-align: center; /* Center content within blurb section */
+    }
+    #blurb-section .homepage-content-h3 {
+        margin-top: 0; /* Override default margin-top */
+    }
+    #blurb-section .intro-blurb { /* Specific class for blurb text */
+        margin: 1.5rem auto 2.5rem;
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+        text-align: left; /* Align text left within its column */
+    }
+    #blurb-section .cta {
+        margin-top: 1rem; /* Space below blurb text */
+    }
+
+
     /* How to Use Section */
     #how-to-use-section {
         padding: 3rem 2rem;
@@ -275,7 +301,7 @@
         padding: 0;
         margin-top: 1.5rem;
         text-align: left;
-        max-width: 800px; /* Made wider */
+        max-width: 800px;
         margin-left: auto;
         margin-right: auto;
         border: 1px solid var(--color-border-dark);
@@ -293,7 +319,7 @@
         padding-left: 1.5em;
         border-bottom: 1px dashed var(--color-border-dark);
         padding-bottom: 0.8rem;
-        line-height: 1.8; /* Increased line height */
+        line-height: 1.8;
     }
     #how-to-use-section li:last-child {
         border-bottom: none;
@@ -312,27 +338,78 @@
         font-weight: bold;
     }
 
+    /* Community Signup Section */
+    #community-signup {
+        padding: 3rem 2rem; /* Consistent padding */
+        max-width: 1000px; /* Max width */
+        margin: 3rem auto; /* Consistent margin */
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        text-align: center;
+    }
+    #community-signup .section-title {
+        margin-top: 0; /* Override default margin-top */
+    }
+    #community-signup p {
+        font-size: 1.1rem;
+        color: var(--color-text-secondary);
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+    #community-signup .cta {
+        margin-top: 0; /* Reset margin from previous inline style */
+    }
+
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
-        .homepage-two-column {
+        .homepage-content-section {
+            padding: 2rem 1rem;
+            margin: 2rem auto;
+        }
+        .spotlight-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        .rotator-container {
+            min-height: 250px;
+        }
+        .rotator-slide h4 {
+            font-size: 1.3rem;
+        }
+        .rotator-slide p {
+            font-size: 0.9rem;
+        }
+
+        .homepage-two-column-main {
             flex-direction: column;
             padding: 1rem;
             gap: 1rem;
-        }
-        .homepage-two-column > div {
-            padding: 1rem;
-            margin: 0 auto;
-        }
-        #latest-newsletter-section, #how-to-use-section {
-            padding: 1.5rem;
             margin: 2rem auto;
         }
-        /* Specific adjustments for homepage rotators on mobile */
-        #what-we-are-reading-homepage-rotator-section .rotator-slide h4 {
-            font-size: 1.1rem;
+        .homepage-two-column-main > section {
+            padding: 1.5rem;
+            min-width: unset; /* Allow to shrink on mobile */
         }
-        #what-we-are-reading-homepage-rotator-section .rotator-slide p {
-            font-size: 0.85rem;
+        #blurb-section .intro-blurb {
+            text-align: center; /* Center blurb text on mobile */
+        }
+
+        #latest-newsletter-section .newsletter-title {
+            font-size: 1.3rem;
+        }
+        #latest-newsletter-section .newsletter-subtitle {
+            font-size: 0.9rem;
+        }
+        #how-to-use-section ul {
+            padding: 1rem;
+        }
+        #how-to-use-section li {
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
     }
   </style>
@@ -362,47 +439,49 @@
   </header>
 
   <main>
+    <!-- Main Hero Section (now just tagline) -->
     <section class="hero">
-      <h2 class="tagline typewriter-text">A Public Knowledge Project for Critical Thought.</h2> <!-- Shortened tagline -->
-      <p class="intro">
-        We are a decentralized platform built by a network of scholars to map the landscape of critical studies. We believe knowledge should be a commons: a space for intentional learning, collective synthesis, and open exchange. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.
-      </p>
-      <a href="fields.html" class="cta">enter the fields</a>
+      <h2 class="tagline typewriter-text">A Public Knowledge Project for Critical Thought.</h2>
     </section>
 
-    <!-- Unified section for "What We're Reading" and "Latest Newsletter" side-by-side -->
-    <section id="platform-features">
-      <!-- Removed Platform-Wide Features h2 as requested -->
-
-      <div class="homepage-two-column">
-          <!-- What We're Reading Section (NOW A ROTATOR) -->
-          <div id="what-we-are-reading-homepage-rotator-section">
-              <h3 class="homepage-content-h3">Chief Editors’ "What We're Reading"</h3>
-              <div id="what-we-are-reading-rotator-container" class="rotator-container">
-                  <p class="loading-message" id="what-we-are-reading-loading-homepage">
-                      <div class="loader"></div>
-                      loading selections...
-                  </p>
-              </div>
-              <div id="what-we-are-reading-pagination-dots" class="rotator-pagination-dots"></div>
-          </div>
-
-          <!-- Latest Newsletter Section -->
-          <div id="latest-newsletter-section">
-              <h3 class="homepage-content-h3">Latest Weekly Newsletter</h3>
-              <div id="latest-newsletter-container">
-                  <p class="loading-message" id="latest-newsletter-loading">
-                      <div class="loader"></div>
-                      loading newsletter...
-                  </p>
-              </div>
-          </div>
-      </div>
+    <!-- What We're Reading Section (Main Spotlight) -->
+    <section id="what-we-are-reading-homepage-rotator-section" class="homepage-content-section">
+        <h2 class="spotlight-title">What We're Reading</h2>
+        <div id="what-we-are-reading-rotator-container" class="rotator-container">
+            <p class="loading-message" id="what-we-are-reading-loading-homepage">
+                <div class="loader"></div>
+                loading selections...
+            </p>
+        </div>
+        <div id="what-we-are-reading-pagination-dots" class="rotator-pagination-dots"></div>
     </section>
 
-    <!-- How to Use Website Section (Full Width) -->
-    <section id="how-to-use-section">
-        <h2 class="homepage-content-h3">How to Use This Site</h2>
+    <!-- Combined Newsletter & Blurb Sections -->
+    <div class="homepage-two-column-main">
+        <!-- Latest Newsletter Section -->
+        <section id="latest-newsletter-section" class="homepage-content-section">
+            <h3 class="homepage-content-h3">Latest Weekly Newsletter</h3>
+            <div id="latest-newsletter-container">
+                <p class="loading-message" id="latest-newsletter-loading">
+                    <div class="loader"></div>
+                    loading newsletter...
+                </p>
+            </div>
+        </section>
+
+        <!-- Blurb Section -->
+        <section id="blurb-section" class="homepage-content-section">
+            <h3 class="homepage-content-h3">About Critical Fields</h3>
+            <p class="intro-blurb">
+              We are a decentralized platform built by a network of scholars to map the landscape of critical studies. We believe knowledge should be a commons: a space for intentional learning, collective synthesis, and open exchange. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.
+            </p>
+            <a href="fields.html" class="cta">enter the fields</a>
+        </section>
+    </div>
+
+    <!-- How to Use Website Section -->
+    <section id="how-to-use-section" class="homepage-content-section">
+        <h2 class="section-title">How to Use This Site</h2>
         <p>Critical Fields is designed to be an interactive digital library and archive. Here’s a brief guide:</p>
         <ul>
             <li><strong>The Archive:</strong> Dive into our comprehensive, user-fed repository of critical resources. Use the advanced filters and search to find exactly what you need. Hover over items to read descriptions.</li>
@@ -412,11 +491,12 @@
         <p>This platform is a living project, growing and evolving with the contributions of its community.</p>
     </section>
 
-    <section id="community-signup">
+    <!-- Community Signup Section -->
+    <section id="community-signup" class="homepage-content-section">
       <h2 class="section-title">Join Our Network</h2>
       <p>Become part of our growing community of thinkers and contributors. Receive updates, participate in discussions, and shape the future of critical learning.</p>
-      <div style="text-align: center; margin-top: 2rem;"> <!-- Wrapper div for centering CTA -->
-        <a href="#" class="cta">Sign Up Now</a> <!-- Link to actual signup form when ready -->
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="#" class="cta">Sign Up Now</a>
       </div>
     </section>
   </main>
@@ -427,13 +507,9 @@
 
   <script>
     // --- Configuration for Homepage Dynamic Content ---
-    // Original Google Sheet CSV URL
     const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRBl_Sy0Aw_idmkwuQSGVNloQj4PxOKr2J6d_4YDibJuOppgndtfFpH1HGgkecJR1M6LmDFsezIfaiC/pub?output=csv';
-    // CORS Proxy URL
     const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
-    // Combined URL for fetching via proxy
     const MAIN_ARCHIVE_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_CSV_URL);
-
 
     // Helper function to parse CSV data (reused across site)
     function parseCSV(csvText) {
@@ -476,8 +552,6 @@
             }
             const rowObject = {};
             headers.forEach((header, index) => {
-                // IMPORTANT: Trim and lowercase *all* values immediately upon parsing
-                // This ensures consistency for filtering later
                 rowObject[header] = values[index] ? values[index].toLowerCase().trim() : '';
             });
             data.push(rowObject);
@@ -486,20 +560,18 @@
     }
 
     // Generic function to fetch and display data, now with added filtering capability
-    // Adjusted to handle both single items and rotator data
     async function fetchDataAndDisplay(url, targetContainerId, renderFunction, limit = 3, filterCriterion = null) {
         const loadingElement = document.getElementById(`${targetContainerId.replace('-container', '')}-loading`);
         const container = document.getElementById(targetContainerId);
         
         if (loadingElement) {
-            // Store original text if not already stored
             if (!loadingElement.dataset.originalText) {
                 loadingElement.dataset.originalText = loadingElement.innerHTML;
             }
-            loadingElement.innerHTML = '<div class="loader"></div>' + loadingElement.dataset.originalText; // Add loader and original text
+            loadingElement.innerHTML = '<div class="loader"></div>' + loadingElement.dataset.originalText;
             loadingElement.style.display = 'block';
         }
-        container.innerHTML = ''; // Clear previous content / placeholders
+        container.innerHTML = '';
 
         try {
             const response = await fetch(url);
@@ -509,11 +581,9 @@
             const csvText = await response.text();
             let data = parseCSV(csvText);
 
-            // Apply filter criterion if provided
             if (filterCriterion) {
                 data = data.filter(item => {
                     const itemValue = item[filterCriterion.column];
-                    // Ensure robust comparison for comma-separated values in the target column
                     if (itemValue) {
                         const valuesInCell = itemValue.toLowerCase().split(',').map(v => v.trim());
                         return valuesInCell.includes(filterCriterion.value.toLowerCase());
@@ -529,9 +599,8 @@
 
             const itemsToShow = data.slice(0, limit); 
 
-            // If it's the "What We're Reading" rotator, handle it specially
             if (targetContainerId === 'what-we-are-reading-rotator-container') {
-                readingArticles = itemsToShow; // Store for rotator
+                readingArticles = itemsToShow;
                 renderReadingRotator();
             } else {
                 itemsToShow.forEach(item => {
@@ -555,14 +624,14 @@
     let readingArticles = [];
     let currentReadingIndex = 0;
     let readingIntervalId;
-    const READING_ROTATION_INTERVAL = 8000; // 8 seconds for rotation
+    const READING_ROTATION_INTERVAL = 8000;
 
     // --- Rotator Functions for "What We're Reading" ---
     function renderReadingRotator() {
         const rotatorContainer = document.getElementById('what-we-are-reading-rotator-container');
         const dotsContainer = document.getElementById('what-we-are-reading-pagination-dots');
-        rotatorContainer.innerHTML = ''; // Clear previous slides
-        dotsContainer.innerHTML = '';    // Clear previous dots
+        rotatorContainer.innerHTML = '';
+        dotsContainer.innerHTML = '';
 
         if (readingArticles.length === 0) {
             rotatorContainer.innerHTML = `<p class="loading-message">no selections available yet.</p>`;
@@ -574,22 +643,27 @@
         rotatorContainer.appendChild(slidesWrapper);
 
         readingArticles.forEach((article, index) => {
-            const slide = document.createElement('a'); // Make whole slide a link
+            const slide = document.createElement('a');
             slide.href = article.Link || '#';
             slide.target = '_blank';
             slide.rel = 'noopener noreferrer';
             slide.className = 'rotator-slide';
             
-            // Image (now as an <img> tag *inside* the slide for flexibility)
+            // Set background image for the slide
             const imageUrl = article.ImageLink && article.ImageLink.startsWith('http') ? article.ImageLink : '';
-            const imageHtml = imageUrl ? `<img src="${imageUrl}" alt="${article.Title || 'Selection image'}" onerror="this.style.display='none';">` : '';
+            if (imageUrl) {
+                slide.style.backgroundImage = `url('${imageUrl}')`;
+            } else {
+                slide.style.backgroundColor = 'var(--color-secondary-bg)';
+                slide.style.backgroundImage = 'none';
+            }
 
+            // Content overlay
             slide.innerHTML = `
-                ${imageHtml}
-                <div class="slide-content">
+                <div class="overlay-content">
                     <h4>${article.Title || 'untitled selection'}</h4>
                     <p>${article.Description || 'no description provided.'}</p>
-                    <div class="source-meta">${article.Medium || 'item'} by ${article.Author || 'the editors'}</div>
+                    <div class="source-meta">${article.Medium || 'item'} by ${article.Author || 'the editors'} &mdash; ${article.Date || 'n.d.'}</div>
                 </div>
             `;
             slidesWrapper.appendChild(slide);
@@ -600,12 +674,11 @@
             dot.addEventListener('click', () => {
                 stopReadingRotator();
                 showReadingSlide(index);
-                startReadingRotator(); // Restart timer after manual interaction
+                startReadingRotator();
             });
             dotsContainer.appendChild(dot);
         });
 
-        // Add navigation arrows
         const prevArrow = document.createElement('button');
         prevArrow.className = 'rotator-arrow prev';
         prevArrow.innerHTML = '&lsaquo;';
@@ -652,8 +725,8 @@
     }
 
     function startReadingRotator() {
-        stopReadingRotator(); // Clear any existing interval
-        if (readingArticles.length > 1) { // Only rotate if more than one article
+        stopReadingRotator();
+        if (readingArticles.length > 1) {
             readingIntervalId = setInterval(() => {
                 showReadingSlide(currentReadingIndex + 1);
             }, READING_ROTATION_INTERVAL);
@@ -664,7 +737,6 @@
         clearInterval(readingIntervalId);
     }
 
-    // --- Render Functions for other Homepage Sections (not rotators) ---
     function renderNewsletterCard(item) {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -676,14 +748,8 @@
         return div;
     }
 
-    // --- Initialize Data Loading on Page Load ---
     document.addEventListener('DOMContentLoaded', () => {
-        // What We're Reading section (now a rotator)
-        // Ensure "Editor Selection" is the exact string in your Medium column for these entries
-        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'what-we-are-reading-rotator-container', null, 5, { column: 'Medium', value: 'Editor Selection' }); // Max 5 items for rotator
-
-        // Latest Newsletter (remains single card)
-        // Ensure "Newsletter" is the exact string in your Medium column for these entries
+        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'what-we-are-reading-rotator-container', null, 5, { column: 'Medium', value: 'Editor Selection' });
         fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'latest-newsletter-container', renderNewsletterCard, 1, { column: 'Medium', value: 'Newsletter' });
     });
   </script>
