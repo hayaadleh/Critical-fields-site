@@ -14,7 +14,7 @@
         text-align: center;
         max-width: 800px;
         margin: 0 auto;
-        border-bottom: 1px solid var(--color-border-dark);
+        border-bottom: 1px solid var(--color-border-dark); /* Keep separator */
         padding-bottom: 1.5rem; /* Reduced padding-bottom */
     }
 
@@ -34,7 +34,7 @@
         text-align: left;
     }
 
-    .hero .cta {
+    .hero .cta { /* This will now be used by the blurb section below */
         display: inline-block;
         padding: 0.6rem 1.2rem;
         border: 1px solid var(--color-accent-highlight);
@@ -59,8 +59,8 @@
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-                    4px 4px 0px var(--color-border-dark);
-        text-align: center;
+                    4px 4px 0px var(--color-border-dark); /* Apply card shadow */
+        text-align: center; /* Center content within these sections by default */
     }
 
     /* New Spotlight Section Title */
@@ -70,7 +70,7 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         color: var(--color-text-secondary);
-        margin-bottom: 1rem; /* Reduced margin */
+        margin-bottom: 1.5rem; /* Reduced margin */
         text-align: center;
         display: block;
     }
@@ -91,6 +91,34 @@
         margin-right: auto;
     }
 
+    .content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Homepage two-column layout */
+    .homepage-two-column-main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 2rem auto; /* Reduced vertical margin */
+        align-items: flex-start;
+    }
+    .homepage-two-column-main > section {
+        flex: 1;
+        min-width: 300px;
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        padding: 1.5rem;
+    }
+
     /* What We're Reading Rotator specific styles (now the main spotlight) */
     #what-we-are-reading-homepage-rotator-section {
         padding: 2rem 2rem; /* Reduced padding */
@@ -109,7 +137,7 @@
         position: relative;
         overflow: hidden;
         width: 100%;
-        min-height: 450px; /* Significantly increased min-height for dominant image */
+        min-height: 500px; /* Significantly increased min-height for dominant image */
         margin: 0 auto;
         border: 1px solid var(--color-border-light);
         border-radius: 4px;
@@ -129,11 +157,11 @@
         justify-content: flex-end; /* Align content to bottom */
         align-items: center;
         position: relative;
-        min-height: 450px; /* Match container height */
+        min-height: 500px; /* Match container height */
         background-size: cover;
         background-position: center;
         border-radius: 4px;
-        color: white;
+        color: white; /* Default text color for overlay */
     }
     .rotator-slide .overlay-content {
         position: absolute;
@@ -267,14 +295,14 @@
         margin-top: 0;
     }
     .intro-blurb { /* Specific class for blurb text */
-        margin: 1.5rem auto 2.5rem;
+        margin: 1.5rem auto 1.5rem; /* Reduced margin-bottom */
         font-size: 1.05rem;
         color: var(--color-text-secondary);
         line-height: 1.7;
         text-align: left;
     }
     #blurb-section .cta {
-        margin-top: 1rem;
+        margin-top: 0; /* Align with new flow */
     }
 
 
@@ -351,7 +379,7 @@
         font-size: 1.1rem;
         color: var(--color-text-secondary);
         max-width: 600px;
-        margin: 0 auto 1.5rem; /* Reduced margin-bottom */
+        margin: 0 auto 1.5rem;
     }
     #community-signup .cta {
         margin-top: 0;
@@ -382,7 +410,7 @@
             min-height: 280px; /* Adjust for mobile */
         }
         .rotator-slide h4 {
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* Keep relatively large */
         }
         .rotator-slide p {
             font-size: 0.9rem;
@@ -402,7 +430,7 @@
             min-width: unset;
         }
         .intro-blurb {
-            text-align: center; /* Center blurb text on mobile */
+            text-align: center;
         }
 
         #latest-newsletter-section .newsletter-title {
@@ -446,10 +474,9 @@
   </header>
 
   <main>
-    <!-- Main Hero Section (now just tagline and CTA) -->
+    <!-- Main Hero Section (now just tagline) -->
     <section class="hero">
       <h2 class="tagline typewriter-text">A Public Knowledge Project for Critical Thought.</h2>
-      <a href="fields.html" class="cta">enter the fields</a>
     </section>
 
     <!-- What We're Reading Section (Main Spotlight) -->
@@ -487,7 +514,6 @@
               <br><br>
               We rely on contributions from our community to identify, categorize, and preserve the essential learning resources that are often lost to the void. If you have a resource that belongs here, we invite you to submit it to our learning commons. But an archive is only the beginning. The interpretive work of making sense of this material within our "Fields" is a demanding and essential task, and we invite you to lend your voice and analysis to this living project.
             </p>
-            <!-- CTA is now part of this section's content -->
             <a href="fields.html" class="cta">enter the fields</a>
         </section>
     </div>
@@ -495,7 +521,7 @@
     <!-- How to Use Website Section -->
     <section id="how-to-use-section" class="homepage-content-section">
         <h2 class="section-title">How to Use This Site</h2>
-        <p>Critical Fields is a decentralized platform built by a network of scholars to map the landscape of critical studies. Explore our Archive of essential resources, delve into curated Fields of inquiry, and contribute to our shared learning index.</p>
+        <p>Critical Fields is designed as an interactive digital library. Explore our Archive for resources, delve into curated Fields for focused insights, and contribute to our growing knowledge commons.</p>
     </section>
 
     <!-- Community Signup Section -->
@@ -515,8 +541,8 @@
   <script>
     // --- Configuration for Homepage Dynamic Content ---
     const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRBl_Sy0Aw_idmkwuQSGVNloQj4PxOKr2J6d_4YDibJuOppgndtfFpH1HGgkecJR1M6LmDFsezIfaiC/pub?output=csv';
-    const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
-    const MAIN_ARCHIVE_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_CSV_URL);
+    // No CORS proxy needed if Google Sheet is published correctly
+    const MAIN_ARCHIVE_SHEET_URL = GOOGLE_SHEET_CSV_URL;
 
 
     // Helper function to parse CSV data (reused across site)
@@ -584,7 +610,7 @@
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const csvText = await response.text();
             let data = parseCSV(csvText);
