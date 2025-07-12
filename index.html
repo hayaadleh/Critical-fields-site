@@ -8,12 +8,13 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
     /* Styles specific to index.html sections to complement styles.css */
+    /* Adjustments for the hero section's new copy length */
     .hero {
-        padding: 2rem 2rem 1.5rem; /* Adjusted padding */
-        text-align: center;
+        padding: 2rem 2rem 1.5rem; /* Reduced padding */
+        text-align: center; /* Default center, overridden by flex below */
         max-width: 1200px; /* Wider for two-column layout */
         margin: 0 auto;
-        border-bottom: 1px solid var(--color-border-dark);
+        border-bottom: 1px solid var(--color-border-dark); /* Keep separator */
         padding-bottom: 1.5rem;
         display: flex; /* Enable flexbox for two columns */
         flex-wrap: wrap; /* Allow wrapping on smaller screens */
@@ -21,50 +22,105 @@
         align-items: flex-start; /* Align columns to the top */
     }
 
-    .hero .hero-left-column,
-    .hero .hero-right-column {
-        flex: 1; /* Distribute space equally */
-        min-width: 300px; /* Minimum width before wrapping */
-        padding: 0; /* No padding on these columns themselves, content sections inside will have it */
-        background-color: transparent; /* No background for these columns */
-        border: none; /* No border for these columns */
-        box-shadow: none; /* No shadow for these columns */
-    }
-
-    .hero .hero-left-column {
-        text-align: left; /* Align blurb text left */
-        padding-right: 1rem; /* Small internal padding */
-    }
-    .hero .hero-left-column .tagline {
+    .hero .tagline {
         font-size: 1.8rem;
         font-weight: normal;
         text-transform: uppercase;
-        margin-bottom: 1rem;
+        margin-bottom: 1rem; /* Reduced margin */
         color: var(--color-accent-highlight);
-        text-align: left; /* Align tagline left */
     }
-    .hero .hero-left-column .hero-description { /* New class for the descriptive text */
-        margin: 0 0 1.5rem;
+
+    .hero .intro { /* This class is now used by the blurb section below */
+        margin: 1rem 0 1.5rem; /* Reduced margins */
         font-size: 1.05rem;
         color: var(--color-text-secondary);
         line-height: 1.7;
         text-align: left;
     }
-    .hero .hero-left-column .cta {
-        margin-top: 0;
+
+    .hero .cta { /* This will now be used by the blurb section below */
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        border: 1px solid var(--color-accent-highlight);
+        background: transparent;
+        color: var(--color-accent-highlight);
+        text-decoration: none;
+        font-size: 1rem;
+        text-transform: lowercase;
+        transition: all 0.3s ease;
+    }
+    .hero .cta:hover {
+        background-color: var(--color-accent-highlight);
+        color: var(--color-main-bg);
     }
 
-    .hero .hero-right-column {
-        text-align: center; /* Center content in right column */
-        padding-left: 1rem; /* Small internal padding */
-        /* It will contain the rotator, which has its own styling */
-    }
-    .hero .hero-right-column .homepage-content-h3 { /* For "Editor's Picks" title */
-        margin-top: 0;
-        margin-bottom: 1.5rem;
+    /* --- Marquee/Scrolling Text for Tagline --- */
+    .marquee-container {
+      overflow: hidden; /* Hide overflowing text */
+      white-space: nowrap; /* Keep text on a single line */
+      box-sizing: border-box;
+      width: 100%; /* Ensure it spans the container */
+      padding: 0.5rem 0; /* Vertical padding for the bar */
+      background-color: var(--color-secondary-bg); /* Background for the bar */
+      border: 1px solid var(--color-border-dark);
+      border-radius: 4px;
+      box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
+      margin-bottom: 1.5rem; /* Space below the marquee bar */
     }
 
-    /* --- Rotator Container for Editor's Picks (now in Hero Right Column) --- */
+    .marquee-text {
+      display: inline-block; /* Essential for animation */
+      padding-left: 100%; /* Start off-screen to the right */
+      animation: marquee 15s linear infinite; /* Adjust duration as needed */
+      font-size: 1.2rem; /* Smaller font size for marquee */
+      color: var(--color-accent-highlight); /* Red for marquee text */
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1; /* Tighter line height */
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+
+
+    /* --- Main Content Sections (Newsletter, How-to, Join) --- */
+    .homepage-content-section {
+        padding: 2rem 2rem;
+        max-width: 1000px; /* Constrain width for single column sections */
+        margin: 2rem auto;
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        text-align: center;
+    }
+
+    /* Section titles within homepage content areas */
+    .homepage-content-section .section-title {
+        margin-top: 0;
+        margin-bottom: 2.5rem;
+    }
+
+    /* H3 titles within homepage content areas */
+    .homepage-content-h3 {
+        font-size: 1.4rem;
+        color: var(--color-text-primary);
+        margin-top: 0;
+        margin-bottom: 1rem;
+        text-transform: lowercase;
+        text-align: center;
+        border-bottom: 1px dashed var(--color-border-dark);
+        padding-bottom: 0.5rem;
+        display: block;
+        max-width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* What We're Reading Rotator specific styles (now in Hero Right Column) */
     #editors-picks-rotator-section { /* This section now wraps the rotator in the right column */
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
@@ -74,14 +130,15 @@
         padding: 1.5rem; /* Padding inside the right column box */
         text-align: center;
         width: 100%; /* Ensure it fills its flex column */
-        box-sizing: border-box; /* Include padding/border in width */
+        box-sizing: border-box;
+        /* No margin-top/bottom here, handled by gap in .hero */
     }
 
     .rotator-container { /* Common style for rotators */
         position: relative;
         overflow: hidden;
         width: 100%;
-        min-height: 350px; /* Adjusted height for prominent image */
+        min-height: 350px; /* Adjusted min-height for prominent image */
         margin: 0 auto;
         border: 1px solid var(--color-border-light);
         border-radius: 4px;
@@ -112,7 +169,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0)); /* Stronger gradient for readability */
+        background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2)); /* Stronger gradient for readability */
         padding: 1.5rem;
         text-align: center;
         width: 100%;
@@ -120,7 +177,7 @@
     }
     .rotator-slide h4 {
         margin: 0;
-        font-size: 1.5rem; /* Adjusted title size for rotator */
+        font-size: 1.5rem;
         color: var(--color-accent-highlight);
         text-transform: uppercase;
         line-height: 1.2;
@@ -128,7 +185,7 @@
     }
     .rotator-slide p {
         margin: 0;
-        font-size: 1rem; /* Adjusted description size for rotator */
+        font-size: 1rem;
         color: var(--color-text-primary);
         line-height: 1.6;
         opacity: 0.9;
@@ -137,7 +194,7 @@
         font-size: 0.85rem;
         color: var(--color-text-secondary);
         opacity: 0.8;
-        margin-top: 0.5rem;
+        margin-top: 0.8rem;
     }
 
     .rotator-pagination-dots {
@@ -185,49 +242,47 @@
     }
 
 
-    /* Main Content Sections (Newsletter, How-to, Join) */
-    .homepage-content-section {
-        padding: 2rem 2rem;
-        max-width: 1000px; /* Constrain width for single column sections */
-        margin: 2rem auto; /* Consistent vertical margin between sections */
+    /* Newsletter Section */
+    #latest-newsletter-section {
+        padding: 2rem;
+        max-width: 1000px; /* Constrain width */
+        margin: 2rem auto;
         background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
                     4px 4px 0px var(--color-border-dark);
         text-align: center;
+        display: flex; /* Make it a flex container */
+        flex-direction: row; /* Default to row */
+        align-items: center; /* Vertically center items */
+        gap: 1.5rem; /* Space between image and text */
     }
-
-    /* Section titles within homepage content areas */
-    .homepage-content-section .section-title {
-        margin-top: 0;
-        margin-bottom: 2.5rem;
-    }
-
-    /* H3 titles within homepage content areas */
-    .homepage-content-h3 {
-        font-size: 1.4rem;
-        color: var(--color-text-primary);
-        margin-top: 0;
-        margin-bottom: 1rem;
-        text-transform: lowercase;
-        text-align: center;
-        border-bottom: 1px dashed var(--color-border-dark);
-        padding-bottom: 0.5rem;
-        display: block;
-        max-width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /* Newsletter Section */
-    #latest-newsletter-section .newsletter-image {
-        max-width: 100%;
-        height: auto;
+    #latest-newsletter-section .newsletter-image-wrapper { /* New wrapper for image */
+        flex-shrink: 0; /* Prevent image from shrinking */
+        width: 250px; /* Fixed width for image container */
+        height: 150px; /* Fixed height for image container */
+        overflow: hidden;
         border-radius: 4px;
-        margin-bottom: 1.5rem;
         border: 1px solid var(--color-border-dark);
         box-shadow: 1px 1px 0px var(--color-border-dark);
+        background-color: var(--color-secondary-bg); /* Placeholder background */
+        display: flex; /* For centering placeholder text */
+        justify-content: center;
+        align-items: center;
+        color: var(--color-text-secondary);
+    }
+    #latest-newsletter-section .newsletter-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cover to fill the fixed dimensions */
+        border-radius: 0; /* No border-radius here, applied to wrapper */
+        border: none; /* No border here */
+        box-shadow: none; /* No shadow here */
+    }
+    #latest-newsletter-section .newsletter-content { /* New wrapper for text content */
+        flex-grow: 1; /* Allow text to take remaining space */
+        text-align: left; /* Align text left */
     }
     #latest-newsletter-section .newsletter-title {
         font-size: 1.5rem;
@@ -242,10 +297,41 @@
     #latest-newsletter-section .newsletter-subtitle {
         font-size: 1rem;
         color: var(--color-text-secondary);
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.5rem; /* Reduced margin */
+    }
+    #latest-newsletter-section p { /* General paragraph in newsletter content */
+        margin: 0; /* Reset default margin */
     }
 
+
+    /* Blurb Section */
+    #blurb-section .homepage-content-h3 {
+        margin-top: 0;
+    }
+    .intro-blurb {
+        margin: 1.5rem auto 1.5rem;
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+        text-align: left;
+    }
+    #blurb-section .cta {
+        margin-top: 0;
+    }
+
+
     /* How to Use Section */
+    #how-to-use-section {
+        padding: 2rem 2rem;
+        max-width: 1000px;
+        margin: 2rem auto;
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        text-align: center;
+    }
     #how-to-use-section ul {
         list-style: none;
         padding: 0;
@@ -289,6 +375,17 @@
     }
 
     /* Community Signup Section */
+    #community-signup {
+        padding: 2rem 2rem;
+        max-width: 1000px;
+        margin: 2rem auto;
+        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        text-align: center;
+    }
     #community-signup .section-title {
         margin-top: 0;
     }
@@ -300,6 +397,117 @@
     }
     #community-signup .cta {
         margin-top: 0;
+    }
+
+    /* New Subscribe Section */
+    #subscribe-section {
+        background-color: var(--color-secondary-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom);
+        padding: 2.5rem 2rem;
+        max-width: 800px;
+        margin: 3rem auto;
+        text-align: center;
+    }
+    #subscribe-section h3 {
+        font-size: 1.5rem;
+        color: var(--color-text-primary);
+        margin-bottom: 1.5rem;
+        text-transform: lowercase;
+    }
+    #subscribe-section .subscribe-form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    #subscribe-section input[type="email"] {
+        flex-grow: 1;
+        min-width: 200px;
+        padding: 0.8rem 1rem;
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        background-color: var(--color-card-bg);
+        color: var(--color-text-primary);
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 1rem;
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
+    }
+    #subscribe-section button {
+        padding: 0.8rem 1.5rem;
+        background-color: var(--color-text-primary);
+        color: var(--color-main-bg);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
+        transition: all 0.1s ease-out;
+    }
+    #subscribe-section button:hover {
+        background-color: var(--color-text-secondary);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
+    }
+    #subscribe-section button:active {
+        transform: translate(1px, 1px);
+        box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom);
+    }
+
+
+    /* Footer */
+    .site-footer {
+      text-align: center;
+      font-size: 0.85rem;
+      padding: 1.5rem;
+      color: var(--color-text-secondary);
+      border-top: 1px solid var(--color-border-dark);
+      background-color: var(--color-secondary-bg);
+      margin-top: 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .site-footer p {
+        margin: 0;
+    }
+    .footer-links {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .footer-links a {
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        text-transform: lowercase;
+        transition: color 0.2s ease;
+    }
+    .footer-links a:hover {
+        color: var(--color-ui-red);
+    }
+    .social-icons {
+        display: flex;
+        gap: 1rem;
+    }
+    .social-icons a {
+        color: var(--color-text-secondary);
+        font-size: 1.5rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .social-icons a:hover {
+        color: var(--color-ui-red);
     }
 
 
@@ -343,6 +551,19 @@
             padding: 1.5rem 1rem;
             margin: 1.5rem auto;
         }
+        #latest-newsletter-section {
+            flex-direction: column; /* Stack image and text on mobile */
+            align-items: center;
+            padding: 1.5rem 1rem;
+            gap: 1rem;
+        }
+        #latest-newsletter-section .newsletter-image-wrapper {
+            width: 100%; /* Full width on mobile */
+            height: 180px; /* Adjust height for mobile */
+        }
+        #latest-newsletter-section .newsletter-content {
+            text-align: center; /* Center text on mobile */
+        }
         #latest-newsletter-section .newsletter-title {
             font-size: 1.3rem;
         }
@@ -355,6 +576,34 @@
         #how-to-use-section li {
             font-size: 0.9rem;
             line-height: 1.6;
+        }
+
+        #subscribe-section {
+            padding: 1.5rem 1rem;
+            margin: 2rem auto;
+        }
+        #subscribe-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        #subscribe-section .subscribe-form {
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        #subscribe-section input[type="email"],
+        #subscribe-section button {
+            width: 100%;
+            max-width: unset;
+        }
+
+        .site-footer {
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .footer-links, .social-icons {
+            justify-content: center;
+            width: 100%;
         }
     }
   </style>
@@ -384,10 +633,12 @@
   </header>
 
   <main>
-    <!-- Main Hero Section - Now with two columns: Blurb & Editor's Picks Rotator -->
+    <!-- Main Hero Section - Two Columns: Blurb & Editor's Picks Rotator -->
     <section class="hero">
         <div class="hero-left-column">
-            <h2 class="tagline typewriter-text">A Public Knowledge Project for Critical Thought.</h2>
+            <div class="marquee-container">
+                <h2 class="tagline marquee-text">A Public Knowledge Project for Critical Thought.</h2>
+            </div>
             <p class="hero-description">
               Each field curated by Critical Fields aims to explore a topic through a lens. This list brings a weekly mix of resources from each field of study to create a comprehensive understanding of all forces shaping our world today.
             </p>
@@ -417,31 +668,38 @@
         </div>
     </section>
 
-    <!-- How to Use Website Section (Full Width) -->
-    <section id="how-to-use-section" class="homepage-content-section">
-        <h2 class="section-title">How to Use This Site</h2>
-        <p>Critical Fields is designed as an interactive digital library. Explore our Archive for resources, delve into curated Fields for focused insights, and contribute to our growing knowledge commons.</p>
-    </section>
-
-    <!-- Community Signup Section -->
-    <section id="community-signup" class="homepage-content-section">
-      <h2 class="section-title">Join Our Network</h2>
-      <p>Become part of our growing community of thinkers and contributors. Receive updates, participate in discussions, and shape the future of critical learning.</p>
-      <div style="text-align: center; margin-top: 2rem;">
-        <a href="#" class="cta">Sign Up Now</a>
-      </div>
+    <!-- New Subscribe Section -->
+    <section id="subscribe-section">
+        <h3>Subscribe to our Newsletters</h3>
+        <div class="subscribe-form">
+            <input type="email" placeholder="enter your email" aria-label="Enter your email for newsletter subscription">
+            <button type="submit">subscribe now</button>
+        </div>
     </section>
   </main>
 
   <footer class="site-footer">
+    <ul class="footer-links">
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Contribute</a></li>
+    </ul>
     <p>&copy; 2025 Critical Fields.</p>
+    <div class="social-icons">
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
   </footer>
 
   <script>
     // --- Configuration for Homepage Dynamic Content ---
     const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRBl_Sy0Aw_idmkwuQSGVNloQj4PxOKr2J6d_4YDibJuOppgndtfFpH1HGgkecJR1M6LmDFsezIfaiC/pub?output=csv';
-    // No CORS proxy needed if Google Sheet is published correctly
     const MAIN_ARCHIVE_SHEET_URL = GOOGLE_SHEET_CSV_URL;
+
+    // Load Font Awesome for social icons
+    const fontAwesomeScript = document.createElement('script');
+    fontAwesomeScript.src = 'https://kit.fontawesome.com/a076d05399.js'; // Replace with your Font Awesome Kit URL if you have one
+    fontAwesomeScript.crossOrigin = 'anonymous';
+    document.head.appendChild(fontAwesomeScript);
 
 
     // Helper function to parse CSV data (reused across site)
@@ -532,11 +790,10 @@
 
             const itemsToShow = data.slice(0, limit); 
 
-            // For Editor's Picks rotator, handle it specially
             if (targetContainerId === 'editors-picks-rotator-container') {
-                editorsPicksArticles = itemsToShow; // Store for rotator
+                editorsPicksArticles = itemsToShow;
                 renderEditorsPicksRotator();
-            } else { // For Newsletter or other non-rotator items
+            } else {
                 itemsToShow.forEach(item => {
                     const card = renderFunction(item);
                     if (card) {
@@ -555,13 +812,13 @@
     }
 
     // --- Rotator Variables for "Editor's Picks" ---
-    let editorsPicksArticles = []; // Renamed from readingArticles
-    let currentEditorsPicksIndex = 0; // Renamed from currentReadingIndex
-    let editorsPicksIntervalId; // Renamed from readingIntervalId
-    const EDITORS_PICKS_ROTATION_INTERVAL = 8000; // 8 seconds for rotation
+    let editorsPicksArticles = [];
+    let currentEditorsPicksIndex = 0;
+    let editorsPicksIntervalId;
+    const EDITORS_PICKS_ROTATION_INTERVAL = 8000;
 
     // --- Rotator Functions for "Editor's Picks" ---
-    function renderEditorsPicksRotator() { // Renamed function
+    function renderEditorsPicksRotator() {
         const rotatorContainer = document.getElementById('editors-picks-rotator-container');
         const dotsContainer = document.getElementById('editors-picks-pagination-dots');
         rotatorContainer.innerHTML = '';
@@ -635,7 +892,7 @@
         startEditorsPicksRotator();
     }
 
-    function showEditorsPicksSlide(index) { // Renamed function
+    function showEditorsPicksSlide(index) {
         const slidesWrapper = document.querySelector('#editors-picks-rotator-container .rotator-slides-wrapper');
         const dots = document.querySelectorAll('#editors-picks-pagination-dots .rotator-dot');
 
@@ -656,7 +913,7 @@
         });
     }
 
-    function startEditorsPicksRotator() { // Renamed function
+    function startEditorsPicksRotator() {
         stopEditorsPicksRotator();
         if (editorsPicksArticles.length > 1) {
             editorsPicksIntervalId = setInterval(() => {
@@ -665,27 +922,27 @@
         }
     }
 
-    function stopEditorsPicksRotator() { // Renamed function
+    function stopEditorsPicksRotator() {
         clearInterval(editorsPicksIntervalId);
     }
 
-    // --- Render Function for Latest Newsletter ---
     function renderNewsletterCard(item) {
         const div = document.createElement('div');
         div.innerHTML = `
-            ${item.ImageLink && item.ImageLink.startsWith('http') ? `<img src="${item.ImageLink}" alt="${item.Title || 'Newsletter image'}" class="newsletter-image" onerror="this.style.display='none';">` : ''}
-            <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer" class="newsletter-title">${item.Title || 'untitled newsletter'}</a>
-            <p class="newsletter-subtitle">${item.Description || 'no summary provided.'}</p>
-            <p style="font-size: 0.8rem; color: var(--color-text-secondary); opacity: 0.7;">published ${item.Date || 'n.d.'}</p>
+            <div class="newsletter-image-wrapper">
+                ${item.ImageLink && item.ImageLink.startsWith('http') ? `<img src="${item.ImageLink}" alt="${item.Title || 'Newsletter image'}" class="newsletter-image" onerror="this.onerror=null;this.src='https://placehold.co/250x150/DCDCDC/666666?text=No+Image';"/>` : `<div class="newsletter-image" style="background-color: var(--color-secondary-bg); display: flex; justify-content: center; align-items: center; color: var(--color-text-secondary);">No Image</div>`}
+            </div>
+            <div class="newsletter-content">
+                <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer" class="newsletter-title">${item.Title || 'untitled newsletter'}</a>
+                <p class="newsletter-subtitle">${item.Description || 'no summary provided.'}</p>
+                <p style="font-size: 0.8rem; color: var(--color-text-secondary); opacity: 0.7;">published ${item.Date || 'n.d.'}</p>
+            </div>
         `;
         return div;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Editor's Picks (now a rotator)
-        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'editors-picks-rotator-container', null, 3, { column: 'Medium', value: 'Editor Selection' }); // Limit to 3 for display
-
-        // Latest Newsletter (remains single card)
+        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'editors-picks-rotator-container', null, 3, { column: 'Medium', value: 'Editor Selection' });
         fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'latest-newsletter-container', renderNewsletterCard, 1, { column: 'Medium', value: 'Newsletter' });
     });
   </script>
