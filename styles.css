@@ -840,7 +840,7 @@ a:hover {
   white-space: nowrap; /* Keeps all text on a single line */
   border-right: 2px solid var(--color-accent-highlight); /* Blinking cursor */
   animation: 
-    typing 2.5s steps(50, end) forwards, /* Adjusted: duration and steps for full text */
+    typing 2.5s steps(50, end) forwards, /* Adjusted: 50 characters, ~2.5s duration */
     blink-caret 0.75s step-end infinite;
   display: inline-block; /* Essential for animation */
   max-width: 0; /* Starts with no width */
@@ -858,98 +858,148 @@ a:hover {
 }
 
 
-/* Responsive Adjustments */
+/* Responsive Adjustments (Mobile First Approach) */
 @media (max-width: 768px) {
+  /* --- HEADER & NAVIGATION (Mobile Specific) --- */
   .site-header {
     padding: 1rem 1rem;
   }
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column; /* Stack logo and nav vertically */
+    align-items: center; /* Center items in the column */
+    gap: 0.8rem; /* Space between logo and nav menu */
+  }
+  .logo {
+      font-size: 1.5rem; /* Smaller logo on mobile */
+      text-align: center;
+      margin-bottom: 0.5rem; /* Space below logo */
   }
   .nav-menu {
-    margin-top: 1rem;
     width: 100%;
-    justify-content: center;
-    gap: 1rem;
+    display: flex; /* Ensure flex for wrapping */
+    flex-wrap: wrap; /* Allow nav items to wrap if needed */
+    justify-content: center; /* Center nav links */
+    gap: 0.6rem; /* Smaller gap between nav items */
+    padding: 0; /* Remove default ul padding */
+  }
+  .nav-menu li { /* Ensure list items behave as blocks within flex for proper wrapping */
+      flex-basis: auto; /* Allow items to determine their width */
+  }
+  .nav-menu li a {
+      font-size: 0.9rem; /* Smaller nav links */
+      padding: 0.1em 0.3em; /* Adjusted padding */
   }
   .dropdown-menu {
-    width: 100%;
-    left: 0;
-    right: 0;
+    position: static; /* Change to static on mobile so it flows with content */
+    width: 100%; /* Take full width */
+    margin-top: 0.3rem; /* Space below main nav item */
+    box-shadow: none; /* Remove extra shadows on mobile dropdown */
+    border: none; /* Remove border from dropdown */
+    background-color: transparent; /* Transparent background */
+    text-align: center; /* Center dropdown items */
+  }
+  .dropdown-menu li a {
+      font-size: 0.9rem; /* Smaller dropdown items */
+      padding: 0.4rem 1rem; /* Adjusted padding */
+      text-align: center; /* Center dropdown items */
   }
 
+  /* --- HERO SECTION (Mobile Specific) --- */
   .hero {
-    flex-direction: column; /* Stack columns on small screens */
-    padding: 3rem 1rem;
+      flex-direction: column; /* Stack columns vertically */
+      padding: 2rem 1rem 1rem; /* Adjust overall padding for mobile */
+      gap: 1.5rem;
+      align-items: center; /* Center content horizontally within the section */
   }
   .hero .hero-left-column,
   .hero .hero-right-column {
-      padding: 1rem; /* Adjust padding for mobile */
-      min-width: unset; /* Remove min-width constraint */
-      text-align: center; /* Center content in columns on mobile */
+      padding: 0; /* Remove padding from columns themselves, content elements will have it */
+      min-width: unset; /* Remove min-width constraint on mobile */
+      width: 100%; /* Ensure they take full width */
+      text-align: center; /* Center content in these columns on mobile */
   }
   .hero .hero-left-column .tagline {
       text-align: center; /* Center tagline on mobile */
-      font-size: 1.4rem; /* Smaller on mobile */
+      font-size: 1.2rem; /* Even smaller tagline on mobile for fitting */
+      margin-top: 1rem; /* Add some space above tagline */
   }
   .hero .hero-left-column .hero-description {
       text-align: center; /* Center description on mobile */
-      font-size: 0.95rem; /* Smaller on mobile */
+      font-size: 0.9rem; /* Smaller description on mobile */
+      padding: 0 0.5rem; /* Add horizontal padding for text */
   }
-  .hero .hero-left-column { /* Adjusted padding for mobile */
-      padding-top: 0; /* Remove top padding on mobile */
+  .hero .hero-left-column .cta {
+      margin-top: 1rem; /* Add space above CTA button */
   }
-  .spotlight-title {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+
+  /* --- EDITOR'S PICKS ROTATOR (Mobile Specific) --- */
+  #editors-picks-rotator-section {
+      padding: 1rem; /* Smaller padding for the rotator box on mobile */
+  }
+  .homepage-content-h3 { /* For "Editor's Picks" title on mobile */
+      font-size: 1.3rem; /* Smaller title */
+      margin-bottom: 1rem;
+      text-align: center;
   }
   .rotator-container {
-    min-height: 280px;
+      min-height: 250px; /* Adjust height for mobile */
   }
   .rotator-slide h4 {
-    font-size: 1.5rem;
+      font-size: 1.1rem; /* Adjust for smaller screens */
   }
   .rotator-slide p {
-    font-size: 0.9rem;
+      font-size: 0.8rem;
   }
   .rotator-slide .source-meta {
-    font-size: 0.8rem;
+      font-size: 0.7rem;
+  }
+  .rotator-arrow {
+      padding: 0.2rem 0.5rem; /* Smaller arrows */
+      font-size: 1rem;
   }
 
+  /* --- GENERAL CONTENT SECTIONS (Mobile Specific) --- */
   .homepage-content-section {
-    padding: 1.5rem 1rem;
-    margin: 1.5rem auto;
+      padding: 1.5rem 1rem;
+      margin: 1.5rem auto;
   }
+  .section-title { /* General section title on mobile */
+      font-size: 1.6rem; /* Adjusted general section title size */
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+  }
+
+  /* --- NEWSLETTER SECTION (Mobile Specific) --- */
   #latest-newsletter-section .newsletter-title {
-    font-size: 1.3rem;
+      font-size: 1.2rem; /* Adjusted for mobile */
   }
   #latest-newsletter-section .newsletter-subtitle {
-    font-size: 0.9rem;
+      font-size: 0.85rem; /* Adjusted for mobile */
   }
-  #latest-newsletter-section .newsletter-image { /* Responsive height for newsletter image */
-      max-height: 200px;
-      max-width: 100%;
+  #latest-newsletter-section .newsletter-image {
+      max-height: 180px; /* Further reduced height for mobile */
+      max-width: 90%; /* Ensure it fits nicely */
   }
 
-  /* Responsive adjustments for Substack section */
-    #substack-signup .section-title {
-        font-size: 1.3rem; /* Even smaller on mobile */
-    }
-    #substack-signup p {
-        font-size: 0.9rem; /* Even smaller on mobile */
-    }
-    .substack-form-container {
-        padding: 0.8rem; /* Smaller padding on mobile */
-        gap: 0.6rem;
-    }
-    .substack-email-form input[type="email"],
-    .cta-substack {
-        width: 100%; /* Stack on smaller screens */
-        box-sizing: border-box; /* Include padding/border in width */
-        font-size: 0.9rem; /* Smaller font on mobile */
-    }
-    .substack-note {
-        font-size: 0.8rem;
-    }
+  /* --- SUBSTACK SECTION (Mobile Specific) --- */
+  #substack-signup .section-title {
+      font-size: 1.2rem; /* Adjusted for mobile */
+  }
+  #substack-signup p {
+      font-size: 0.85rem; /* Adjusted for mobile */
+  }
+  .substack-form-container {
+      padding: 0.7rem; /* Smaller padding on mobile */
+      gap: 0.5rem;
+      max-width: 90%; /* Fit within mobile screen */
+  }
+  .substack-email-form input[type="email"],
+  .cta-substack {
+      width: 100%; /* Stack input and button vertically */
+      box-sizing: border-box; /* Include padding/border in width */
+      font-size: 0.85rem; /* Smaller font on mobile */
+  }
+  .substack-note {
+      font-size: 0.75rem; /* Smaller note on mobile */
+  }
 }

@@ -10,35 +10,34 @@
     /* Styles specific to index.html sections to complement styles.css */
     /* --- HERO SECTION --- */
     .hero {
-        padding: 2rem 2rem 1.5rem; /* Adjusted padding */
+        padding: 2rem 2rem 1.5rem;
         text-align: center;
-        max-width: 1200px; /* Wider for two-column layout */
+        max-width: 1200px;
         margin: 0 auto;
         border-bottom: 1px solid var(--color-border-dark);
         padding-bottom: 1.5rem;
-        display: flex; /* Enable flexbox for two columns */
-        flex-wrap: wrap; /* Allow wrapping on smaller screens */
-        gap: 2rem; /* Space between columns */
-        align-items: center; /* Align items to center vertically for desktop */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: center; /* Ensures vertical centering of columns on desktop */
     }
 
     .hero .hero-left-column,
     .hero .hero-right-column {
-        flex: 1; /* Distribute space equally */
-        min-width: 300px; /* Minimum width before wrapping */
-        padding: 0; /* No padding on these columns themselves, content sections inside will have it */
-        background-color: transparent; /* No background for these columns */
-        border: none; /* No border for these columns */
-        box-shadow: none; /* No shadow for these columns */
+        flex: 1;
+        min-width: 300px;
+        padding: 0; /* Remove internal padding on these columns themselves */
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
     }
 
     .hero .hero-left-column {
         text-align: left; /* Align blurb text left */
-        padding-right: 1rem; /* Small internal padding */
-        padding-top: 2rem; /* Push content down for better vertical alignment on desktop */
+        /* Removed padding-right and padding-top to let flexbox handle alignment */
     }
     .hero .hero-left-column .tagline {
-        font-size: 1.6rem; /* Adjusted: Smaller font size for tagline */
+        font-size: 1.5rem; /* Further reduced: Smaller font size for tagline on desktop */
         font-weight: normal;
         text-transform: uppercase;
         margin-bottom: 1rem;
@@ -345,7 +344,7 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-        /* --- HEADER & NAVIGATION --- */
+        /* --- HEADER & NAVIGATION (Mobile Specific) --- */
         .site-header {
             padding: 1rem 1rem;
         }
@@ -361,70 +360,79 @@
         .nav-menu {
             margin-top: 0.5rem; /* Reduced margin */
             width: 100%;
+            display: flex; /* Ensure flex for wrapping */
+            flex-wrap: wrap; /* Allow nav items to wrap if needed */
             justify-content: center; /* Center nav links */
             gap: 0.8rem; /* Smaller gap between nav items */
-            flex-wrap: wrap; /* Allow nav items to wrap if needed */
+            padding: 0; /* Remove default ul padding */
+        }
+        .nav-menu li { /* Ensure list items behave as blocks within flex */
+            flex-basis: auto; /* Allow items to determine their width */
         }
         .nav-menu li a {
             font-size: 0.9rem; /* Smaller nav links */
             padding: 0.1em 0.3em; /* Adjusted padding */
         }
         .dropdown-menu {
-            width: 90%; /* Adjust dropdown width for mobile */
-            left: 5%; /* Center dropdown */
-            right: 5%;
-            top: auto; /* Allow positioning below the main nav item */
+            position: static; /* Change to static on mobile so it flows with content */
+            width: 100%; /* Take full width */
             margin-top: 0.5rem; /* Space below main nav item */
+            box-shadow: none; /* Remove extra shadows on mobile dropdown */
+            border: none; /* Remove border from dropdown */
+            background-color: transparent; /* Transparent background */
         }
         .dropdown-menu li a {
             font-size: 0.9rem; /* Smaller dropdown items */
-            padding: 0.5rem 1rem; /* Adjusted padding */
+            padding: 0.4rem 1rem; /* Adjusted padding */
+            text-align: center; /* Center dropdown items */
         }
 
-        /* --- HERO SECTION (Mobile) --- */
+        /* --- HERO SECTION (Mobile Specific) --- */
         .hero {
             flex-direction: column; /* Stack columns vertically */
-            padding: 2rem 1rem 1rem;
+            padding: 2rem 1rem 1rem; /* Adjust overall padding for mobile */
             gap: 1.5rem;
             align-items: center; /* Center content horizontally within the section */
         }
         .hero .hero-left-column,
         .hero .hero-right-column {
-            padding: 1rem; /* Adjust padding for mobile */
-            min-width: unset; /* Remove min-width constraint */
-            text-align: center; /* Center content in these columns */
+            padding: 0; /* Remove padding from columns themselves, content elements will have it */
+            min-width: unset; /* Remove min-width constraint on mobile */
+            text-align: center; /* Center content in these columns on mobile */
         }
         .hero .hero-left-column .tagline {
             text-align: center; /* Center tagline on mobile */
-            font-size: 1.4rem; /* Smaller on mobile */
+            font-size: 1.4rem; /* Smaller tagline on mobile */
         }
         .hero .hero-left-column .hero-description {
             text-align: center; /* Center description on mobile */
-            font-size: 0.95rem; /* Smaller on mobile */
+            font-size: 0.95rem; /* Smaller description on mobile */
+            padding: 0 0.5rem; /* Add horizontal padding for text */
         }
-        .hero .hero-left-column { /* Adjusted padding for mobile */
-            padding-top: 0; /* Remove top padding on mobile */
+        .hero .hero-left-column { /* Adjust top padding for mobile to remove desktop offset */
+            padding-top: 0;
         }
 
-        /* --- EDITOR'S PICKS ROTATOR (Mobile) --- */
-        .spotlight-title { /* This refers to Editor's Picks title if it uses this class */
-            font-size: 1.4rem;
+        /* --- EDITOR'S PICKS ROTATOR (Mobile Specific) --- */
+        .homepage-content-h3 { /* For "Editor's Picks" title on mobile */
+            font-size: 1.3rem; /* Smaller title */
             margin-bottom: 1rem;
+            text-align: center;
         }
         .rotator-container {
-            min-height: 280px;
+            min-height: 280px; /* Adjust height for mobile */
         }
         .rotator-slide h4 {
-            font-size: 1.5rem;
+            font-size: 1.2rem; /* Adjust for smaller screens */
         }
         .rotator-slide p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .rotator-slide .source-meta {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
-        /* --- GENERAL CONTENT SECTIONS (Mobile) --- */
+        /* --- GENERAL CONTENT SECTIONS (Mobile Specific) --- */
         .homepage-content-section {
             padding: 1.5rem 1rem;
             margin: 1.5rem auto;
@@ -435,7 +443,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- NEWSLETTER SECTION (Mobile) --- */
+        /* --- NEWSLETTER SECTION (Mobile Specific) --- */
         #latest-newsletter-section .newsletter-title {
             font-size: 1.3rem;
         }
@@ -444,10 +452,10 @@
         }
         #latest-newsletter-section .newsletter-image {
             max-height: 200px; /* Smaller height for mobile */
-            max-width: 100%; /* Ensure it fits */
+            max-width: 100%; /* Ensure it fits within smaller screens */
         }
 
-        /* --- SUBSTACK SECTION (Mobile) --- */
+        /* --- SUBSTACK SECTION (Mobile Specific) --- */
         #substack-signup .section-title {
             font-size: 1.3rem; /* Even smaller on mobile */
         }
