@@ -411,11 +411,10 @@ a:hover {
 
 #latest-newsletter-section {
     /* Removed background, border, shadow for full-width look */
-    /* background-color: var(--color-card-bg); */
-    /* border: 1px solid var(--color-border-dark); */
-    /* border-radius: 4px; */
-    /* box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), */
-                /* 4px 4px 0px var(--color-border-dark); */
+    background-color: transparent; /* Explicitly set to transparent */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove border-radius */
+    box-shadow: none; /* Remove box-shadow */
     padding: 2rem; /* Keep existing padding */
     margin: 3rem auto 3rem; /* Adjusted margin-bottom to create space without box */
     max-width: 1000px; /* Keep max-width for content alignment */
@@ -457,11 +456,10 @@ a:hover {
 /* Substack Signup Section (New!) */
 #substack-signup {
     /* Removed background, border, shadow for full-width look */
-    /* background-color: var(--color-card-bg); */
-    /* border: 1px solid var(--color-border-dark); */
-    /* border-radius: 4px; */
-    /* box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), */
-                /* 4px 4px 0px var(--color-border-dark); */
+    background-color: transparent; /* Explicitly set to transparent */
+    border: none; /* Remove border */
+    border-radius: 0; /* Remove border-radius */
+    box-shadow: none; /* Remove box-shadow */
     padding: 2rem 2rem; /* Keep existing padding */
     max-width: 1000px;
     margin: 2rem auto;
@@ -842,7 +840,7 @@ a:hover {
   white-space: nowrap; /* Keeps all text on a single line */
   border-right: 2px solid var(--color-accent-highlight); /* Blinking cursor */
   animation: 
-    typing 4s steps(60, end) forwards, /* Adjusted steps to 60 */
+    typing 2.5s steps(50, end) forwards, /* Adjusted: duration and steps for full text */
     blink-caret 0.75s step-end infinite;
   display: inline-block; /* Essential for animation */
   max-width: 0; /* Starts with no width */
@@ -882,60 +880,56 @@ a:hover {
   }
 
   .hero {
+    flex-direction: column; /* Stack columns on small screens */
     padding: 3rem 1rem;
   }
-  .tagline {
-    font-size: 2.2rem;
+  .hero .hero-left-column,
+  .hero .hero-right-column {
+      padding: 1rem; /* Adjust padding for mobile */
+      min-width: unset; /* Remove min-width constraint */
+      text-align: center; /* Center content in columns on mobile */
   }
-  .intro {
-    font-size: 1rem;
-    text-align: center;
+  .hero .hero-left-column .tagline {
+      text-align: center; /* Center tagline on mobile */
+      font-size: 1.4rem; /* Smaller on mobile */
   }
-  .section-title {
-    font-size: 1.8rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1.5rem;
+  .hero .hero-left-column .hero-description {
+      text-align: center; /* Center description on mobile */
+      font-size: 0.95rem; /* Smaller on mobile */
   }
-  /* Removed #platform-features, #community-signup responsive styles */
-  /* #platform-features, */
-  /* #community-signup, */
-  #main-filter-container {
-    padding: 1.5rem 1rem;
+  .hero .hero-left-column { /* Adjusted padding for mobile */
+      padding-top: 0; /* Remove top padding on mobile */
   }
-  .feature-card-content h4 {
-    font-size: 1rem;
+  .spotlight-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
   }
-  .feature-card-content p {
+  .rotator-container {
+    min-height: 280px;
+  }
+  .rotator-slide h4 {
+    font-size: 1.5rem;
+  }
+  .rotator-slide p {
+    font-size: 0.9rem;
+  }
+  .rotator-slide .source-meta {
     font-size: 0.8rem;
   }
-  .content-grid {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-    gap: 1rem;
+
+  .homepage-content-section {
+    padding: 1.5rem 1rem;
+    margin: 1.5rem auto;
   }
-  .homepage-two-column {
-      flex-direction: column;
-      padding: 1rem;
-      gap: 1rem;
+  #latest-newsletter-section .newsletter-title {
+    font-size: 1.3rem;
   }
-  .homepage-two-column > div { /* Apply consistent padding to direct children */
-      padding: 1rem;
+  #latest-newsletter-section .newsletter-subtitle {
+    font-size: 0.9rem;
   }
-  #what-we-are-reading-homepage {
-      margin-left: 0;
+  #latest-newsletter-section .newsletter-image { /* Responsive height for newsletter image */
+      max-height: 200px;
       max-width: 100%;
-  }
-  #latest-newsletter-section, #substack-signup { /* Updated ID for Substack */
-      margin: 2rem auto;
-  }
-  #latest-newsletter-section h3.section-title {
-      font-size: 1.5rem;
-  }
-  .rss-slide h4 {
-      font-size: 1.3rem; /* Adjust for smaller screens */
-  }
-  .rss-slide p {
-      font-size: 0.9rem;
   }
 
   /* Responsive adjustments for Substack section */
@@ -957,9 +951,5 @@ a:hover {
     }
     .substack-note {
         font-size: 0.8rem;
-    }
-    #latest-newsletter-section .newsletter-image { /* Added: Responsive height for newsletter image */
-        max-height: 200px;
-        max-width: 100%;
     }
 }

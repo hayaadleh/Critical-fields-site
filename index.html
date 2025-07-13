@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
     /* Styles specific to index.html sections to complement styles.css */
+    /* --- HERO SECTION --- */
     .hero {
         padding: 2rem 2rem 1.5rem; /* Adjusted padding */
         text-align: center;
@@ -18,7 +19,7 @@
         display: flex; /* Enable flexbox for two columns */
         flex-wrap: wrap; /* Allow wrapping on smaller screens */
         gap: 2rem; /* Space between columns */
-        align-items: flex-start; /* Align columns to the top */
+        align-items: center; /* Align items to center vertically for desktop */
     }
 
     .hero .hero-left-column,
@@ -34,9 +35,10 @@
     .hero .hero-left-column {
         text-align: left; /* Align blurb text left */
         padding-right: 1rem; /* Small internal padding */
+        padding-top: 2rem; /* Push content down for better vertical alignment on desktop */
     }
     .hero .hero-left-column .tagline {
-        font-size: 1.8rem;
+        font-size: 1.6rem; /* Adjusted: Smaller font size for tagline */
         font-weight: normal;
         text-transform: uppercase;
         margin-bottom: 1rem;
@@ -186,15 +188,15 @@
 
 
     /* Main Content Sections (Newsletter, How-to, Join) */
+    /* REMOVED background/border/shadow from .homepage-content-section itself
+       to allow individual sections to control their appearance */
     .homepage-content-section {
         padding: 2rem 2rem;
         max-width: 1000px; /* Constrain width for single column sections */
         margin: 2rem auto; /* Consistent vertical margin between sections */
-        /* background-color: var(--color-card-bg); */ /* REMOVED */
-        /* border: 1px solid var(--color-border-dark); */ /* REMOVED */
-        /* border-radius: 4px; */ /* REMOVED */
-        /* box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), */ /* REMOVED */
-                    /* 4px 4px 0px var(--color-border-dark); */ /* REMOVED */
+        background-color: transparent; /* Ensure no default background */
+        border: none; /* Ensure no default border */
+        box-shadow: none; /* Ensure no default shadow */
         text-align: center;
     }
 
@@ -296,7 +298,7 @@
         padding: 0.7rem 0.9rem; /* Slightly reduced padding */
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
-        background-color: var(--color-bg);
+        background-color: var(--color-bg); /* Use a general background color */
         color: var(--color-text-primary);
         font-family: 'IBM Plex Mono', monospace;
         font-size: 0.95rem; /* Slightly smaller font size */
@@ -314,14 +316,14 @@
         border-radius: 4px;
         cursor: pointer;
         font-size: 0.95rem; /* Slightly smaller font size */
-        text-transform: lowercase;
+        text-transform: lowercase; /* Changed to lowercase for consistency */
         font-weight: bold;
         letter-spacing: 0.05em;
         transition: background-color 0.3s ease, transform 0.1s ease;
         text-decoration: none;
         display: inline-block;
-        border: 2px solid var(--color-ui-red);
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
+        border: 2px solid var(--color-ui-red); /* Keep border for consistency */
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom); /* Inherit 3D effect */
     }
     .cta-substack:hover {
         background-color: var(--color-ui-red-light);
@@ -343,24 +345,69 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
+        /* --- HEADER & NAVIGATION --- */
+        .site-header {
+            padding: 1rem 1rem;
+        }
+        .navbar {
+            flex-direction: column; /* Stack logo and nav vertically */
+            align-items: center; /* Center items in the column */
+            gap: 1rem; /* Space between logo and nav menu */
+        }
+        .logo {
+            font-size: 1.5rem; /* Smaller logo on mobile */
+            text-align: center;
+        }
+        .nav-menu {
+            margin-top: 0.5rem; /* Reduced margin */
+            width: 100%;
+            justify-content: center; /* Center nav links */
+            gap: 0.8rem; /* Smaller gap between nav items */
+            flex-wrap: wrap; /* Allow nav items to wrap if needed */
+        }
+        .nav-menu li a {
+            font-size: 0.9rem; /* Smaller nav links */
+            padding: 0.1em 0.3em; /* Adjusted padding */
+        }
+        .dropdown-menu {
+            width: 90%; /* Adjust dropdown width for mobile */
+            left: 5%; /* Center dropdown */
+            right: 5%;
+            top: auto; /* Allow positioning below the main nav item */
+            margin-top: 0.5rem; /* Space below main nav item */
+        }
+        .dropdown-menu li a {
+            font-size: 0.9rem; /* Smaller dropdown items */
+            padding: 0.5rem 1rem; /* Adjusted padding */
+        }
+
+        /* --- HERO SECTION (Mobile) --- */
         .hero {
-            flex-direction: column;
+            flex-direction: column; /* Stack columns vertically */
             padding: 2rem 1rem 1rem;
             gap: 1.5rem;
+            align-items: center; /* Center content horizontally within the section */
         }
         .hero .hero-left-column,
         .hero .hero-right-column {
-            padding: 1rem;
-            min-width: unset;
-            text-align: center;
+            padding: 1rem; /* Adjust padding for mobile */
+            min-width: unset; /* Remove min-width constraint */
+            text-align: center; /* Center content in these columns */
         }
         .hero .hero-left-column .tagline {
-            text-align: center;
+            text-align: center; /* Center tagline on mobile */
+            font-size: 1.4rem; /* Smaller on mobile */
         }
         .hero .hero-left-column .hero-description {
-            text-align: center;
+            text-align: center; /* Center description on mobile */
+            font-size: 0.95rem; /* Smaller on mobile */
         }
-        .spotlight-title {
+        .hero .hero-left-column { /* Adjusted padding for mobile */
+            padding-top: 0; /* Remove top padding on mobile */
+        }
+
+        /* --- EDITOR'S PICKS ROTATOR (Mobile) --- */
+        .spotlight-title { /* This refers to Editor's Picks title if it uses this class */
             font-size: 1.4rem;
             margin-bottom: 1rem;
         }
@@ -377,37 +424,45 @@
             font-size: 0.8rem;
         }
 
+        /* --- GENERAL CONTENT SECTIONS (Mobile) --- */
         .homepage-content-section {
             padding: 1.5rem 1rem;
             margin: 1.5rem auto;
         }
+        .section-title { /* General section title on mobile */
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- NEWSLETTER SECTION (Mobile) --- */
         #latest-newsletter-section .newsletter-title {
             font-size: 1.3rem;
         }
         #latest-newsletter-section .newsletter-subtitle {
             font-size: 0.9rem;
         }
-        #latest-newsletter-section .newsletter-image { /* Responsive height for newsletter image */
-            max-height: 200px; /* Revert to smaller height for mobile */
-            max-width: 100%; /* Ensure it fits within smaller screens */
+        #latest-newsletter-section .newsletter-image {
+            max-height: 200px; /* Smaller height for mobile */
+            max-width: 100%; /* Ensure it fits */
         }
 
-        /* Responsive adjustments for Substack section */
+        /* --- SUBSTACK SECTION (Mobile) --- */
         #substack-signup .section-title {
             font-size: 1.3rem; /* Even smaller on mobile */
         }
         #substack-signup p {
             font-size: 0.9rem; /* Even smaller on mobile */
         }
-        .substack-email-form input[type="email"],
-        .cta-substack {
-            width: 100%; /* Stack on smaller screens */
-            box-sizing: border-box; /* Include padding/border in width */
-            font-size: 0.9rem; /* Smaller font on mobile */
-        }
         .substack-form-container {
             padding: 0.8rem; /* Smaller padding on mobile */
             gap: 0.6rem;
+        }
+        .substack-email-form input[type="email"],
+        .cta-substack {
+            width: 100%; /* Stack input and button vertically */
+            box-sizing: border-box; /* Include padding/border in width */
+            font-size: 0.9rem; /* Smaller font on mobile */
         }
         .substack-note {
             font-size: 0.8rem;
@@ -472,13 +527,14 @@
     </section>
 
     <section id="substack-signup" class="homepage-content-section">
-      <h2 class="section-title">Subscribe to Our Substack</h2>
-      <p>Explore critical thought with our weekly insights, essays, and curated resources delivered to your inbox.</p>
+      <h2 class="section-title">✨ Unearth New Ideas! Subscribe to Our Substack ✨</h2>
+      <p>Dive deeper into critical thought with our weekly insights, exclusive essays, and curated resources delivered straight to your inbox. Don't miss out on the conversation!</p>
       <div class="substack-form-container">
         <form action="YOUR_SUBSTACK_EMBED_ACTION_URL" method="post" target="_blank" class="substack-email-form">
-          <input type="email" name="email" placeholder="your email" required>
-          <button type="submit" class="cta-substack">join</button>
+          <input type="email" name="email" placeholder="your brilliant email here" required>
+          <button type="submit" class="cta-substack">join the curious minds</button>
         </form>
+        <p class="substack-note"><i>(Psst... we promise no spam, just pure intellectual goodness!)</i></p>
       </div>
     </section>
   </main>
