@@ -410,33 +410,33 @@ a:hover {
 }
 
 #latest-newsletter-section {
-    background-color: var(--color-card-bg);
-    border: 1px solid var(--color-border-dark);
-    border-radius: 4px;
-    box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-                4px 4px 0px var(--color-border-dark);
-    padding: 2rem;
-    margin: 3rem auto;
-    max-width: 1000px;
+    /* Removed background, border, shadow for full-width look */
+    /* background-color: var(--color-card-bg); */
+    /* border: 1px solid var(--color-border-dark); */
+    /* border-radius: 4px; */
+    /* box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), */
+                /* 4px 4px 0px var(--color-border-dark); */
+    padding: 2rem; /* Keep existing padding */
+    margin: 3rem auto 3rem; /* Adjusted margin-bottom to create space without box */
+    max-width: 1000px; /* Keep max-width for content alignment */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
 #latest-newsletter-section .newsletter-image {
-    max-width: 200px;
+    max-width: 600px; /* Increased max-width for better desktop display */
     height: auto;
+    max-height: 380px; /* Adjusted max-height */
+    width: auto;
+    object-fit: contain;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 4px;
     margin-bottom: 1.5rem;
     border: 1px solid var(--color-border-dark);
     box-shadow: 1px 1px 0px var(--color-border-dark);
-    /* Added styles for image size */
-    max-height: 300px; /* Constrain height */
-    width: auto; /* Allow width to adjust based on height */
-    object-fit: contain; /* Ensures the entire image is visible within the bounds */
-    display: block; /* Helps with centering if needed */
-    margin-left: auto;
-    margin-right: auto;
 }
 #latest-newsletter-section .newsletter-title {
     font-size: 1.5rem;
@@ -454,43 +454,40 @@ a:hover {
     margin-bottom: 1.5rem;
 }
 
-/* How to Use Section - REMOVED */
-/* The styles for this section are now entirely removed from styles.css */
-
-
 /* Substack Signup Section (New!) */
 #substack-signup {
-    padding: 2rem 2rem; /* Reuses homepage-content-section padding */
+    /* Removed background, border, shadow for full-width look */
+    /* background-color: var(--color-card-bg); */
+    /* border: 1px solid var(--color-border-dark); */
+    /* border-radius: 4px; */
+    /* box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), */
+                /* 4px 4px 0px var(--color-border-dark); */
+    padding: 2rem 2rem; /* Keep existing padding */
     max-width: 1000px;
     margin: 2rem auto;
-    background-color: var(--color-card-bg);
-    border: 1px solid var(--color-border-dark);
-    border-radius: 4px;
-    box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-                4px 4px 0px var(--color-border-dark);
     text-align: center;
 }
 #substack-signup .section-title {
     color: var(--color-accent-highlight);
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.6rem; /* Slightly smaller title */
+    margin-bottom: 1.2rem;
 }
 #substack-signup p {
-    font-size: 1.15rem;
+    font-size: 1.05rem; /* Slightly smaller paragraph */
     color: var(--color-text-secondary);
-    max-width: 700px;
-    margin: 0 auto 2rem;
+    max-width: 600px; /* Narrows text for compactness */
+    margin: 0 auto 1.5rem;
     line-height: 1.6;
 }
 .substack-form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    max-width: 500px;
+    gap: 0.8rem; /* Reduced gap */
+    max-width: 450px; /* Reduced max-width for the form box */
     margin: 0 auto;
-    padding: 1.5rem;
-    background-color: var(--color-secondary-bg);
+    padding: 1rem; /* Reduced padding for the form box */
+    background-color: var(--color-secondary-bg); /* Keep box for form elements */
     border: 1px solid var(--color-border-dark);
     border-radius: 4px;
     box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
@@ -498,20 +495,20 @@ a:hover {
 .substack-email-form {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px; /* Reduced gap within the form */
     width: 100%;
     justify-content: center;
 }
 .substack-email-form input[type="email"] {
     flex-grow: 1;
-    padding: 0.8rem 1rem;
+    padding: 0.7rem 0.9rem; /* Reduced padding */
     border: 1px solid var(--color-border-dark);
     border-radius: 4px;
-    background-color: var(--color-bg);
+    background-color: var(--color-main-bg); /* Use main bg color for input */
     color: var(--color-text-primary);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 1rem;
-    min-width: 250px;
+    font-size: 0.95rem; /* Reduced font size */
+    min-width: 200px; /* Ensures it's not too small on desktop */
 }
 .substack-email-form input[type="email"]::placeholder {
     color: var(--color-text-secondary);
@@ -520,11 +517,11 @@ a:hover {
 .cta-substack {
     background-color: var(--color-ui-red);
     color: white;
-    padding: 0.8rem 1.5rem;
+    padding: 0.7rem 1.2rem; /* Reduced padding */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.95rem; /* Reduced font size */
     text-transform: lowercase;
     font-weight: bold;
     letter-spacing: 0.05em;
@@ -545,9 +542,9 @@ a:hover {
     background-color: var(--color-ui-red);
 }
 .substack-note {
-    font-size: 0.9rem;
+    font-size: 0.85rem; /* Reduced font size */
     color: var(--color-text-secondary);
-    margin-top: 0.5rem;
+    margin-top: 0.3rem; /* Reduced margin */
     opacity: 0.8;
 }
 
@@ -943,17 +940,26 @@ a:hover {
 
   /* Responsive adjustments for Substack section */
     #substack-signup .section-title {
-        font-size: 1.5rem;
+        font-size: 1.3rem; /* Even smaller on mobile */
     }
     #substack-signup p {
-        font-size: 1rem;
+        font-size: 0.9rem; /* Even smaller on mobile */
+    }
+    .substack-form-container {
+        padding: 0.8rem; /* Smaller padding on mobile */
+        gap: 0.6rem;
     }
     .substack-email-form input[type="email"],
     .cta-substack {
         width: 100%; /* Stack on smaller screens */
         box-sizing: border-box; /* Include padding/border in width */
+        font-size: 0.9rem; /* Smaller font on mobile */
+    }
+    .substack-note {
+        font-size: 0.8rem;
     }
     #latest-newsletter-section .newsletter-image { /* Added: Responsive height for newsletter image */
         max-height: 200px;
+        max-width: 100%;
     }
 }
