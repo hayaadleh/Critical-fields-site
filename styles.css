@@ -840,7 +840,7 @@ a:hover {
   white-space: nowrap; /* Keeps all text on a single line */
   border-right: 2px solid var(--color-accent-highlight); /* Blinking cursor */
   animation: 
-    typing 3s steps(50, end) forwards, /* Increased duration to 3s, kept steps at 50 */
+    typing 3.5s steps(52, end) forwards, /* Increased duration to 3s, kept steps at 50 */
     blink-caret 0.75s step-end infinite;
   display: inline-block; /* Essential for animation */
   max-width: 0; /* Starts with no width */
