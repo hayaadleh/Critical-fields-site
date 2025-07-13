@@ -840,7 +840,7 @@ a:hover {
   white-space: nowrap; /* Keeps all text on a single line */
   border-right: 2px solid var(--color-accent-highlight); /* Blinking cursor */
   animation: 
-    typing 2.5s steps(50, end) forwards, /* Adjusted: 50 characters, ~2.5s duration */
+    typing 3s steps(50, end) forwards, /* Increased duration to 3s, kept steps at 50 */
     blink-caret 0.75s step-end infinite;
   display: inline-block; /* Essential for animation */
   max-width: 0; /* Starts with no width */
@@ -920,7 +920,7 @@ a:hover {
   }
   .hero .hero-left-column .tagline {
       text-align: center; /* Center tagline on mobile */
-      font-size: 1.2rem; /* Even smaller tagline on mobile for fitting */
+      font-size: 1rem; /* Even smaller tagline on mobile for fitting */
       margin-top: 1rem; /* Add some space above tagline */
   }
   .hero .hero-left-column .hero-description {
