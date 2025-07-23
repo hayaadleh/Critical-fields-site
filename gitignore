@@ -1,0 +1,10 @@
+# Node modules
+/node_modules
+/netlify/functions/node_modules/
+
+# Cached data
+/netlify/functions/data/
+/netlify/functions/public/images/
+
+# Environment variables
+.env

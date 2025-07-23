@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fields | Critical Fields</title> <!-- Static title for the landing page -->
-  <link rel="stylesheet" href="styles.css" />
+  <title>Fields | Critical Fields</title> <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
     /* Minimal inline styles to complement styles.css for the Fields page */
@@ -23,36 +22,41 @@
         padding: 2rem;
         max-width: 1200px;
         margin: 0 auto;
+        /* Main is now a standard block container, not a flex container */
     }
+
+    /* REMOVED: .top-content-row and .column-half styles */
+
+    /* Hero Section (Compressed Further) */
     .field-hero {
         text-align: center;
-        padding: 3rem 2rem;
+        padding: 0.5rem 1.5rem; /* Adjusted: Even smaller padding for less height */
         background: var(--color-secondary-bg); /* Use secondary background for hero */
         color: var(--color-text-primary);
         border-bottom: 1px solid var(--color-border-dark);
-        margin-bottom: 3rem;
         box-shadow: var(--shadow-element); /* Add a subtle shadow */
         border-radius: 4px;
         border: 1px solid var(--color-border-dark);
+        margin-bottom: 2rem; /* Adjusted: Less margin below hero */
     }
     .field-hero h2 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
+        font-size: 2rem; /* Adjusted: Smaller hero title */
+        margin-bottom: 1.5rem; /* Adjusted: Less margin below title */
         text-transform: lowercase;
         color: var(--color-accent-highlight); /* Red for hero title */
         text-shadow: 0 0 8px rgba(255, 65, 54, 0.5);
     }
     .field-hero p {
-        font-size: 1.1rem;
-        max-width: 700px;
+        font-size: 0.95rem; /* Adjusted: Smaller description */
+        max-width: 500px; /* Adjusted: Even narrower for tighter layout */
         margin: 0 auto;
-        line-height: 1.6;
+        line-height: 1.5;
         color: var(--color-text-secondary);
     }
     .field-section-title {
         text-align: center;
-        font-size: 2.2rem;
-        margin-top: 3.5rem;
+        font-size: 2rem;
+        margin-top: 0.5 rem; /* Standard section title margin */
         margin-bottom: 2.5rem;
         color: var(--color-accent-highlight); /* Red for section titles */
         border-bottom: 1px solid var(--color-border-dark);
@@ -65,14 +69,14 @@
         margin-right: auto;
     }
     .content-area {
-        margin-bottom: 3rem;
+        margin-bottom: 3rem; /* Standard spacing between major content blocks */
     }
-    .content-grid {
+    .content-grid { /* Used for Editor's Selections and Weekly Briefing (now simple lists too) */
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
     }
-    .feature-card {
+    .feature-card { /* Used for Editor's Selections and Weekly Briefing */
         background: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
@@ -132,33 +136,6 @@
         color: var(--color-ui-red);
     }
 
-    /* People & Institutions specific styling (simple list for now) */
-    .people-institutions-list {
-        list-style: none;
-        padding: 0;
-        margin-top: 1.5rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-    .people-institutions-list li {
-        background: var(--color-card-bg);
-        border: 1px solid var(--color-border-dark);
-        border-radius: 4px;
-        padding: 1rem;
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 2px 2px 0px var(--color-border-dark);
-    }
-    .people-institutions-list li strong {
-        display: block;
-        font-size: 1.1rem;
-        margin-bottom: 0.3rem;
-        color: var(--color-accent-highlight);
-    }
-    .people-institutions-list li p {
-        font-size: 0.9rem;
-        color: var(--color-text-secondary);
-        margin: 0;
-    }
     .coming-soon {
         text-align: center;
         padding: 2rem;
@@ -171,113 +148,144 @@
         background-color: var(--color-secondary-bg);
     }
 
-    /* --- RSS Rotator Styles (New) --- */
-    #rss-rotator-section {
-        margin-bottom: 3rem;
-        background-color: var(--color-card-bg);
+    /* --- NEW: Vertical Article List Styles (Native Scroll, No Images) --- */
+    #rss-vertical-list-section { /* Main container for the RSS list */
+        background-color: var(--color-card-bg); /* Outer box for the entire feed section */
         padding: 2rem;
         border-radius: 8px;
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 4px 4px 0px var(--color-border-dark);
-        position: relative;
         border: 1px solid var(--color-border-dark);
-    }
-    .rss-rotator-container {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        min-height: 250px; /* Increased min-height for bigger images/text */
-        margin: 0 auto;
-    }
-    .rss-slides-wrapper {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        height: 100%; /* Ensure wrapper fills container for vertical alignment */
-    }
-    .rss-slide {
-        flex: 0 0 100%;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 1.5rem;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 4px 4px 0px var(--color-border-dark);
         text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
-    .rss-slide h4 {
-        font-size: 1.5rem;
-        margin-bottom: 0.8rem;
-        color: var(--color-accent-highlight);
-        text-transform: lowercase;
+
+    .vertical-articles-list-wrapper { /* This is the scrollable container */
+        max-width: 800px; /* Constrain content width */
+        width: 100%;
+        height: 270px; /* Fixed height to display 3 articles (approx 90px per article + gaps) */
+        overflow-y: scroll; /* Allow native vertical scrolling */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: var(--color-accent-highlight) var(--color-secondary-bg); /* Firefox */
+
+        border: 1px solid var(--color-border-dark); /* Inner frame for the content window */
+        border-radius: 4px;
+        background-color: var(--color-secondary-bg);
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
+        margin: 0 auto; /* Center the content wrapper within its parent */
+        padding: 10px; /* Inner padding for the list */
+        box-sizing: border-box;
+    }
+    /* Styles for the scrollbar itself (Webkit browsers like Chrome/Safari) */
+    .vertical-articles-list-wrapper::-webkit-scrollbar {
+        width: 8px;
+    }
+    .vertical-articles-list-wrapper::-webkit-scrollbar-track {
+        background: var(--color-secondary-bg);
+        border-radius: 10px;
+    }
+    .vertical-articles-list-wrapper::-webkit-scrollbar-thumb {
+        background: var(--color-accent-highlight);
+        border-radius: 10px;
+        border: 2px solid var(--color-secondary-bg); /* Padding around thumb */
+    }
+    .vertical-articles-list-wrapper::-webkit-scrollbar-thumb:hover {
+        background: var(--color-ui-red-light);
+    }
+
+    .vertical-articles-list { /* This is the <ol> element now */
+        list-style: decimal; /* Add numbering */
+        padding-left: 25px; /* Space for numbers */
+        margin: 0; /* Remove default margin */
+        display: flex;
+        flex-direction: column; /* Stack articles vertically */
+        width: 100%;
+        height: auto; 
+    }
+
+    .vertical-article-item { /* Styles for each <li> in the list */
+        display: flex; 
+        align-items: center; /* Vertically center content */
+        gap: 10px; 
+        padding: 8px 0; 
+        border-bottom: 1px dashed var(--color-border-dark);
+        text-align: left; 
+        min-height: 80px; /* Consistent height for each item in the list */
+    }
+
+    .vertical-article-item:last-child {
+        border-bottom: none; 
+    }
+
+    /* REMOVED: Image container and thumbnail styles */
+    /* .article-thumb-container, .article-thumb-container.placeholder-thumb, .article-thumb */
+
+    .article-text-content {
+        flex-grow: 1; /* Allows text to take remaining space */
+    }
+
+    .article-title-small {
+        font-size: 0.95rem; 
+        margin: 0 0 2px;
         line-height: 1.3;
     }
-    .rss-slide p {
-        font-size: 1rem;
+    .article-title-small a {
+        color: var(--color-text-primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .article-title-small a:hover {
+        color: var(--color-accent-highlight);
+        text-decoration: underline;
+    }
+
+    .article-meta-small {
+        font-size: 0.75rem; 
         color: var(--color-text-secondary);
-        max-width: 800px;
-        margin: 0 auto 1rem;
+        opacity: 0.8;
+        margin: 0;
+    }
+
+    /* --- NEW: Simple List Styling for Foundational Resources --- */
+    .basic-numbered-list {
+        list-style: decimal; /* Add numbering */
+        padding-left: 25px; /* Space for numbers */
+        margin: 0 auto; /* Center list */
+        max-width: 800px; /* Constrain width */
+        background-color: var(--color-secondary-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
+        padding: 1.5rem 25px 1.5rem; /* Padding + left space for numbers */
+        text-align: left;
+    }
+    .basic-numbered-list li {
+        margin-bottom: 0.8rem;
+        font-size: 1rem;
+        color: var(--color-text-primary);
+        border-bottom: 1px dashed var(--color-border-dark);
+        padding-bottom: 0.8rem;
         line-height: 1.6;
     }
-    .rss-slide .source-link {
-        font-size: 0.9rem;
-        color: var(--color-ui-red);
-        text-decoration: underline;
+    .basic-numbered-list li:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    .basic-numbered-list li a {
+        color: var(--color-text-primary);
+        text-decoration: none;
         font-weight: 600;
-        text-transform: lowercase;
     }
-    .rss-slide .source-link:hover {
-        color: var(--color-ui-red-light);
+    .basic-numbered-list li a:hover {
+        color: var(--color-accent-highlight);
+        text-decoration: underline;
     }
-    .rss-pagination-dots {
-        text-align: center;
-        margin-top: 1rem;
-    }
-    .rss-dot {
-        height: 10px;
-        width: 10px;
-        margin: 0 5px;
-        background-color: var(--color-border-dark);
-        border-radius: 50%;
-        display: inline-block;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .rss-dot.active {
-        background-color: var(--color-accent-highlight);
-    }
-    .rss-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(0,0,0,0.6);
-        color: white;
-        border: none;
-        padding: 0.5rem 0.8rem;
-        cursor: pointer;
-        font-size: 1.5rem;
-        line-height: 1;
-        border-radius: 5px;
-        z-index: 10;
-        opacity: 0.7;
-        transition: opacity 0.2s ease;
-    }
-    .rss-arrow:hover {
-        opacity: 1;
-    }
-    .rss-arrow.prev {
-        left: 10px;
-    }
-    .rss-arrow.next {
-        right: 10px;
-    }
-    .rss-rotator-image {
-        max-width: 250px; /* Increased size significantly */
-        max-height: 180px; /* Increased size significantly */
-        object-fit: contain; /* Ensure full image is visible */
-        margin-bottom: 1rem;
-        border-radius: 4px;
-        border: 1px solid var(--color-border-dark);
-        box-shadow: 2px 2px 0px var(--color-border-dark), 4px 4px 0px rgba(0,0,0,0.4); /* Added 3D shadow */
+    .basic-numbered-list li .item-meta {
+        font-size: 0.85rem;
+        color: var(--color-text-secondary);
+        opacity: 0.8;
+        display: block;
+        margin-top: 0.2rem;
     }
 
     /* --- Field Index Page Styles (Digital Card Catalog Style) --- */
@@ -290,15 +298,16 @@
         padding: 2rem;
         max-width: 1000px;
         margin: 3rem auto;
-        text-align: center;
+        text-align: center; /* Center the grid within the wrapper */
     }
 
     #field-catalog-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid for cards */
         gap: 1.5rem;
         padding: 1rem 0;
         justify-content: center;
+        text-align: left; /* Align content of items */
     }
 
     .field-catalog-item {
@@ -314,8 +323,8 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        align-items: center;
-        text-align: center;
+        align-items: flex-start; /* Align text content left */
+        text-align: left; /* Ensure content is left-aligned */
     }
 
     .field-catalog-item:hover {
@@ -358,36 +367,71 @@
 
 
     /* Responsive adjustments */
+    @media (max-width: 900px) { /* Adjust breakpoint for two-column layout */
+        .top-content-row {
+            flex-direction: column; /* Stack columns on smaller screens */
+            gap: 2rem; /* Gap between stacked columns */
+        }
+        .column-half { /* Applied to elements inside .top-content-row */
+            min-width: unset; /* Remove min-width */
+            width: 100%; /* Take full width */
+        }
+        .field-hero {
+            margin-bottom: 0; /* No margin when stacked */
+        }
+        #rss-vertical-list-section {
+            margin-bottom: 0; /* No margin when stacked */
+        }
+    }
+
     @media (max-width: 768px) {
         main {
             padding: 1rem;
+            gap: 1.5rem; /* Smaller gap on mobile for main sections */
+        }
+        .field-hero {
+            padding: 1rem; /* Smaller padding on mobile */
         }
         .field-hero h2 {
-            font-size: 2rem;
+            font-size: 1.8rem; /* Smaller hero title on mobile */
         }
         .field-hero p {
-            font-size: 1rem;
+            font-size: 0.9rem; /* Smaller hero description on mobile */
         }
         .field-section-title {
             font-size: 1.5rem;
             margin-top: 2rem;
             margin-bottom: 1.5rem;
         }
-        .content-grid {
+        .content-grid { /* For Editor's Selections/Weekly Briefing */
             grid-template-columns: 1fr;
+            gap: 1rem;
         }
-        .rss-slide h4 {
-            font-size: 1.2rem;
+        /* Vertical List Responsive */
+        #rss-vertical-list-section {
+            padding: 1.5rem;
         }
-        .rss-slide p {
-            font-size: 0.9rem;
+        .vertical-articles-list-wrapper {
+            height: 240px; /* Adjusted height for 3 articles on mobile (80px per article) */
+            padding: 8px;
         }
+        .vertical-article-item { /* Renamed to vertical-article-item */
+            min-height: auto;
+            padding: 8px 0;
+        }
+        .article-title-small {
+            font-size: 0.9em;
+        }
+        .article-meta-small {
+            font-size: 0.7em;
+        }
+        /* Field Index Page Responsive */
         #field-index-wrapper {
             padding: 1.5rem;
             margin: 2rem auto;
         }
         #field-catalog-container {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr; /* Single column for field index on mobile */
             padding: 1rem;
         }
         .field-catalog-item {
@@ -417,8 +461,7 @@
             <li><a href="fields.html?name=earth-systems">Earth Systems</a></li>
             <li><a href="fields.html?name=the-social-commons">The Social Commons</a></li>
             <li><a href="fields.html?name=critical-methodologies">Critical Methodologies</a></li>
-            <!-- Add more fields here as needed -->
-          </ul>
+            </ul>
         </li>
         <li><a href="resources.html">Archive</a></li>
         <li><a href="network.html">Network</a></li>
@@ -428,82 +471,54 @@
   </header>
 
   <main id="main-content-area">
-    <!-- This section will either be the field hero/content or the field index -->
-  </main>
+    </main>
 
   <footer class="site-footer">
     <p>&copy; 2025 Critical Fields.</p>
   </footer>
 
-  <script>
+ <script>
     // --- Configuration for Field Page Dynamic Content ---
-    // Your comprehensive Archive Sheet (used for RSS feed)
-    const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
-    const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
-    const ARCHIVE_FEED_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL); // Corrected URL
+    // Your comprehensive Archive Sheet URL (used for all content pulling from your sheet)
+    const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
 
-    // Placeholder URLs for other sections - these need to be updated to your actual sheets
-    const FIELD_NOTES_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_FIELD_NOTES_GENERAL_ID/pub?gid=0&single=true&output=csv';
-    const EDITOR_SELECTIONS_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_EDITOR_SELECTIONS_GENERAL_ID/pub?gid=0&single=true&output=csv';
-    const WEEKLY_BRIEFING_SHEET_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vR_PLACEHOLDER_WEEKLY_BRIEFING_GENERAL_ID/pub?gid=0&single=true&output=csv';
-    // Removed other unpopulated section URLs for clarity in this code block
-
-    const RSS_TO_JSON_PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=';
+    // *** NEW: Your Backend API URL ***
+    // When deployed, this will change to your actual deployed backend URL (e.g., 'https://your-backend-domain.com/api/field-rss')
+    const BACKEND_RSS_API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                            ? 'http://localhost:3000/api/field-rss' // Local backend address
+                            : '/.netlify/functions/index'; // Deployed Netlify function address
 
     // Map of field names (from URL param) to their display titles and descriptions
     const fieldData = {
         'heterodox-economics': {
             title: 'Heterodox Economics',
             description: 'Challenging mainstream economic theories with diverse perspectives on markets, society, and power structures.',
-            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
-            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
-            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL // Using the corrected archive sheet URL
         },
         'architectures-of-power': {
             title: 'Architectures of Power',
             description: 'Investigating the unseen structures and systems that shape societal control, governance, and influence.',
-            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
-            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
-            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'the-digital-apparatus': {
             title: 'The Digital Apparatus',
             description: 'Examining the political, social, and cultural impacts of digital technologies, AI, and information networks.',
-            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
-            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
-            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'earth-systems': {
             title: 'Earth Systems',
             description: 'Exploring the intricate relationships between human societies and planetary ecologies, climate, and environmental justice.',
-            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
-            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
-            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'the-social-commons': {
             title: 'The Social Commons',
             description: 'Investigating models of collective well-being, shared resources, and community-driven initiatives beyond market forces.',
-            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
-            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
-            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         },
         'critical-methodologies': {
             title: 'Critical Methodologies',
             description: 'Delving into innovative research approaches, interdisciplinary methods, and ethical considerations in critical studies.',
-            fieldNotesUrl: FIELD_NOTES_SHEET_URL,
-            editorSelectionsUrl: EDITOR_SELECTIONS_SHEET_URL,
-            weeklyBriefingUrl: WEEKLY_BRIEFING_SHEET_URL,
-            archiveFeedUrl: ARCHIVE_FEED_SHEET_URL
         }
     };
 
 
     // Helper function to parse CSV data (reused across site)
+    // This function will parse the comprehensive sheet
     function parseCSV(csvText) {
         const lines = csvText.trim().split('\n');
         if (lines.length === 0) return [];
@@ -544,26 +559,23 @@
             }
             const rowObject = {};
             headers.forEach((header, index) => {
-                rowObject[header] = values[index] ? values[index] : ''; // Store original value for display
-                // For internal logic/filtering, also store a lowercase, trimmed version
+                rowObject[header] = values[index] ? values[index] : '';
                 rowObject[`${header}Normalized`] = values[index] ? values[index].toLowerCase().trim() : '';
             });
 
-            // Ensure 'Field' column is parsed as a lowercase, trimmed array for filtering
+            // Ensure 'Field' column is parsed as a lowercase, hyphenated array for filtering
             if (rowObject.Field) {
-                rowObject.Field = rowObject.FieldNormalized.split(',').map(f => f.trim()).filter(Boolean); // Store original case for display
-                rowObject.FieldNormalized = rowObject.Field.map(f => f.toLowerCase()); // Store normalized for filtering
+                rowObject.FieldParsed = rowObject.Field.toLowerCase().split(',').map(f => f.trim().replace(/\s/g, '-')).filter(Boolean);
             } else {
-                rowObject.Field = [];
-                rowObject.FieldNormalized = [];
+                rowObject.FieldParsed = []; // Use FieldParsed to avoid conflict with FieldNormalized property in some RSS items
             }
             data.push(rowObject);
         }
         return data;
     }
 
-    // Generic function to fetch and display data
-    async function fetchDataAndDisplay(url, targetContainerId, renderFunction, currentFieldName = null) {
+    // Generic function to fetch and display data from the comprehensive sheet with filters
+    async function fetchDataAndDisplay(url, targetContainerId, renderFunction, currentFieldName = null, filterOptions = {}) {
         const container = document.getElementById(targetContainerId);
         const loadingElement = container.querySelector('.loading-message');
         const comingSoonElement = container.querySelector('.coming-soon');
@@ -580,10 +592,23 @@
             const csvText = await response.text();
             let data = parseCSV(csvText);
 
-            if (currentFieldName && data.length > 0 && data[0].Field && Array.isArray(data[0].Field)) {
-                const normalizedFieldName = currentFieldName.toLowerCase().replace(/ /g, '-'); 
+            // Filter by field name from URL
+            if (currentFieldName) {
+                const normalizedFieldName = currentFieldName.toLowerCase().replace(/\s/g, '-'); 
                 data = data.filter(item => 
-                    item.FieldNormalized && item.FieldNormalized.includes(normalizedFieldName) // Use Normalized field for filtering
+                    item.FieldParsed && item.FieldParsed.includes(normalizedFieldName) 
+                );
+            }
+
+            // Apply additional filter options (e.g., by Medium, FoundationalStatus)
+            if (filterOptions.medium) {
+                data = data.filter(item => 
+                    item.MediumNormalized && item.MediumNormalized.includes(filterOptions.medium.toLowerCase())
+                );
+            }
+            if (filterOptions.foundationalStatus) {
+                data = data.filter(item => 
+                    item.FoundationalStatusNormalized && item.FoundationalStatusNormalized === filterOptions.foundationalStatus.toLowerCase()
                 );
             }
             
@@ -593,7 +618,7 @@
                 return;
             }
 
-            const itemsToShow = data.slice(0, 3); 
+            const itemsToShow = data.slice(0, 3); // Still limiting to 3 for these sections
 
             itemsToShow.forEach(item => {
                 const card = renderFunction(item);
@@ -603,7 +628,7 @@
             });
         } catch (error) {
             console.error(`Error fetching or rendering data for ${targetContainerId} from ${url}:`, error);
-            container.innerHTML = `<p class="loading-message error-message">failed to load content for this section. please check the sheet URL.</p>`;
+            container.innerHTML = `<p class="loading-message error-message">failed to load content for this section. Please check the sheet URL or ensure it's published correctly.</p>`;
         } finally {
             if (loadingElement) {
                 loadingElement.style.display = 'none';
@@ -611,168 +636,103 @@
         }
     }
 
-    // --- RSS Rotator Variables ---
-    let rssArticles = [];
-    let currentRssIndex = 0;
-    let rssIntervalId;
-    const RSS_ROTATION_INTERVAL = 10000; // 10 seconds
+    // --- NEW RSS List Variables (for vertical scroll) ---
+    let verticalRssArticles = []; 
 
-    // --- RSS Rotator Functions ---
-    function renderRssRotator() {
-        const rotatorContainer = document.getElementById('rss-rotator-container');
-        const dotsContainer = document.getElementById('rss-pagination-dots');
-        rotatorContainer.innerHTML = '';
-        dotsContainer.innerHTML = '';
+    // NEW: Function to render RSS articles in a scrollable vertical list
+    function renderVerticalRssList(articles) {
+        const listContainer = document.getElementById('vertical-rotator-content-wrapper'); // This is now a simple list container
+        listContainer.innerHTML = ''; // Clear previous content
 
-        if (rssArticles.length === 0) {
-            rotatorContainer.innerHTML = `<p class="loading-message">no relevant RSS articles found for this field yet.</p>`;
+        // Sort articles again by pubDate (newest first) to ensure freshness
+        articles.sort((a, b) => {
+            const dateA = Date.parse(a.pubDate);
+            const dateB = Date.parse(b.pubDate);
+            if (isNaN(dateA) && isNaN(dateB)) return 0;
+            if (isNaN(dateA)) return 1;
+            if (isNaN(dateB)) return -1;
+            return dateB - dateA;
+        });
+
+        // Limit to 10 articles for display in the scrollable list (adjust as desired)
+        verticalRssArticles = articles.slice(0, 10); 
+
+        if (verticalRssArticles.length === 0) {
+            listContainer.innerHTML = '<p class="loading-message">No recent articles available for this field.</p>';
             return;
         }
 
-        const slidesWrapper = document.createElement('div');
-        slidesWrapper.className = 'rss-slides-wrapper';
-        rotatorContainer.appendChild(slidesWrapper);
+        const articlesList = document.createElement('ol'); // Changed to <ol> for numbering
+        articlesList.className = 'vertical-articles-list'; 
+        listContainer.appendChild(articlesList);
 
-        rssArticles.forEach((article, index) => {
-            const slide = document.createElement('div');
-            slide.className = 'rss-slide';
-            const imageUrl = article.thumbnail || article.enclosure && article.enclosure.link || article.og_image || (article.description.match(/<img[^>]+src="([^">]+)"/) || [])[1];
-            let imageHtml = '';
-            if (imageUrl && imageUrl.startsWith('http')) {
-                imageHtml = `<img src="${imageUrl}" alt="${article.title}" class="rss-rotator-image" onerror="this.style.display='none'">`;
-            }
+        verticalRssArticles.forEach(article => {
+            const articleItem = document.createElement('li'); // Changed to <li> for numbering
+            articleItem.classList.add('vertical-article-item');
 
-            slide.innerHTML = `
-                ${imageHtml}
-                <h4><a href="${article.link}" target="_blank" rel="noopener noreferrer" class="source-link">${article.title}</a></h4>
-                <p>${article.description ? article.description.replace(/<[^>]*>?/gm, '').substring(0, 200) + '...' : 'no description available.'}</p>
-                <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="source-link">read more from ${article.feedTitle || 'source'}</a>
+            // Removed image HTML as requested
+            // let imageHtml = '';
+            // if (article.imageUrl && article.imageUrl.startsWith('/images/')) {
+            //     const backendBaseUrl = BACKEND_RSS_API_URL.replace('/api/field-rss', '');
+            //     imageHtml = `<div class="article-thumb-container">
+            //                     <img src="${backendBaseUrl}${article.imageUrl}" alt="${article.title}" class="article-thumb">
+            //                  </div>`;
+            // } else {
+            //     imageHtml = `<div class="article-thumb-container placeholder-thumb">
+            //                     <img src="images/placeholder.png" alt="No image available" class="article-thumb">
+            //                  </div>`;
+            // }
+
+            articleItem.innerHTML = `
+                <div class="article-text-content">
+                    <h3 class="article-title-small"><a href="${article.link}" target="_blank" rel="noopener noreferrer">${article.title}</a></h3>
+                    <p class="article-meta-small">Source: ${article.feedTitle || 'N/A'} | ${new Date(article.pubDate).toLocaleDateString()}</p>
+                </div>
             `;
-            slidesWrapper.appendChild(slide);
-
-            const dot = document.createElement('span');
-            dot.className = 'rss-dot';
-            dot.dataset.index = index;
-            dot.addEventListener('click', () => {
-                stopRssRotator();
-                showRssSlide(index);
-                startRssRotator();
-            });
-            dotsContainer.appendChild(dot);
-        });
-
-        const prevArrow = document.createElement('button');
-        prevArrow.className = 'rss-arrow prev';
-        prevArrow.innerHTML = '&lsaquo;';
-        prevArrow.addEventListener('click', () => {
-            stopRssRotator();
-            showRssSlide(currentRssIndex - 1);
-            startRssRotator();
-        });
-        rotatorContainer.appendChild(prevArrow);
-
-        const nextArrow = document.createElement('button');
-        nextArrow.className = 'rss-arrow next';
-        nextArrow.innerHTML = '&rsaquo;';
-        nextArrow.addEventListener('click', () => {
-            stopRssRotator();
-            showRssSlide(currentRssIndex + 1);
-            startRssRotator();
-        });
-        rotatorContainer.appendChild(nextArrow);
-
-        showRssSlide(currentRssIndex);
-        startRssRotator();
-    }
-
-    function showRssSlide(index) {
-        const slidesWrapper = document.querySelector('.rss-slides-wrapper');
-        const dots = document.querySelectorAll('.rss-dot');
-
-        if (!slidesWrapper || slidesWrapper.children.length === 0) return;
-
-        if (index >= rssArticles.length) {
-            currentRssIndex = 0;
-        } else if (index < 0) {
-            currentRssIndex = rssArticles.length - 1;
-        } else {
-            currentRssIndex = index;
-        }
-
-        slidesWrapper.style.transform = `translateX(-${currentRssIndex * 100}%)`;
-
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentRssIndex);
+            articlesList.appendChild(articleItem);
         });
     }
 
-    function startRssRotator() {
-        stopRssRotator();
-        if (rssArticles.length > 1) {
-            rssIntervalId = setInterval(() => {
-                showRssSlide(currentRssIndex + 1);
-            }, RSS_ROTATION_INTERVAL);
-        }
-    }
+    // --- REMOVED: Auto-rotation and navigation functions (showVerticalSlide, startVerticalRotator, stopVerticalRotator) ---
+    // Because we are now using native scrolling, these are not needed.
 
-    function stopRssRotator() {
-        clearInterval(rssIntervalId);
-    }
 
+    // --- FETCHES RSS ARTICLES FROM YOUR BACKEND API ---
     async function fetchFieldRssFeeds(currentFieldName) {
-        const rssRotatorContainer = document.getElementById('rss-rotator-container');
-        const loadingMessage = rssRotatorContainer.querySelector('.loading-message') || document.createElement('p');
+        // Corrected ID to match HTML: rss-vertical-list-section is the parent, content-wrapper is child
+        const listSection = document.getElementById('rss-vertical-list-section'); // Renamed ID
+        const listContentWrapper = document.getElementById('vertical-rotator-content-wrapper'); // Renamed ID
+
+        const loadingMessage = listContentWrapper.querySelector('.loading-message') || document.createElement('p');
         if (!loadingMessage.parentNode) {
             loadingMessage.className = 'loading-message';
-            rssRotatorContainer.appendChild(loadingMessage);
+            listContentWrapper.appendChild(loadingMessage);
         }
-        loadingMessage.innerHTML = '<div class="loader"></div>' + (loadingMessage.dataset.originalText || loadingMessage.textContent || 'loading...');
+        loadingMessage.innerHTML = '<div class="loader"></div>' + (loadingMessage.dataset.originalText || loadingMessage.textContent || 'loading live RSS articles...');
         loadingMessage.dataset.originalText = loadingMessage.dataset.originalText || loadingMessage.textContent;
         loadingMessage.style.display = 'block';
 
-
         try {
-            const response = await fetch(ARCHIVE_FEED_SHEET_URL); // This now points to the comprehensive sheet via proxy
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const csvText = await response.text();
-            const archiveData = parseCSV(csvText);
+            // Fetch from your backend API!
+            const response = await fetch(`${BACKEND_RSS_API_URL}?field=${currentFieldName}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const articles = await response.json(); // Get all filtered articles
 
-            // Normalize the currentFieldName from the URL to match sheet 'Field' values
-            const normalizedFieldNameForFilter = currentFieldName.toLowerCase().replace(/-/g, ' '); 
+            console.log("Articles received for", currentFieldName, ":", articles); 
 
-            const rssSources = archiveData.filter(item => 
-                item.RSSFeed && item.RSSFeed.startsWith('http') && 
-                item.FieldNormalized && item.FieldNormalized.includes(normalizedFieldNameForFilter)
-            );
-            
-            const fetchedArticles = [];
-            for (const source of rssSources) {
-                try {
-                    const proxyResponse = await fetch(`${RSS_TO_JSON_PROXY_URL}${encodeURIComponent(source.RSSFeed)}`);
-                    if (!proxyResponse.ok) {
-                        console.warn(`Failed to fetch RSS from proxy for ${source.RSSFeed}: ${proxyResponse.status}`);
-                        continue;
-                    }
-                    const rssJson = await proxyResponse.json();
-                    if (rssJson.status === 'ok' && rssJson.items) {
-                        rssJson.items.forEach(item => {
-                            item.feedTitle = rssJson.feed.title;
-                            fetchedArticles.push(item);
-                        });
-                    }
-                } catch (proxyError) {
-                    console.error(`Error fetching RSS feed for ${source.RSSFeed}:`, proxyError);
-                }
+            if (articles.length === 0) {
+                listContentWrapper.innerHTML = `<p class="loading-message">no recent articles available for this field yet.</p>`;
+                return;
             }
 
-            fetchedArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            rssArticles = fetchedArticles.slice(0, 10); 
-
-            renderRssRotator();
+            // NEW: Render the articles in the scrollable list format
+            renderVerticalRssList(articles); // Call the new rendering function
 
         } catch (error) {
-            console.error('Error fetching RSS sources or articles:', error);
-            rssRotatorContainer.innerHTML = `<p class="loading-message error-message">failed to load live archive feed. please check the RSS links in your sheet.</p>`;
+            console.error('Error fetching RSS articles from backend:', error);
+            listContentWrapper.innerHTML = `<p class="loading-message error-message">Failed to load live RSS feed. Please ensure backend is running or check network.</p>`;
         } finally {
             loadingMessage.style.display = 'none';
         }
@@ -780,40 +740,23 @@
 
 
     // --- Render Functions for Field Page Sections ---
+    // These remain the same. They are used by fetchDataAndDisplay for non-RSS sections.
     function renderFieldNotesCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled field note'}</h4>
-                <p>${item.Summary || 'no summary provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Author || 'anonymous'} &mdash; ${item.Date || 'n.d.'}
-                </div>
-            </div>
-        `;
+        // This is a placeholder for actual comments. For now, it will show a Coming Soon message.
+        const card = document.createElement('div'); 
+        card.className = 'coming-soon'; 
+        card.innerHTML = `<p>Field Notes (User Comments) coming soon!</p>`;
         return card;
     }
 
-    function renderEditorSelectionsCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled selection'}</h4>
-                <p>${item.Description || 'no description provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Type || 'resource'} by ${item.Author || 'editor'}
-                </div>
-            </div>
+    // NEW: Render function for Foundational Resources as a simple list item
+    function renderFoundationalResourceItem(item) {
+        const listItem = document.createElement('li'); // Renders as a list item
+        listItem.innerHTML = `
+            <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer">${item.Title || 'untitled resource'}</a>
+            <span class="item-meta">by ${item.Author || 'N/A'} &mdash; ${item.Medium || 'resource'}</span>
         `;
-        return card;
+        return listItem;
     }
 
     function renderWeeklyBriefingCard(item) {
@@ -825,7 +768,7 @@
         card.innerHTML = `
             <div class="feature-card-content">
                 <h4>${item.Title || 'untitled briefing'}</h4>
-                <p>${item.Summary || 'no summary provided.'}</p>
+                <p>${item.Description || 'no summary provided.'}</p>
                 <div class="feature-card-meta">
                     ${item.Date || 'n.d.'}
                 </div>
@@ -834,68 +777,11 @@
         return card;
     }
     
-    function renderPeopleInstitutionsCard(item) {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <strong><a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer">${item.Name || 'untitled profile'}</a></strong>
-            <p>${item.BioSnippet || item.Type || 'no description available.'}</p>
-        `;
-        return li;
-    }
-
-    function renderFormalPublicationCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled publication'}</h4>
-                <p>${item.Summary || 'no summary provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Author || 'anonymous'} &mdash; ${item.Date || 'n.d.'}
-                </div>
-            </div>
-        `;
-        return card;
-    }
-
-    function renderReadingListCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled reading list'}</h4>
-                <p>${item.Description || 'no description provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Date || 'n.d.'}
-                </div>
-            </div>
-        `;
-        return card;
-    }
-
-    function renderUpcomingEventCard(item) {
-        const card = document.createElement('a');
-        card.href = item.Link || '#';
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-        card.className = 'feature-card';
-        card.innerHTML = `
-            <div class="feature-card-content">
-                <h4>${item.Title || 'untitled event'}</h4>
-                <p>${item.Description || 'no description provided.'}</p>
-                <div class="feature-card-meta">
-                    ${item.Date || 'n.d.'} &mdash; ${item.Location || ''}
-                </div>
-            </div>
-        `;
-        return card;
-    }
+    // Unused render functions for specific content types for simplicity
+    function renderPeopleInstitutionsCard(item) { /* ... */ return null; }
+    function renderFormalPublicationCard(item) { /* ... */ return null; }
+    function renderReadingListCard(item) { /* ... */ return null; }
+    function renderUpcomingEventCard(item) { /* ... */ return null; }
 
 
     // --- Main Field Page Initialization (handles both index and individual fields) ---
@@ -911,48 +797,59 @@
             if (fieldDetails) {
                 document.title = `${fieldDetails.title} | Critical Fields`;
 
+                // NEW HTML STRUCTURE FOR INDIVIDUAL FIELD PAGE
+                // Main content is now just a stack of sections
                 mainContentArea.innerHTML = `
                     <section class="field-hero">
                         <h2 id="field-title">${fieldDetails.title}</h2>
                         <p id="field-description">${fieldDetails.description}</p>
                     </section>
 
-                    <div id="rss-rotator-section" class="content-area">
-                        <h3 class="field-section-title">Live Archive Feed (RSS Articles)</h3>
-                        <div id="rss-rotator-container" class="rss-rotator-container">
-                            <p class="loading-message">Loading live RSS articles...</p>
+                    <div class="top-content-row">
+                        <div class="column-half live-feed-column content-area">
+                            <section id="rss-vertical-list-section" class="content-area">
+                                <h3 class="field-section-title">Archive Blog</h3> <div class="vertical-articles-list-wrapper" id="vertical-rotator-content-wrapper">
+                                    <p class="loading-message">Loading recent articles...</p>
+                                </div>
+                            </section>
                         </div>
-                        <div id="rss-pagination-dots" class="rss-pagination-dots"></div>
+
+                        <div class="column-half hero-column content-area">
+                            <section id="foundational-resources-section" class="content-area">
+                                <h3 class="field-section-title">Foundational Resources</h3> <div id="foundational-resources-container" class="basic-numbered-list">
+                                    <p class="loading-message">Loading foundational resources...</p>
+                                </div>
+                            </section>
+                        </div>
                     </div>
 
-                    <div class="content-area">
+
+                    <section class="content-area">
                         <h3 class="field-section-title">Field Notes</h3>
                         <div id="field-notes-container" class="content-grid">
                             <p class="loading-message">Loading original essays and critiques...</p>
+                            <p class="coming-soon">Field Notes (User Comments) coming soon!</p>
                         </div>
-                    </div>
+                    </section>
 
-                    <div class="content-area">
-                        <h3 class="field-section-title">Field Editors’ Selections</h3>
-                        <div id="editor-selections-container" class="content-grid">
-                            <p class="loading-message">Loading foundational resources...</p>
-                        </div>
-                    </div>
-
-                    <div class="content-area">
+                    <section class="content-area">
                         <h3 class="field-section-title">Weekly Briefing (Newsletter)</h3>
                         <div id="weekly-briefing-container" class="content-grid">
                             <p class="loading-message">Loading latest briefings...</p>
                         </div>
-                    </div>
+                    </section>
                 `;
-                // Removed unpopulated sections as requested
 
-                fetchFieldRssFeeds(fieldNameParam);
-                fetchDataAndDisplay(fieldDetails.fieldNotesUrl, 'field-notes-container', renderFieldNotesCard, fieldDetails.title);
-                fetchDataAndDisplay(fieldDetails.editorSelectionsUrl, 'editor-selections-container', renderEditorSelectionsCard, fieldDetails.title);
-                fetchDataAndDisplay(fieldDetails.weeklyBriefingUrl, 'weekly-briefing-container', renderWeeklyBriefingCard, fieldDetails.title);
-                // Removed unpopulated section data calls
+                // *** CALLS TO FETCH DATA ***
+                fetchFieldRssFeeds(fieldNameParam); // Calls your new backend for RSS articles (now renders vertical list)
+
+                // Call fetchDataAndDisplay for other sections, now using the comprehensive sheet
+                // You MUST add the "FoundationalStatus" column to your Google Sheet for this to work
+                fetchDataAndDisplay(GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL, 'foundational-resources-container', renderFoundationalResourceItem, fieldNameParam, { foundationalStatus: 'yes' });
+                // Assuming 'Newsletter' is the medium type for your weekly briefings
+                fetchDataAndDisplay(GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL, 'weekly-briefing-container', renderWeeklyBriefingCard, fieldNameParam, { medium: 'newsletter' });
+
+                // Field Notes: No fetchDataAndDisplay call needed, handled by static HTML "coming-soon"
             } else {
                 mainContentArea.innerHTML = `
                     <section class="field-hero">
@@ -965,6 +862,7 @@
         } else {
             // --- Render Fields Index Page ---
             document.title = 'Fields | Critical Fields';
+            // The field index page also needs its main element wrapped in .column-full-width for consistent styling
             mainContentArea.innerHTML = `
                 <section class="field-hero">
                     <h2>Our Fields of Inquiry</h2>
@@ -972,8 +870,7 @@
                 </section>
                 <div id="field-index-wrapper">
                     <div id="field-catalog-container">
-                        <!-- Field catalog items will be generated here -->
-                    </div>
+                        </div>
                 </div>
             `;
             renderFieldIndexPage(); // Call function to render index cards
