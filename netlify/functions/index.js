@@ -269,28 +269,22 @@ async function aggregateAndCacheRssFeeds() {
 
 // --- API Endpoint ---
 app.get('/api/field-rss', async (req, res) => {
+    console.log('>>> API ENDPOINT CALLED <<<'); // Main entry log
     const fieldParam = req.query.field;
 
-    // In production, cachedRssData might be empty on cold start. Aggregate if needed.
+    console.log('cachedRssData length on entry:', cachedRssData.length); // Debug log
+    console.log('NODE_ENV:', process.env.NODE_ENV); // Debug log
+
+    // If cache is empty (which it will be on a cold start in Netlify), force aggregation.
+    // This removes the NODE_ENV check from the aggregation trigger.
     if (cachedRssData.length === 0) {
-        if (process.env.NODE_ENV === 'production') {
-            console.log('API cold start: Aggregating RSS data for first request.');
-            await aggregateAndCacheRssFeeds();
-        } else { // Local development: try to read from local file, or aggregate if file missing
-            if (!fs.existsSync(CACHE_FILE_PATH)) {
-                console.warn('Cache file not found locally. Aggregating on demand locally.');
-                await aggregateAndCacheRssFeeds();
-            } else {
-                try {
-                    cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
-                } catch (readError) {
-                    console.error('Error reading local cache file:', readError);
-                    return res.status(500).json({ message: 'Error reading local cache file.' });
-                }
-            }
-        }
+        console.log('cachedRssData is empty - FORCING AGGREGATION on this cold start.');
+        await aggregateAndCacheRssFeeds(); // This will populate cachedRssData in-memory
+    } else {
+        console.log('cachedRssData is NOT empty - serving from warm cache. Length:', cachedRssData.length); // Serve from warm cache
     }
 
+    // Now cachedRssData should be populated (either from this aggregation or a previous warm one)
     try {
         let filteredData = cachedRssData; // Use in-memory cache
         if (fieldParam) {
