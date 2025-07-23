@@ -3,38 +3,34 @@ require('dotenv').config();
 
 // --- Module Imports ---
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
+const path = require('path'); // Still needed for path.basename in image extraction
+const fs = require('fs'); // Still needed for existsSync in local dev checks (but won't be used in production)
 const RSSParser = require('rss-parser');
 const cron = require('node-cron');
-const axios = require('axios'); // Used for fetching Google Sheet CSV and downloading images
-const serverless = require('serverless-http'); // NEW: Import serverless-http
+const axios = require('axios');
+const serverless = require('serverless-http');
 
 // --- Configuration ---
-// Your main Google Sheet URL (the one you provided earlier)
-const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
 
-// Path to store your cached RSS data JSON file (local development only)
+// CACHE_FILE_PATH and IMAGE_CACHE_DIR are for local development ONLY now
 const CACHE_FILE_PATH = path.join(__dirname, 'data', 'cached_rss_data.json');
-
-// NEW: Directory to store downloaded and cached images (local development only)
 const IMAGE_CACHE_DIR = path.join(__dirname, 'public', 'images');
 
-// Cron schedule for updating the cache (e.g., '0 * * * *' = every hour)
-const CACHE_UPDATE_SCHEDULE = '0 * * * *'; // Adjust as needed
+// Cron schedule for updating the cache (local development only for direct cron job)
+const CACHE_UPDATE_SCHEDULE = '0 * * * *';
 
 // --- Express App Setup ---
 const app = express();
-const PORT = process.env.PORT || 3000; // PORT variable is now defined here
+const PORT = process.env.PORT || 3000;
 
-// Enable CORS for your frontend domain (IMPORTANT!)
-// Add all domains/ports where your frontend runs (local dev, live site)
+// Enable CORS for your frontend domain
 const allowedOrigins = [
     'http://localhost:8000',
-    'http://127.0.0.1:5500', // Your Live Server address
-    'http://localhost:5500', // Another common Live Server address
-    'https://criticalfields.com', // Your actual deployed site domain
-    'https://dulcet-monstera-0c4f54.netlify.app' // CORRECTED: Added this missing domain
+    'http://127.0.0.1:5500',
+    'http://localhost:5500',
+    'https://criticalfields.com',
+    'https://dulcet-monstera-0c4f54.netlify.app'
 ];
 app.use(express.json());
 app.use((req, res, next) => {
@@ -48,10 +44,10 @@ app.use((req, res, next) => {
     next();
 });
 
-// REMOVED: app.use('/images', express.static(IMAGE_CACHE_DIR)); // Static serving won't work on Netlify
+// Removed: app.use('/images', express.static(IMAGE_CACHE_DIR));
 
-// --- Helper Function: Parse CSV Data (from Google Sheet) ---
-function parseCSV(csvText) {
+// --- Helper Function: Parse CSV Data ---
+function parseCSV(csvText) { /* ... (This function remains unchanged) ... */
     const lines = csvText.trim().split('\n');
     if (lines.length === 0) return [];
 
@@ -81,7 +77,7 @@ function parseCSV(csvText) {
     const headers = parseLine(lines[0]).map(header => {
         return header.trim().replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s(.)/g, (match, p1) => p1.toUpperCase()).replace(/\s/g, '');
     });
-    
+
     const data = [];
     for (let i = 1; i < lines.length; i++) {
         const values = parseLine(lines[i]);
@@ -104,17 +100,16 @@ function parseCSV(csvText) {
     return data;
 }
 
-
-// --- Helper Function: Extract Image from RSS Item (Final Enhanced Version) ---
-// Returns the original image URL directly, as image proxying is removed for Netlify
-function extractImageFromRssItem(item) {
+// --- Helper Function: Extract Image from RSS Item (Final Enhanced Version, returns original URL) ---
+// For Netlify, images will be loaded directly from originalImageUrl, so CORS/hotlinking issues might return.
+function extractImageFromRssItem(item) { /* ... (This function remains unchanged as it extracts the original URL) ... */
     if (item.enclosure && item.enclosure.url && item.enclosure.type && item.enclosure.type.startsWith('image')) return item.enclosure.url;
     if (item.itunes && item.itunes.image) return item.itunes.image;
     if (item.media && item.media.thumbnail && item.media.thumbnail.url) return item.media.thumbnail.url;
     if (item.media && item.media.content && item.media.content.url && item.media.content.type && item.media.content.type.startsWith('image')) return item.media.content.url;
     if (item.media && Array.isArray(item.media.content)) {
-         const mediaContent = item.media.content.find(content => content.url && content.type && content.type.startsWith('image/'));
-         if (mediaContent) return mediaContent.url;
+        const mediaContent = item.media.content.find(content => content.url && content.type && content.type.startsWith('image/'));
+        if (mediaContent) return mediaContent.url;
     }
     if (item.image && typeof item.image === 'object' && item.image.url) return item.image.url;
     if (item.thumbnail) return item.thumbnail;
@@ -139,7 +134,7 @@ function extractImageFromRssItem(item) {
 }
 
 // --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless) ---
-// This cache is IN-MEMORY only for Netlify Functions, it won't persist across invocations.
+// Cache is IN-MEMORY only for Netlify Functions, it won't persist across invocations.
 // For local development, it still writes to disk.
 let cachedRssData = []; 
 
@@ -162,7 +157,7 @@ async function aggregateAndCacheRssFeeds() {
             try {
                 console.log(`  Fetching RSS from: ${rssUrl}`);
                 const feed = await rssParser.parseURL(rssUrl);
-                
+
                 if (feed && feed.items) {
                     feed.items.forEach(item => {
                         const originalSource = archiveData.find(d => d.RSSFeed === rssUrl);
@@ -193,28 +188,29 @@ async function aggregateAndCacheRssFeeds() {
             if (isNaN(dateB)) return -1; 
             return dateB - dateA;
         });
-        
-        // NEW: Image download and caching logic for LOCAL DEVELOPMENT ONLY
+
+        // NEW: Image download and caching logic for LOCAL DEVELOPMENT ONLY (Removed for production)
         if (process.env.NODE_ENV !== 'production') {
             console.log('Starting image download and caching (local only)...');
             const processedArticles = [];
-            if (!fs.existsSync(IMAGE_CACHE_DIR)) { // <-- THIS WAS MISSING A CONDITIONAL WRAPPER
+            // Ensure image cache directory exists (local only)
+            if (!fs.existsSync(IMAGE_CACHE_DIR)) { // Wrapped this mkdirSync for local-only
                 fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
             }
 
             for (const article of allAggregatedArticles) {
-                if (article.originalImageUrl && article.originalImageUrl.startsWith('http')) { // Ensure it's a valid http(s) URL
+                if (article.originalImageUrl && article.originalImageUrl.startsWith('http')) {
                     try {
                         const filenameBase = path.basename(article.link || 'no-link').replace(/[^a-zA-Z0-9.-]/g, '_');
                         const filename = `${filenameBase.substring(0, 50)}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.jpg`;
                         const imagePath = path.join(IMAGE_CACHE_DIR, filename);
-                        const imageUrlOnBackend = `http://localhost:${PORT}/images/${filename}`; // For local, point to local backend
+                        const imageUrlOnBackend = `http://localhost:${PORT}/images/${filename}`;
 
                         const imageResponse = await axios.get(article.originalImageUrl, { responseType: 'arraybuffer' });
-                        
+
                         if (imageResponse.headers['content-type'] && imageResponse.headers['content-type'].startsWith('image')) {
-                            fs.writeFileSync(imagePath, imageResponse.data);
-                            article.imageUrl = imageUrlOnBackend; // Update imageUrl to local backend path
+                            fs.writeFileSync(imagePath, imageResponse.data); // Wrapped this writeFileSync for local-only
+                            article.imageUrl = imageUrlOnBackend;
                         } else {
                             console.warn(`  Skipping non-image content (type: ${imageResponse.headers['content-type'] || 'unknown'}) from ${article.originalImageUrl.substring(0, 100)}...`);
                             article.imageUrl = null;
@@ -224,23 +220,21 @@ async function aggregateAndCacheRssFeeds() {
                         article.imageUrl = null;
                     }
                 } else {
-                    article.imageUrl = null; // No original image URL or not http(s)
+                    article.imageUrl = null;
                 }
                 processedArticles.push(article);
             }
             allAggregatedArticles = processedArticles;
             console.log('Image download and caching complete (local only).');
 
-            // Cache data to a file (local development only)
-            fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(allAggregatedArticles, null, 2), 'utf8'); // <-- THIS WAS MISSING A CONDITIONAL WRAPPER
+            fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(allAggregatedArticles, null, 2), 'utf8'); // Wrapped this writeFileSync for local-only
         }
-        
+
         cachedRssData = allAggregatedArticles; // Update in-memory cache for all environments
         console.log(`RSS data successfully aggregated and cached (in memory). Total articles: ${allAggregatedArticles.length}`);
 
     } catch (error) {
         console.error('Fatal error during RSS aggregation:', error.message);
-        // Attempt to load previous cache if running locally and aggregation failed
         if (process.env.NODE_ENV !== 'production' && fs.existsSync(CACHE_FILE_PATH)) {
             try {
                 cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
@@ -253,12 +247,18 @@ async function aggregateAndCacheRssFeeds() {
 }
 
 // --- API Endpoint ---
-app.get('/api/field-rss', async (req, res) => { // Added async keyword here
+app.get('/api/field-rss', async (req, res) => {
     const fieldParam = req.query.field;
-    
+
     // In production, cachedRssData might be empty on cold start. Aggregate if needed.
-    // In local development, if file not found, it means it crashed before writing or first run.
     if (cachedRssData.length === 0) {
+         if (cachedRssData.length === 0) {
+        console.log('Current NODE_ENV:', process.env.NODE_ENV); // <--- ADD THIS LINE
+        console.log('cachedRssData length on entry:', cachedRssData.length); // <--- ADD THIS LINE
+        if (process.env.NODE_ENV === 'production') {
+            console.log('API cold start: Aggregating RSS data for first request.');
+            await aggregateAndCacheRssFeeds();
+        } else { // Local development or Netlify non-production context
         if (process.env.NODE_ENV === 'production') { 
             console.log('API cold start: Aggregating RSS data for first request.');
             await aggregateAndCacheRssFeeds(); // This calls the aggregation which has mkdirSync inside.
@@ -292,7 +292,25 @@ app.get('/api/field-rss', async (req, res) => { // Added async keyword here
     }
 });
 
+// --- Start Server & Schedule Cache Updates ---
+// For local development, still use app.listen (this entire block is removed for production)
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, async () => {
+        console.log(`Backend server running on http://localhost:${PORT}`);
+        // Ensure data and public/images directories exist (local only)
+        if (!fs.existsSync(path.join(__dirname, 'data'))) {
+            fs.mkdirSync(path.join(__dirname, 'data')); // <-- This is line 302
+        }
+        if (!fs.existsSync(IMAGE_CACHE_DIR)) {
+            fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
+        }
+        await aggregateAndCacheRssFeeds(); // Initial aggregation on local start
+        cron.schedule(CACHE_UPDATE_SCHEDULE, () => { // Schedule on local start
+            aggregateAndCacheRssFeeds();
+        });
+    });
+}
+
 // Export the Express app as a serverless function for Netlify
-// This means Netlify will call your app directly as an HTTP endpoint
 module.exports.handler = serverless(app);
-module.exports.aggregateAndCacheRssFeeds = aggregateAndCacheRssFeeds;
+module.exports.aggregateAndCacheRssFeeds = aggregateAndCacheAndServeRssFeeds;
