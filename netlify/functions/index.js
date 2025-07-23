@@ -308,6 +308,64 @@ app.get('/api/field-rss', async (req, res) => {
     }
 });
 
+// --- Imports, Configuration, app setup, CORS, parseCSV, extractImageFromRssItem functions are all unchanged ---
+
+// Global variable for in-memory cache
+let cachedRssData = []; 
+
+// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless) ---
+async function aggregateAndCacheRssFeeds() {
+    console.log('>>> ENTERED aggregateAndCacheRssFeeds FUNCTION <<<'); // ADD THIS
+    // ... (rest of aggregateAndCacheRssFeeds function) ...
+    console.log(`RSS data successfully aggregated and cached (in memory). Total articles: ${allAggregatedArticles.length}`); // This log should already be there
+    console.log('>>> EXITED aggregateAndCacheRssFeeds FUNCTION <<<'); // ADD THIS
+}
+
+
+// --- API Endpoint ---
+app.get('/api/field-rss', async (req, res) => {
+    console.log('>>> API ENDPOINT CALLED <<<'); // ADD THIS
+    const fieldParam = req.query.field;
+
+    console.log('cachedRssData before check:', cachedRssData.length); // ADD THIS
+    console.log('NODE_ENV:', process.env.NODE_ENV); // ADD THIS
+
+    // If cache is empty (cold start in production, or deleted locally), perform aggregation
+    if (cachedRssData.length === 0) {
+        console.log('cachedRssData is empty - attempting aggregation.'); // ADD THIS
+        if (process.env.NODE_ENV === 'production') {
+            console.log('API cold start: Aggregating RSS data for first request (PRODUCTION).'); // This is the log we want to see
+            await aggregateAndCacheRssFeeds();
+        } else { // Local development: try to read from local file, or aggregate if file missing
+            console.log('API cold start: Aggregating RSS data for first request (LOCAL/DEV).'); // ADD THIS
+            if (!fs.existsSync(CACHE_FILE_PATH)) {
+                console.warn('Cache file not found locally. Aggregating on demand locally.');
+                await aggregateAndCacheRssFeeds();
+            } else {
+                try {
+                    cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
+                    console.log('Loaded local cache from file.');
+                } catch (readError) {
+                    console.error('Error reading local cache file:', readError);
+                    return res.status(500).json({ message: 'Error reading local cache file.' });
+                }
+            }
+        }
+    } else {
+        console.log('cachedRssData is NOT empty - serving from warm cache. Length:', cachedRssData.length); // ADD THIS
+    }
+
+    try {
+        let filteredData = cachedRssData; // Use in-memory cache
+        // ... (rest of API endpoint logic) ...
+        res.json(filteredData);
+
+    } catch (error) {
+        console.error('Error serving RSS data:', error.message);
+        res.status(500).json({ message: 'Error retrieving RSS data.' });
+    }
+});
+
 // --- Start Server & Schedule Cache Updates (Local Development Only) ---
 // This entire block only runs when index.js is executed directly (not as a Netlify Function)
 // This block has been removed for production deployment.
