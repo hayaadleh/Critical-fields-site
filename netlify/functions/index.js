@@ -33,8 +33,8 @@ const allowedOrigins = [
     'http://localhost:8000',
     'http://127.0.0.1:5500', // Your Live Server address
     'http://localhost:5500', // Another common Live Server address
-    'https://criticalfields.com' // Your actual deployed site domain
-    'https://dulcet-monstera-0c4f54.netlify.app' //
+    'https://criticalfields.com', // <--- ADD A COMMA HERE!
+    'https://dulcet-monstera-0c4f54.netlify.app'
 ];
 app.use(express.json());
 app.use((req, res, next) => {
