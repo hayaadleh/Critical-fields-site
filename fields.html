@@ -483,10 +483,10 @@
     const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
 
     // *** NEW: Your Backend API URL ***
-    // When deployed, this will change to your actual deployed backend URL (e.g., 'https://your-backend-domain.com/api/field-rss')
+    // When deployed, this will change to your actual deployed backend URL
     const BACKEND_RSS_API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
                             ? 'http://localhost:3000/api/field-rss' // Local backend address
-                            : '/.netlify/functions/index'; // Deployed Netlify function address
+                            : 'https://critical-fields-site.onrender.com/api/field-rss'; // Deployed Render backend address
 
     // Map of field names (from URL param) to their display titles and descriptions
     const fieldData = {
