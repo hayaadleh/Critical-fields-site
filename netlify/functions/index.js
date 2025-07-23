@@ -3,8 +3,8 @@ require('dotenv').config();
 
 // --- Module Imports ---
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
+const path = require('path'); // Still needed for path.basename in image extraction
+const fs = require('fs'); // Still needed for existsSync in local dev checks (but won't be used in production)
 const RSSParser = require('rss-parser');
 const cron = require('node-cron'); // Used for scheduling, even if Netlify uses its own scheduler for production
 const axios = require('axios');
@@ -13,7 +13,7 @@ const serverless = require('serverless-http'); // Used for Netlify function expo
 // --- Configuration ---
 const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
 
-// Paths for local development ONLY
+// Paths for local development ONLY (These folders are not used in Netlify production)
 const CACHE_FILE_PATH = path.join(__dirname, 'data', 'cached_rss_data.json');
 const IMAGE_CACHE_DIR = path.join(__dirname, 'public', 'images');
 
@@ -22,14 +22,14 @@ const CACHE_UPDATE_SCHEDULE = '0 * * * *';
 
 // --- Express App Setup ---
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Local port, not used by Netlify Functions directly
 
 // Enable CORS for your frontend domain
 const allowedOrigins = [
     'http://localhost:8000',
-    'http://127.0.0.1:5500',
-    'http://localhost:5500',
-    'https://criticalfields.com',
+    'http://127.0.0.1:5500', // Your Live Server address
+    'http://localhost:5500', // Another common Live Server address
+    'https://criticalfields.com', // Your actual deployed site domain
     'https://dulcet-monstera-0c4f54.netlify.app' // Crucial: Your Netlify live domain
 ];
 app.use(express.json());
@@ -203,8 +203,7 @@ async function aggregateAndCacheRssFeeds() {
             }
 
             for (const article of allAggregatedArticles) {
-                // Ensure imageUrl is reset if original was null, or if it's not http(s)
-                if (article.originalImageUrl && article.originalImageUrl.startsWith('http')) { 
+                if (article.originalImageUrl && article.originalImageUrl.startsWith('http')) {
                     try {
                         const filenameBase = path.basename(article.link || 'no-link').replace(/[^a-zA-Z0-9.-]/g, '_');
                         const filename = `${filenameBase.substring(0, 50)}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.jpg`;
@@ -225,7 +224,7 @@ async function aggregateAndCacheRssFeeds() {
                         article.imageUrl = null;
                     }
                 } else {
-                    article.imageUrl = null; // No original image URL or not http(s)
+                    article.imageUrl = null;
                 }
                 processedArticles.push(article);
             }
@@ -293,22 +292,8 @@ app.get('/api/field-rss', async (req, res) => {
 
 // --- Start Server & Schedule Cache Updates (Local Development Only) ---
 // This entire block only runs when index.js is executed directly (not as a Netlify Function)
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, async () => {
-        console.log(`Backend server running on http://localhost:${PORT}`);
-        // Ensure data and public/images directories exist locally for caching
-        if (!fs.existsSync(path.join(__dirname, 'data'))) {
-            fs.mkdirSync(path.join(__dirname, 'data'));
-        }
-        if (!fs.existsSync(IMAGE_CACHE_DIR)) {
-            fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
-        }
-        await aggregateAndCacheRssFeeds(); // Initial aggregation on local start
-        cron.schedule(CACHE_UPDATE_SCHEDULE, () => { // Schedule on local start
-            aggregateAndCacheRssFeeds();
-        });
-    });
-}
+// This block has been removed for production deployment.
+// If you run 'node index.js' locally after this, it will not start a server.
 
 // Export the Express app as a serverless function for Netlify
 module.exports.handler = serverless(app);
