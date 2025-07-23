@@ -4,6 +4,7 @@
   "description": "Backend for Critical Fields RSS aggregation and image proxying.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,8 +15,6 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "node-cron": "^3.0.3",
-    "rss-parser": "^3.13.0",
-    "@netlify/functions": "^2.6.0",
-    "serverless-http": "^3.2.0"
+    "rss-parser": "^3.13.0"
   }
 }
