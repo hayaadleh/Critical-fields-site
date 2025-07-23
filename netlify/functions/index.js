@@ -198,7 +198,7 @@ async function aggregateAndCacheRssFeeds() {
         if (process.env.NODE_ENV !== 'production') {
             console.log('Starting image download and caching (local only)...');
             const processedArticles = [];
-            if (!fs.existsSync(IMAGE_CACHE_DIR)) {
+            if (!fs.existsSync(IMAGE_CACHE_DIR)) { // <-- THIS WAS MISSING A CONDITIONAL WRAPPER
                 fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
             }
 
@@ -232,7 +232,7 @@ async function aggregateAndCacheRssFeeds() {
             console.log('Image download and caching complete (local only).');
 
             // Cache data to a file (local development only)
-            fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(allAggregatedArticles, null, 2), 'utf8');
+            fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(allAggregatedArticles, null, 2), 'utf8'); // <-- THIS WAS MISSING A CONDITIONAL WRAPPER
         }
         
         cachedRssData = allAggregatedArticles; // Update in-memory cache for all environments
@@ -259,9 +259,9 @@ app.get('/api/field-rss', async (req, res) => { // Added async keyword here
     // In production, cachedRssData might be empty on cold start. Aggregate if needed.
     // In local development, if file not found, it means it crashed before writing or first run.
     if (cachedRssData.length === 0) {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'production') { 
             console.log('API cold start: Aggregating RSS data for first request.');
-            await aggregateAndCacheRssFeeds(); // Aggregate on demand if cache is empty in production
+            await aggregateAndCacheRssFeeds(); // This calls the aggregation which has mkdirSync inside.
         } else { // Local development
             if (!fs.existsSync(CACHE_FILE_PATH)) {
                 console.warn('Cache file not found locally. Data might not be ready yet.');
@@ -279,7 +279,7 @@ app.get('/api/field-rss', async (req, res) => { // Added async keyword here
     try {
         let filteredData = cachedRssData; // Use in-memory cache
         if (fieldParam) {
-            const normalizedFieldParam = fieldParam.toLowerCase();
+            const normalizedFieldParam = fieldParam.toLowerCase(); // FieldParam from URL is already hyphenated lowercase
             filteredData = cachedRssData.filter(item => 
                 item.fieldNormalized && item.fieldNormalized.includes(normalizedFieldParam)
             );
@@ -312,5 +312,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Export the Express app as a serverless function for Netlify
+// This means Netlify will call your app directly as an HTTP endpoint
 module.exports.handler = serverless(app);
 module.exports.aggregateAndCacheRssFeeds = aggregateAndCacheRssFeeds;
