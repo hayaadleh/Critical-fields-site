@@ -250,36 +250,37 @@ async function aggregateAndCacheRssFeeds() {
 app.get('/api/field-rss', async (req, res) => {
     const fieldParam = req.query.field;
 
-    // In production, cachedRssData might be empty on cold start. Aggregate if needed.
+    // If cache is empty (cold start in production, or deleted locally), perform aggregation
     if (cachedRssData.length === 0) {
-         if (cachedRssData.length === 0) {
-        console.log('Current NODE_ENV:', process.env.NODE_ENV); // <--- ADD THIS LINE
-        console.log('cachedRssData length on entry:', cachedRssData.length); // <--- ADD THIS LINE
         if (process.env.NODE_ENV === 'production') {
             console.log('API cold start: Aggregating RSS data for first request.');
-            await aggregateAndCacheRssFeeds();
-        } else { // Local development or Netlify non-production context
-        if (process.env.NODE_ENV === 'production') { 
-            console.log('API cold start: Aggregating RSS data for first request.');
-            await aggregateAndCacheRssFeeds(); // This calls the aggregation which has mkdirSync inside.
-        } else { // Local development
+            console.log('Current NODE_ENV (production check):', process.env.NODE_ENV); // Debug log
+            console.log('cachedRssData length on entry (production):', cachedRssData.length); // Debug log
+            await aggregateAndCacheRssFeeds(); // This will populate cachedRssData in-memory
+        } else { // Local development: try to read from local file, or aggregate if file missing
+            console.log('API call (local): Checking local cache file.');
+            console.log('Current NODE_ENV (local check):', process.env.NODE_ENV); // Debug log
+            console.log('cachedRssData length on entry (local):', cachedRssData.length); // Debug log
             if (!fs.existsSync(CACHE_FILE_PATH)) {
-                console.warn('Cache file not found locally. Data might not be ready yet.');
-                return res.status(503).json({ message: 'RSS data not yet cached. Please try again in a few moments.' });
-            }
-            try {
-                 cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
-            } catch (readError) {
-                 console.error('Error reading local cache file:', readError);
-                 return res.status(500).json({ message: 'Error reading local cache file.' });
+                console.warn('Local cache file not found. Aggregating on demand locally.');
+                await aggregateAndCacheRssFeeds();
+            } else {
+                try {
+                    cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
+                    console.log('Loaded local cache from file.');
+                } catch (readError) {
+                    console.error('Error reading local cache file:', readError);
+                    return res.status(500).json({ message: 'Error reading local cache file.' });
+                }
             }
         }
     }
 
+    // Now cachedRssData should be populated (either from cold start aggregation or local file)
     try {
         let filteredData = cachedRssData; // Use in-memory cache
         if (fieldParam) {
-            const normalizedFieldParam = fieldParam.toLowerCase(); // FieldParam from URL is already hyphenated lowercase
+            const normalizedFieldParam = fieldParam.toLowerCase();
             filteredData = cachedRssData.filter(item => 
                 item.fieldNormalized && item.fieldNormalized.includes(normalizedFieldParam)
             );
@@ -313,4 +314,4 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Export the Express app as a serverless function for Netlify
 module.exports.handler = serverless(app);
-module.exports.aggregateAndCacheRssFeeds = aggregateAndCacheAndServeRssFeeds;
+module.exports.aggregateAndCacheRssFeeds = aggregateAndCacheRssFeeds;
