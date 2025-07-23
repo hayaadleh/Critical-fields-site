@@ -138,7 +138,7 @@ function extractImageFromRssItem(item) {
     return null;
 }
 
-// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless with Parallel Fetching) ---
+// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless) ---
 // Cache is IN-MEMORY only for Netlify Functions, it won't persist across invocations.
 // For local development, it still writes to disk.
 let cachedRssData = []; 
@@ -163,7 +163,7 @@ async function aggregateAndCacheRssFeeds() {
             try {
                 console.log(`  Fetching RSS from: ${rssUrl}`);
                 const feed = await rssParser.parseURL(rssUrl);
-                
+
                 if (feed && feed.items) {
                     const articlesFromFeed = [];
                     feed.items.forEach(item => {
@@ -181,27 +181,26 @@ async function aggregateAndCacheRssFeeds() {
                             fieldNormalized: originalSource ? originalSource.FieldNormalized : ['unknown']
                         });
                     });
-                    return { success: true, articles: articlesFromFeed }; // Return articles from this feed
+                    return { success: true, articles: articlesFromFeed };
                 }
                 return { success: false, message: `No items in feed ${rssUrl}` };
             } catch (rssError) {
                 console.error(`Error fetching or parsing RSS feed ${rssUrl}:`, rssError.message);
-                return { success: false, message: `Error for ${rssUrl}: ${rssError.message}` }; // Return error info
+                return { success: false, message: `Error for ${rssUrl}: ${rssError.message}` };
             }
         });
 
-        const results = await Promise.allSettled(fetchPromises); // Wait for all fetches to complete
+        const results = await Promise.allSettled(fetchPromises);
         
         results.forEach(result => {
             if (result.status === 'fulfilled' && result.value.success) {
-                allAggregatedArticles.push(...result.value.articles); // Add articles from successful fetches
+                allAggregatedArticles.push(...result.value.articles);
             } else if (result.status === 'fulfilled' && !result.value.success) {
                 console.warn(`Skipped feed due to no items or error: ${result.value.message}`);
             } else if (result.status === 'rejected') {
-                console.error(`Promise rejected for a feed fetch:`, result.reason); // This shouldn't happen with try/catch inside map
+                console.error(`Promise rejected for a feed fetch:`, result.reason);
             }
         });
-        // END NEW PARALLEL FETCHING
 
         allAggregatedArticles.sort((a, b) => {
             const dateA = Date.parse(a.pubDate);
@@ -300,64 +299,6 @@ app.get('/api/field-rss', async (req, res) => {
                 item.fieldNormalized && item.fieldNormalized.includes(normalizedFieldParam)
             );
         }
-        res.json(filteredData);
-
-    } catch (error) {
-        console.error('Error serving RSS data:', error.message);
-        res.status(500).json({ message: 'Error retrieving RSS data.' });
-    }
-});
-
-// --- Imports, Configuration, app setup, CORS, parseCSV, extractImageFromRssItem functions are all unchanged ---
-
-// Global variable for in-memory cache
-let cachedRssData = []; 
-
-// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless) ---
-async function aggregateAndCacheRssFeeds() {
-    console.log('>>> ENTERED aggregateAndCacheRssFeeds FUNCTION <<<'); // ADD THIS
-    // ... (rest of aggregateAndCacheRssFeeds function) ...
-    console.log(`RSS data successfully aggregated and cached (in memory). Total articles: ${allAggregatedArticles.length}`); // This log should already be there
-    console.log('>>> EXITED aggregateAndCacheRssFeeds FUNCTION <<<'); // ADD THIS
-}
-
-
-// --- API Endpoint ---
-app.get('/api/field-rss', async (req, res) => {
-    console.log('>>> API ENDPOINT CALLED <<<'); // ADD THIS
-    const fieldParam = req.query.field;
-
-    console.log('cachedRssData before check:', cachedRssData.length); // ADD THIS
-    console.log('NODE_ENV:', process.env.NODE_ENV); // ADD THIS
-
-    // If cache is empty (cold start in production, or deleted locally), perform aggregation
-    if (cachedRssData.length === 0) {
-        console.log('cachedRssData is empty - attempting aggregation.'); // ADD THIS
-        if (process.env.NODE_ENV === 'production') {
-            console.log('API cold start: Aggregating RSS data for first request (PRODUCTION).'); // This is the log we want to see
-            await aggregateAndCacheRssFeeds();
-        } else { // Local development: try to read from local file, or aggregate if file missing
-            console.log('API cold start: Aggregating RSS data for first request (LOCAL/DEV).'); // ADD THIS
-            if (!fs.existsSync(CACHE_FILE_PATH)) {
-                console.warn('Cache file not found locally. Aggregating on demand locally.');
-                await aggregateAndCacheRssFeeds();
-            } else {
-                try {
-                    cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
-                    console.log('Loaded local cache from file.');
-                } catch (readError) {
-                    console.error('Error reading local cache file:', readError);
-                    return res.status(500).json({ message: 'Error reading local cache file.' });
-                }
-            }
-        }
-    } else {
-        console.log('cachedRssData is NOT empty - serving from warm cache. Length:', cachedRssData.length); // ADD THIS
-    }
-
-    try {
-        let filteredData = cachedRssData; // Use in-memory cache
-        // ... (rest of API endpoint logic) ...
         res.json(filteredData);
 
     } catch (error) {
