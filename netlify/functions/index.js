@@ -292,25 +292,6 @@ app.get('/api/field-rss', async (req, res) => { // Added async keyword here
     }
 });
 
-// --- Start Server & Schedule Cache Updates ---
-// For local development, still use app.listen
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, async () => {
-        console.log(`Backend server running on http://localhost:${PORT}`);
-        // Ensure data and public/images directories exist
-        if (!fs.existsSync(path.join(__dirname, 'data'))) {
-            fs.mkdirSync(path.join(__dirname, 'data'));
-        }
-        if (!fs.existsSync(IMAGE_CACHE_DIR)) {
-            fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
-        }
-        await aggregateAndCacheRssFeeds(); // Initial aggregation on local start
-        cron.schedule(CACHE_UPDATE_SCHEDULE, () => { // Schedule on local start
-            aggregateAndCacheRssFeeds();
-        });
-    });
-}
-
 // Export the Express app as a serverless function for Netlify
 // This means Netlify will call your app directly as an HTTP endpoint
 module.exports.handler = serverless(app);
