@@ -12,12 +12,12 @@ const serverless = require('serverless-http'); // NEW: Import serverless-http
 
 // --- Configuration ---
 // Your main Google Sheet URL (the one you provided earlier)
-const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
+const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = 'https://docs.google.com/sheets/d/e/2PACX-1vSdn5xz0N63Dzl0n7PRGNTBLk5RkcddzJQ4MoObZJFNeE-9qUbYkdO49bgGlwUyJnby0innAVYaVR7n/pub?output=csv';
 
-// Path to store your cached RSS data JSON file
+// Path to store your cached RSS data JSON file (local development only)
 const CACHE_FILE_PATH = path.join(__dirname, 'data', 'cached_rss_data.json');
 
-// NEW: Directory to store downloaded and cached images
+// NEW: Directory to store downloaded and cached images (local development only)
 const IMAGE_CACHE_DIR = path.join(__dirname, 'public', 'images');
 
 // Cron schedule for updating the cache (e.g., '0 * * * *' = every hour)
@@ -25,7 +25,7 @@ const CACHE_UPDATE_SCHEDULE = '0 * * * *'; // Adjust as needed
 
 // --- Express App Setup ---
 const app = express();
-const PORT = process.env.PORT || 3000; // CORRECTED: PORT variable is now defined here
+const PORT = process.env.PORT || 3000; // PORT variable is now defined here
 
 // Enable CORS for your frontend domain (IMPORTANT!)
 // Add all domains/ports where your frontend runs (local dev, live site)
@@ -33,8 +33,8 @@ const allowedOrigins = [
     'http://localhost:8000',
     'http://127.0.0.1:5500', // Your Live Server address
     'http://localhost:5500', // Another common Live Server address
-    'https://criticalfields.com', // <--- ADD A COMMA HERE!
-    'https://dulcet-monstera-0c4f54.netlify.app'
+    'https://criticalfields.com', // Your actual deployed site domain
+    'https://dulcet-monstera-0c4f54.netlify.app' // CORRECTED: Added this missing domain
 ];
 app.use(express.json());
 app.use((req, res, next) => {
@@ -48,10 +48,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// NEW: Configure Express to serve static image files from the IMAGE_CACHE_DIR
-// Requests to /images/* will now serve files from your public/images folder
-app.use('/images', express.static(IMAGE_CACHE_DIR));
-
+// REMOVED: app.use('/images', express.static(IMAGE_CACHE_DIR)); // Static serving won't work on Netlify
 
 // --- Helper Function: Parse CSV Data (from Google Sheet) ---
 function parseCSV(csvText) {
@@ -82,7 +79,6 @@ function parseCSV(csvText) {
     };
 
     const headers = parseLine(lines[0]).map(header => {
-        // Normalize headers: remove non-alphanumeric, convert to camelCase
         return header.trim().replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s(.)/g, (match, p1) => p1.toUpperCase()).replace(/\s/g, '');
     });
     
@@ -98,7 +94,6 @@ function parseCSV(csvText) {
             rowObject[header] = values[index] ? values[index] : '';
         });
 
-        // Normalize 'Field' column for filtering
         if (rowObject.Field) {
             rowObject.FieldNormalized = rowObject.Field.toLowerCase().split(',').map(f => f.trim().replace(/\s/g, '-')).filter(Boolean);
         } else {
@@ -111,77 +106,58 @@ function parseCSV(csvText) {
 
 
 // --- Helper Function: Extract Image from RSS Item (Final Enhanced Version) ---
+// Returns the original image URL directly, as image proxying is removed for Netlify
 function extractImageFromRssItem(item) {
-    // console.log('Attempting to extract image for:', item.title); // Debugging line
-
-    // Priority 1: Direct media/enclosure/itunes images
     if (item.enclosure && item.enclosure.url && item.enclosure.type && item.enclosure.type.startsWith('image')) return item.enclosure.url;
     if (item.itunes && item.itunes.image) return item.itunes.image;
     if (item.media && item.media.thumbnail && item.media.thumbnail.url) return item.media.thumbnail.url;
     if (item.media && item.media.content && item.media.content.url && item.media.content.type && item.media.content.type.startsWith('image')) return item.media.content.url;
-    if (item.media && Array.isArray(item.media.content)) { // If media:content is an array
+    if (item.media && Array.isArray(item.media.content)) {
          const mediaContent = item.media.content.find(content => content.url && content.type && content.type.startsWith('image/'));
          if (mediaContent) return mediaContent.url;
     }
-
-    // Priority 2: Direct image properties (less standard but sometimes present)
     if (item.image && typeof item.image === 'object' && item.image.url) return item.image.url;
     if (item.thumbnail) return item.thumbnail;
-    if (item['og:image']) return item['og:image']; // For Open Graph images pulled by some parsers
+    if (item['og:image']) return item['og:image']; 
 
-    // Priority 3: Image within HTML content/description
     const htmlToParse = item.content || item.contentSnippet || item.description || '';
     if (htmlToParse) {
         const imgMatch = htmlToParse.match(/<img[^>]+src="([^">]+)"/i);
         if (imgMatch && imgMatch[1]) {
-            // Ensure it's a full URL if it's a relative path
             let imgSrc = imgMatch[1];
-            if (imgSrc.startsWith('//')) { // Protocol-relative URL
-                imgSrc = `https:${imgSrc}`; // Assume https
-            } else if (imgSrc.startsWith('/')) { // Root-relative URL, need original feed domain
+            if (imgSrc.startsWith('//')) { imgSrc = `https:${imgSrc}`; } 
+            else if (imgSrc.startsWith('/')) { 
                 try {
-                    const feedUrl = new URL(item.link || item.feedUrl); // Use item.link or a specific feedUrl if available
+                    const feedUrl = new URL(item.link || item.feedUrl);
                     imgSrc = `${feedUrl.protocol}//${feedUrl.hostname}${imgSrc}`;
-                } catch (e) { /* Fallback to null */ }
-                if (imgSrc.startsWith('http')) return imgSrc; // Only return if it's a full HTTP/HTTPS URL
-            } else if (imgSrc.startsWith('http')) { // Already a full URL
-                 return imgSrc;
+                } catch (e) { /* silent fail */ }
             }
+            if (imgSrc.startsWith('http')) return imgSrc;
         }
     }
-
-    return null; // No image found after all attempts
+    return null;
 }
 
-// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Enhanced with Image Download) ---
-let cachedRssData = []; // Store data in memory after initial load/update
+// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless) ---
+// This cache is IN-MEMORY only for Netlify Functions, it won't persist across invocations.
+// For local development, it still writes to disk.
+let cachedRssData = []; 
 
 async function aggregateAndCacheRssFeeds() {
     console.log('Starting RSS aggregation and caching process...');
-    // Initialize RSSParser with a User-Agent to improve success rate for some feeds
     const rssParser = new RSSParser({
-        headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
     });
     let allAggregatedArticles = [];
 
     try {
-        // 1. Fetch the Google Sheet to get RSS feed URLs
         const sheetResponse = await axios.get(GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL);
         const archiveData = parseCSV(sheetResponse.data);
 
-        // Filter for unique RSS feeds that have a valid URL
-        const rssSources = archiveData.filter(item => 
-            item.RSSFeed && item.RSSFeed.startsWith('http')
-        );
-
+        const rssSources = archiveData.filter(item => item.RSSFeed && item.RSSFeed.startsWith('http'));
         const uniqueRssUrls = new Set();
-        for (const source of rssSources) {
-            uniqueRssUrls.add(source.RSSFeed);
-        }
+        for (const source of rssSources) { uniqueRssUrls.add(source.RSSFeed); }
 
-        // 2. Fetch articles from each unique RSS feed
         for (const rssUrl of Array.from(uniqueRssUrls)) {
             try {
                 console.log(`  Fetching RSS from: ${rssUrl}`);
@@ -190,18 +166,15 @@ async function aggregateAndCacheRssFeeds() {
                 if (feed && feed.items) {
                     feed.items.forEach(item => {
                         const originalSource = archiveData.find(d => d.RSSFeed === rssUrl);
-                        
                         allAggregatedArticles.push({
                             title: item.title || 'Untitled',
                             link: item.link,
-                            description: item.contentSnippet || item.summary || item.description ? 
-                                (item.contentSnippet || item.summary || item.description).replace(/<[^>]*>?/gm, '').substring(0, 300) + '...' : 'No description available.',
+                            description: item.contentSnippet || item.summary || item.description ? (item.contentSnippet || item.summary || item.description).replace(/<[^>]*>?/gm, '').substring(0, 300) + '...' : 'No description available.',
                             pubDate: item.pubDate,
                             creator: item.creator || item.author,
                             feedTitle: feed.title,
-                            // Store original image URL for later download attempt
-                            originalImageUrl: extractImageFromRssItem(item),
-                            imageUrl: null, // Will be populated after download attempt
+                            originalImageUrl: extractImageFromRssItem(item), // Original image URL from feed
+                            imageUrl: extractImageFromRssItem(item), // For Netlify, use original URL directly for frontend
                             field: originalSource ? originalSource.Field : 'Unknown',
                             fieldNormalized: originalSource ? originalSource.FieldNormalized : ['unknown']
                         });
@@ -212,91 +185,102 @@ async function aggregateAndCacheRssFeeds() {
             }
         }
 
-        // 3. Sort articles by publication date (newest first)
         allAggregatedArticles.sort((a, b) => {
             const dateA = Date.parse(a.pubDate);
             const dateB = Date.parse(b.pubDate);
-
             if (isNaN(dateA) && isNaN(dateB)) return 0;
             if (isNaN(dateA)) return 1; 
             if (isNaN(dateB)) return -1; 
-
             return dateB - dateA;
         });
         
-        // NEW: 4. Download and cache images for each article
-        console.log('Starting image download and caching...');
-        const processedArticles = [];
-        // Ensure image cache directory exists
-        if (!fs.existsSync(IMAGE_CACHE_DIR)) {
-            fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
-        }
-
-        for (const article of allAggregatedArticles) {
-            if (article.originalImageUrl) {
-                try {
-                    // Generate a unique filename for the image based on link and timestamp
-                    // Clean filename: replace invalid chars with underscores, add unique timestamp
-                    const filenameBase = path.basename(article.link || 'no-link').replace(/[^a-zA-Z0-9.-]/g, '_');
-                    const filename = `${filenameBase.substring(0, 50)}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.jpg`; // Shorten base, add random string
-                    const imagePath = path.join(IMAGE_CACHE_DIR, filename);
-                    const imageUrlOnBackend = `/images/${filename}`; // URL for frontend to fetch from your backend
-
-                    const imageResponse = await axios.get(article.originalImageUrl, { responseType: 'arraybuffer' });
-                    
-                    // Basic check for image content type
-                    if (imageResponse.headers['content-type'] && imageResponse.headers['content-type'].startsWith('image')) {
-                        fs.writeFileSync(imagePath, imageResponse.data);
-                        article.imageUrl = imageUrlOnBackend; // Update imageUrl to point to your backend
-                    } else {
-                        console.warn(`  Skipping non-image content (type: ${imageResponse.headers['content-type'] || 'unknown'}) from ${article.originalImageUrl.substring(0, 100)}...`);
-                        article.imageUrl = null; // Ensure it's null if not an image
-                    }
-                } catch (imageDownloadError) {
-                    console.error(`  Error downloading image for ${article.originalImageUrl}:`, imageDownloadError.message.substring(0, 100));
-                    article.imageUrl = null; // Ensure it's null if download fails
-                }
+        // NEW: Image download and caching logic for LOCAL DEVELOPMENT ONLY
+        if (process.env.NODE_ENV !== 'production') {
+            console.log('Starting image download and caching (local only)...');
+            const processedArticles = [];
+            if (!fs.existsSync(IMAGE_CACHE_DIR)) {
+                fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
             }
-            processedArticles.push(article);
-        }
-        allAggregatedArticles = processedArticles;
-        console.log('Image download and caching complete.');
 
-        // 5. Cache the aggregated data to a file (using the updated allAggregatedArticles with local image URLs)
-        fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(allAggregatedArticles, null, 2), 'utf8');
-        cachedRssData = allAggregatedArticles; // Also update in-memory cache
-        console.log(`RSS data successfully aggregated and cached. Total articles: ${allAggregatedArticles.length}`);
+            for (const article of allAggregatedArticles) {
+                if (article.originalImageUrl && article.originalImageUrl.startsWith('http')) { // Ensure it's a valid http(s) URL
+                    try {
+                        const filenameBase = path.basename(article.link || 'no-link').replace(/[^a-zA-Z0-9.-]/g, '_');
+                        const filename = `${filenameBase.substring(0, 50)}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.jpg`;
+                        const imagePath = path.join(IMAGE_CACHE_DIR, filename);
+                        const imageUrlOnBackend = `http://localhost:${PORT}/images/${filename}`; // For local, point to local backend
+
+                        const imageResponse = await axios.get(article.originalImageUrl, { responseType: 'arraybuffer' });
+                        
+                        if (imageResponse.headers['content-type'] && imageResponse.headers['content-type'].startsWith('image')) {
+                            fs.writeFileSync(imagePath, imageResponse.data);
+                            article.imageUrl = imageUrlOnBackend; // Update imageUrl to local backend path
+                        } else {
+                            console.warn(`  Skipping non-image content (type: ${imageResponse.headers['content-type'] || 'unknown'}) from ${article.originalImageUrl.substring(0, 100)}...`);
+                            article.imageUrl = null;
+                        }
+                    } catch (imageDownloadError) {
+                        console.error(`  Error downloading image for ${article.originalImageUrl}:`, imageDownloadError.message.substring(0, 100));
+                        article.imageUrl = null;
+                    }
+                } else {
+                    article.imageUrl = null; // No original image URL or not http(s)
+                }
+                processedArticles.push(article);
+            }
+            allAggregatedArticles = processedArticles;
+            console.log('Image download and caching complete (local only).');
+
+            // Cache data to a file (local development only)
+            fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(allAggregatedArticles, null, 2), 'utf8');
+        }
+        
+        cachedRssData = allAggregatedArticles; // Update in-memory cache for all environments
+        console.log(`RSS data successfully aggregated and cached (in memory). Total articles: ${allAggregatedArticles.length}`);
 
     } catch (error) {
         console.error('Fatal error during RSS aggregation:', error.message);
-        // If cache file exists, try to load it into memory to continue serving old data
-        if (fs.existsSync(CACHE_FILE_PATH)) {
+        // Attempt to load previous cache if running locally and aggregation failed
+        if (process.env.NODE_ENV !== 'production' && fs.existsSync(CACHE_FILE_PATH)) {
             try {
                 cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
-                console.log('Loaded previous cache due to new aggregation error.');
+                console.log('Loaded previous local cache due to new aggregation error.');
             } catch (loadError) {
-                console.error('Failed to load previous cache:', loadError.message);
+                console.error('Failed to load previous local cache:', loadError.message);
             }
         }
     }
 }
 
 // --- API Endpoint ---
-app.get('/api/field-rss', (req, res) => {
+app.get('/api/field-rss', async (req, res) => { // Added async keyword here
     const fieldParam = req.query.field;
     
-    if (!fs.existsSync(CACHE_FILE_PATH)) {
-        console.warn('Cache file not found. Data might not be ready yet.');
-        return res.status(503).json({ message: 'RSS data not yet cached. Please try again in a few minutes.' });
+    // In production, cachedRssData might be empty on cold start. Aggregate if needed.
+    // In local development, if file not found, it means it crashed before writing or first run.
+    if (cachedRssData.length === 0) {
+        if (process.env.NODE_ENV === 'production') {
+            console.log('API cold start: Aggregating RSS data for first request.');
+            await aggregateAndCacheRssFeeds(); // Aggregate on demand if cache is empty in production
+        } else { // Local development
+            if (!fs.existsSync(CACHE_FILE_PATH)) {
+                console.warn('Cache file not found locally. Data might not be ready yet.');
+                return res.status(503).json({ message: 'RSS data not yet cached. Please try again in a few moments.' });
+            }
+            try {
+                 cachedRssData = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
+            } catch (readError) {
+                 console.error('Error reading local cache file:', readError);
+                 return res.status(500).json({ message: 'Error reading local cache file.' });
+            }
+        }
     }
 
     try {
-        const data = cachedRssData.length > 0 ? cachedRssData : JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf8'));
-
-        let filteredData = data;
+        let filteredData = cachedRssData; // Use in-memory cache
         if (fieldParam) {
-            const normalizedFieldParam = fieldParam.toLowerCase(); // FieldParam from URL is already hyphenated lowercase
-            filteredData = data.filter(item => 
+            const normalizedFieldParam = fieldParam.toLowerCase();
+            filteredData = cachedRssData.filter(item => 
                 item.fieldNormalized && item.fieldNormalized.includes(normalizedFieldParam)
             );
         }
@@ -328,6 +312,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Export the Express app as a serverless function for Netlify
-// This means Netlify will call your app directly as an HTTP endpoint
 module.exports.handler = serverless(app);
 module.exports.aggregateAndCacheRssFeeds = aggregateAndCacheRssFeeds;
