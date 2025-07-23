@@ -138,7 +138,7 @@ function extractImageFromRssItem(item) {
     return null;
 }
 
-// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless) ---
+// --- Core Function: Fetch, Aggregate, and Cache RSS Feeds (Modified for Serverless with Parallel Fetching) ---
 // Cache is IN-MEMORY only for Netlify Functions, it won't persist across invocations.
 // For local development, it still writes to disk.
 let cachedRssData = []; 
@@ -158,32 +158,50 @@ async function aggregateAndCacheRssFeeds() {
         const uniqueRssUrls = new Set();
         for (const source of rssSources) { uniqueRssUrls.add(source.RSSFeed); }
 
-        for (const rssUrl of Array.from(uniqueRssUrls)) {
+        // NEW: Parallel Fetching of RSS Feeds
+        const fetchPromises = Array.from(uniqueRssUrls).map(async (rssUrl) => {
             try {
                 console.log(`  Fetching RSS from: ${rssUrl}`);
                 const feed = await rssParser.parseURL(rssUrl);
-
+                
                 if (feed && feed.items) {
+                    const articlesFromFeed = [];
                     feed.items.forEach(item => {
                         const originalSource = archiveData.find(d => d.RSSFeed === rssUrl);
-                        allAggregatedArticles.push({
+                        articlesFromFeed.push({
                             title: item.title || 'Untitled',
                             link: item.link,
                             description: item.contentSnippet || item.summary || item.description ? (item.contentSnippet || item.summary || item.description).replace(/<[^>]*>?/gm, '').substring(0, 300) + '...' : 'No description available.',
                             pubDate: item.pubDate,
                             creator: item.creator || item.author,
                             feedTitle: feed.title,
-                            originalImageUrl: extractImageFromRssItem(item), // Original image URL from feed
+                            originalImageUrl: extractImageFromRssItem(item),
                             imageUrl: extractImageFromRssItem(item), // For Netlify, imageUrl will be the original URL
                             field: originalSource ? originalSource.Field : 'Unknown',
                             fieldNormalized: originalSource ? originalSource.FieldNormalized : ['unknown']
                         });
                     });
+                    return { success: true, articles: articlesFromFeed }; // Return articles from this feed
                 }
+                return { success: false, message: `No items in feed ${rssUrl}` };
             } catch (rssError) {
                 console.error(`Error fetching or parsing RSS feed ${rssUrl}:`, rssError.message);
+                return { success: false, message: `Error for ${rssUrl}: ${rssError.message}` }; // Return error info
             }
-        }
+        });
+
+        const results = await Promise.allSettled(fetchPromises); // Wait for all fetches to complete
+        
+        results.forEach(result => {
+            if (result.status === 'fulfilled' && result.value.success) {
+                allAggregatedArticles.push(...result.value.articles); // Add articles from successful fetches
+            } else if (result.status === 'fulfilled' && !result.value.success) {
+                console.warn(`Skipped feed due to no items or error: ${result.value.message}`);
+            } else if (result.status === 'rejected') {
+                console.error(`Promise rejected for a feed fetch:`, result.reason); // This shouldn't happen with try/catch inside map
+            }
+        });
+        // END NEW PARALLEL FETCHING
 
         allAggregatedArticles.sort((a, b) => {
             const dateA = Date.parse(a.pubDate);
@@ -214,7 +232,7 @@ async function aggregateAndCacheRssFeeds() {
                         
                         if (imageResponse.headers['content-type'] && imageResponse.headers['content-type'].startsWith('image')) {
                             fs.writeFileSync(imagePath, imageResponse.data);
-                            article.imageUrl = imageUrlOnBackend; // Use local backend URL for local development
+                            article.imageUrl = imageUrlOnBackend;
                         } else {
                             console.warn(`  Skipping non-image content (type: ${imageResponse.headers['content-type'] || 'unknown'}) from ${article.originalImageUrl.substring(0, 100)}...`);
                             article.imageUrl = null;
@@ -234,7 +252,7 @@ async function aggregateAndCacheRssFeeds() {
             fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(allAggregatedArticles, null, 2), 'utf8');
         }
         
-        cachedRssData = allAggregatedArticles; // Update in-memory cache for all environments
+        cachedRssData = allAggregatedArticles;
         console.log(`RSS data successfully aggregated and cached (in memory). Total articles: ${allAggregatedArticles.length}`);
 
     } catch (error) {
