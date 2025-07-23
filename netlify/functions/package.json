@@ -1,0 +1,21 @@
+{
+  "name": "critical-fields-rss-backend",
+  "version": "1.0.0",
+  "description": "Backend for Critical Fields RSS aggregation and image proxying.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Your Name Here",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-cron": "^3.0.3",
+    "rss-parser": "^3.13.0",
+    "@netlify/functions": "^2.6.0",
+    "serverless-http": "^3.2.0"
+  }
+}
