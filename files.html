@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Files Archive | Critical Fields</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* Hero Section (consistent with homepage) */
+    .hero {
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: transparent;
+      color: var(--color-text-primary);
+      border-bottom: 1px solid var(--color-border-dark);
+    }
+
+    .hero .tagline {
+      font-size: 2.2rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      color: var(--color-accent-highlight);
+      line-height: 1.2;
+      text-shadow: 0 0 10px rgba(255, 65, 54, 0.5);
+    }
+
+    .hero .intro {
+      margin: 1rem auto 2rem;
+      font-size: 1.1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    /* Styles for dropdown menu - copied from resources.html for consistency */
+    .navbar .dropdown {
+        position: relative;
+    }
+
+    .navbar .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: var(--color-secondary-bg);
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        min-width: 160px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        left: 0;
+        top: 100%;
+    }
+
+    .navbar .dropdown-menu li a {
+        color: var(--color-text-primary);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .navbar .dropdown-menu li a:hover {
+        background-color: var(--color-main-bg);
+        color: var(--color-accent-highlight);
+    }
+
+    .navbar .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    /* File Grid Container */
+    #files-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted for file icons */
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* File Card */
+    .file-card {
+        position: relative;
+        height: 250px; /* Consistent height */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start; /* Align content to top */
+        text-align: center;
+        background: var(--color-card-bg);
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        padding: 1rem; /* Added padding */
+        overflow: hidden; /* Ensure overlay works correctly */
+    }
+
+    .file-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    6px 6px 0px rgba(0,0,0,0.4);
+    }
+
+    /* Styles for the image OR icon area within the file card */
+    .file-card-image {
+        width: 100%;
+        height: 300px; /* Consistent height for the visual area */
+        background-color: var(--color-secondary-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--color-border-dark);
+        margin-bottom: 0.5rem; /* Space below visual area */
+        overflow: hidden; /* Important for containing content */
+    }
+    
+    .file-card-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* Use contain to fit the whole image */
+        display: block;
+    }
+
+    .file-card-image .icon-placeholder {
+        font-size: 4rem; /* Larger icon size when no image */
+        color: var(--color-accent-highlight);
+    }
+
+    .file-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: var(--color-text-primary);
+        word-break: break-word; /* Ensure long titles wrap */
+        margin-bottom: 0.5rem;
+    }
+
+    .file-type {
+        font-size: 0.85rem;
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
+    }
+
+    /* Hover Overlay for Description (similar to resources) */
+    .file-hover-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85); /* Slightly more opaque black overlay */
+        color: white; /* Ensure text is white for high contrast on dark overlay */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        opacity: 0;
+        transform: translateY(100%);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .file-card:hover .file-hover-overlay {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .file-hover-overlay p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        color: white; /* Explicitly white for readability */
+        opacity: 0.9;
+        /* Make description scrollable if too long */
+        overflow-y: auto; 
+        max-height: 80%; /* Limit height to allow scroll */
+        padding: 0 0.5rem; /* Add some padding for scrolling text */
+    }
+
+    .file-hover-overlay .view-file-link {
+        color: var(--color-ui-red-light);
+        text-decoration: underline;
+        font-weight: bold;
+        font-size: 0.9rem;
+        text-transform: lowercase;
+    }
+    .file-hover-overlay .view-file-link:hover {
+        color: white;
+    }
+
+    /* Loading and Error Messages (consistent) */
+    .loading-message {
+        text-align: center;
+        padding: 2rem;
+        font-size: 1.1rem;
+        color: var(--color-text-secondary);
+        grid-column: 1 / -1;
+        font-style: italic;
+        border: 1px dashed var(--color-border-dark);
+        border-radius: 4px;
+        background-color: var(--color-secondary-bg);
+    }
+    .error-message {
+        color: var(--color-ui-red);
+        font-weight: bold;
+    }
+
+    /* Footer (consistent) */
+    footer.site-footer {
+      text-align: center;
+      font-size: 0.85rem;
+      padding: 1.5rem;
+      color: var(--color-text-secondary);
+      border-top: 1px solid var(--color-border-dark);
+      background-color: var(--color-secondary-bg);
+      margin-top: 4rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .file-card {
+            height: 250px; /* Adjusted height for smaller screens */
+            padding: 0.8rem;
+        }
+        .file-card-image {
+            height: 120px; /* Adjusted height for image/icon area on smaller screens */
+        }
+        .file-card-image .icon-placeholder {
+            font-size: 3.5rem; /* Adjusted icon size on smaller screens */
+        }
+        .file-title {
+            font-size: 1rem;
+        }
+        .file-type {
+            font-size: 0.8rem;
+        }
+        .file-hover-overlay p {
+            font-size: 0.85rem;
+        }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar">
+      <h1 class="logo">Critical Fields</h1>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="fields.html">Fields</a>
+          <ul class="dropdown-menu">
+            <li><a href="fields.html?name=heterodox-economics">Heterodox Economics</a></li>
+            <li><a href="fields.html?name=architectures-of-power">Architectures of Power</a></li>
+            <li><a href="fields.html?name=the-digital-apparatus">The Digital Apparatus</a></li>
+            <li><a href="fields.html?name=earth-systems">Earth Systems</a></li>
+            <li><a href="fields.html?name=the-social-commons">The Social Commons</a></li>
+            <li><a href="fields.html?name=critical-methodologies">Critical Methodologies</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#">Archive</a> <ul class="dropdown-menu">
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="files.html">Files</a></li>
+          </ul>
+        </li>
+        <li><a href="network.html">Network</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2 class="tagline typewriter-text" style="font-size: 2.2rem;">Our File Repository</h2>
+      <p class="intro">
+        Explore our collection of important files, documents, and supplementary materials.
+      </p>
+    </section>
+
+    <div id="files-container">
+        <p class="loading-message" id="loading-files">
+            <div class="loader"></div>
+            Loading files from Google Sheet...
+        </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 critical fields.</p>
+  </footer>
+
+  <script>
+    // --- Configuration for Files Archive ---
+    const GOOGLE_SHEET_FILES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTAj_skHACKh3UX74Kf5Rn85yCSqyZdVVCVtiEY16YNEETG7ZnleMIRj5vQGlrP89MvUXfZTRbE405E/pub?output=csv';
+    const CORS_PROXY_BASE_URL = 'https://api.allorigins.win/raw?url=';
+    const FILES_ARCHIVE_SHEET_URL = CORS_PROXY_BASE_URL + encodeURIComponent(GOOGLE_SHEET_FILES_CSV_URL);
+
+    let allFiles = [];
+
+    // Helper function to parse CSV data
+    function parseCSV(csvText) {
+        const lines = csvText.trim().split('\n');
+        if (lines.length === 0) return [];
+
+        const parseLine = (line) => {
+            const values = [];
+            let inQuote = false;
+            let currentVal = '';
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuote = !inQuote;
+                    if (!inQuote && i < line.length - 1 && line[i+1] === '"') {
+                        currentVal += '"';
+                        i++;
+                    }
+                } else if (char === ',' && !inQuote) {
+                    values.push(currentVal.trim());
+                    currentVal = '';
+                } else {
+                    currentVal += char;
+                }
+            }
+            values.push(currentVal.trim());
+            return values;
+        };
+
+        const headers = parseLine(lines[0]).map(header => {
+            return header.trim().replace(/[^a-zA-Z0-9]/g, ''); 
+        });
+
+        console.log("Parsed Headers for Files:", headers);
+
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = parseLine(lines[i]);
+            if (values.length !== headers.length) {
+                console.warn(`Skipping malformed row in files (header/value count mismatch): ${lines[i]}`);
+                continue;
+            }
+            const rowObject = {};
+            headers.forEach((header, index) => {
+                rowObject[header] = values[index] ? values[index] : '';
+                rowObject[`${header}Normalized`] = values[index] ? values[index].toLowerCase().trim() : '';
+            });
+            data.push(rowObject);
+        }
+        return data.sort((a, b) => (a.ResourceTitle > b.ResourceTitle) ? 1 : -1); 
+    }
+
+    // Function to get appropriate icon based on file type
+    function getFileIcon(fileType) {
+        const lowerCaseType = fileType.toLowerCase();
+        if (lowerCaseType.includes('pdf')) {
+            return '📄'; // PDF icon
+        } else if (lowerCaseType.includes('doc') || lowerCaseType.includes('docx')) {
+            return '📝'; // Document icon
+        } else if (lowerCaseType.includes('xls') || lowerCaseType.includes('xlsx')) {
+            return '📊'; // Spreadsheet icon
+        } else if (lowerCaseType.includes('ppt') || lowerCaseType.includes('pptx')) {
+            return ' презентація'; // Presentation icon
+        } else if (lowerCaseType.includes('zip') || lowerCaseType.includes('rar')) {
+            return '📁'; // Folder/Archive icon
+        } else if (lowerCaseType.includes('image') || lowerCaseType.includes('jpg') || lowerCaseType.includes('png') || lowerCaseType.includes('gif')) {
+            return '🖼️'; // Image icon
+        } else if (lowerCaseType.includes('audio') || lowerCaseType.includes('mp3')) {
+            return '🎧'; // Audio icon
+        } else if (lowerCaseType.includes('video') || lowerCaseType.includes('mp4')) {
+            return '🎥'; // Video icon
+        }
+        return '📎'; // Generic file icon
+    }
+
+    // Renders a single file card
+    function renderFileCard(file) {
+        const card = document.createElement('a');
+        card.href = file.Link || '#'; 
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.className = 'file-card';
+
+        // Get the image URL, or an empty string if not available/valid
+        const imageUrl = (file.Image && file.Image.startsWith('http')) ? file.Image : ''; 
+        
+        let imageContentHtml; // This will hold the HTML for the image/icon area
+
+        if (imageUrl) {
+            // If a valid image URL exists, render the <img> tag
+            imageContentHtml = `<img src="${imageUrl}" alt="${file.ResourceTitle || 'File image'}" onerror="this.onerror=null;this.src='https://placehold.co/140x140/E0E0E0/666666?text=Image+Error';"/>`;
+        } else {
+            // If no valid image URL, render the large icon placeholder
+            const fileTypeDisplay = file.Medium || 'File';
+            const icon = getFileIcon(fileTypeDisplay);
+            imageContentHtml = `<span class="icon-placeholder">${icon}</span>`;
+        }
+        
+        const fileTypeDisplay = file.Medium || 'File'; 
+
+        card.innerHTML = `
+            <div class="file-card-image">
+                ${imageContentHtml} 
+            </div>
+            <div class="file-title">${file.ResourceTitle || 'Untitled File'}</div> 
+            <div class="file-type">${fileTypeDisplay}</div>
+            <div class="file-hover-overlay">
+                <p>${file.Description || 'no description provided.'}</p>
+                <a href="${file.Link || '#'}" target="_blank" rel="noopener noreferrer" class="view-file-link">view file &rsaquo;</a>
+            </div>
+        `;
+        return card;
+    }
+
+    // Displays files in the container
+    function displayFiles(filesToDisplay) {
+        const container = document.getElementById('files-container');
+        container.innerHTML = '';
+
+        if (filesToDisplay.length === 0) {
+            container.innerHTML = `<p class="loading-message">no files found in the repository.</p>`;
+            return;
+        }
+
+        filesToDisplay.forEach(item => {
+            const card = renderFileCard(item);
+            container.appendChild(card);
+        });
+    }
+
+    // --- Initialize Data Loading ---
+    document.addEventListener('DOMContentLoaded', async () => {
+        const loadingMessage = document.getElementById('loading-files');
+        const filesContainer = document.getElementById('files-container');
+
+        try {
+            const response = await fetch(FILES_ARCHIVE_SHEET_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}. Please ensure the Google Sheet URL is correct and published to web, and CORS proxy is working.`);
+            }
+            const csvText = await response.text();
+            allFiles = parseCSV(csvText);
+            displayFiles(allFiles); // Display all files initially
+
+        } catch (error) {
+            console.error('Error fetching or processing files:', error);
+            filesContainer.innerHTML = `<p class="loading-message error-message">Error loading files. Please check the console for details. Make sure the Google Sheet URL is correct and published, and CORS proxy is accessible.</p>`;
+        } finally {
+            if (loadingMessage) {
+                 loadingMessage.style.display = 'none';
+            }
+        }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundational Thinkers List</title>
+    <link rel="stylesheet" href="styles.css"> <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* Basic styling for the body within the iframe */
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--color-secondary-bg); /* Use a neutral background, as the main page's card background will wrap this */
+            color: var(--color-text-primary);
+            margin: 0;
+            padding: 10px; /* Internal padding for the scrollable area, matches original #foundational-thinkers-container padding */
+            line-height: 1.7;
+            letter-spacing: -0.01em;
+            overflow-x: hidden;
+        }
+
+        /* Styles for the thinker list container itself (inside the iframe body) */
+        #thinkers-list-root {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            height: 100%; /* Take full height of its container */
+            overflow-y: scroll; /* Ensure scrollability within the iframe */
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-accent-highlight) var(--color-secondary-bg);
+            /* Inherit background/border/shadow from parent #foundational-thinkers-container in fields.html */
+        }
+
+        #thinkers-list-root::-webkit-scrollbar { width: 8px; }
+        #thinkers-list-root::-webkit-scrollbar-track { background: var(--color-secondary-bg); border-radius: 10px; }
+        #thinkers-list-root::-webkit-scrollbar-thumb { background: var(--color-accent-highlight); border-radius: 10px; border: 2px solid var(--color-secondary-bg); }
+        #thinkers-list-root::-webkit-scrollbar-thumb:hover { background: var(--color-ui-red-light); }
+
+        .thinker-list-item {
+            background: var(--color-card-bg); /* Now the individual item has its own background */
+            border: 1px solid var(--color-border-dark);
+            border-radius: 4px;
+            box-shadow: 2px 2px 0px var(--color-border-dark);
+            padding: 0.8rem;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .thinker-list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+            border-color: var(--color-accent-highlight);
+        }
+
+        .thinker-name {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--color-text-primary);
+            margin: 0;
+            line-height: 1;
+            text-transform: lowercase;
+        }
+
+        .thinker-description {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+            text-align: left;
+            width: 100%;
+            margin-top: 0.5rem;
+            opacity: 1;
+            max-height: none;
+            overflow: visible;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            font-style: italic;
+            border: 1px dashed var(--color-border-dark);
+            border-radius: 4px;
+            background-color: var(--color-secondary-bg);
+            margin: 0.5rem 0; /* Add margin if it's the only item */
+        }
+    </style>
+</head>
+<body>
+    <div id="thinkers-list-root">
+        <p class="loading-message">Loading foundational thinkers...</p>
+    </div>
+
+    <script>
+        // This script will run INSIDE the iframe
+        const GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL = parent.GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL; // Access from parent window
+        const parseCSV = parent.parseCSV; // Access from parent window
+        const renderFoundationalThinkerCard = parent.renderFoundationalThinkerCard; // Access from parent window
+
+        async function loadThinkers() {
+            const rootContainer = document.getElementById('thinkers-list-root');
+            rootContainer.innerHTML = '<p class="loading-message">Loading foundational thinkers...</p>';
+
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const fieldNameParam = urlParams.get('field'); // 'field' instead of 'name' for iframe param
+
+                if (!fieldNameParam) {
+                    rootContainer.innerHTML = '<p class="loading-message error-message">No field specified.</p>';
+                    return;
+                }
+
+                const response = await fetch(GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const csvText = await response.text();
+                let data = parseCSV(csvText);
+
+                const normalizedFieldName = fieldNameParam.toLowerCase().replace(/\s/g, '-');
+                data = data.filter(item =>
+                    item.FieldParsed && item.FieldParsed.includes(normalizedFieldName)
+                );
+
+                if (data.length === 0) {
+                    rootContainer.innerHTML = '<p class="loading-message">No foundational thinkers available for this field yet.</p>';
+                    return;
+                }
+
+                rootContainer.innerHTML = ''; // Clear loading message
+
+                data.forEach(item => {
+                    const element = renderFoundationalThinkerCard(item);
+                    if (element) {
+                        rootContainer.appendChild(element);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error loading thinkers in iframe:', error);
+                rootContainer.innerHTML = '<p class="loading-message error-message">Failed to load thinkers. Check console for details.</p>';
+            }
+        }
+
+        // Ensure parent functions are ready before calling
+        // This waits for the parent window's DOMContentLoaded to ensure parent.parseCSV etc. are defined
+        window.addEventListener('load', () => {
+            if (parent.GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL && parent.parseCSV && parent.renderFoundationalThinkerCard) {
+                loadThinkers();
+            } else {
+                console.error('Parent window helper functions not available for iframe.');
+                document.getElementById('thinkers-list-root').innerHTML = '<p class="loading-message error-message">Initialization error.</p>';
+            }
+        });
+
+    </script>
+</body>
+</html>
