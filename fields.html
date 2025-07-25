@@ -843,7 +843,7 @@
           const headers = rows[0].map(header => {
               return header.trim().replace(/[^a-zA-Z0-9]/g, ''); // Ensure consistent normalization
           });
-          
+
           const data = [];
           for (let i = 1; i < rows.length; i++) {
               const rowValues = rows[i];
@@ -1071,7 +1071,9 @@
           console.error('Error fetching RSS articles from backend:', error);
           listContentWrapper.innerHTML = `<p class="loading-message error-message">Failed to load live RSS feed. Please ensure backend is running or check network.</p>`;
         } finally {
-          loadingMessage.style.display = 'none';
+          if (loadingMessage) {
+            loadingMessage.style.display = 'none';
+          }
         }
       }
 
@@ -1149,169 +1151,159 @@
                 <div class="feature-card-meta">
                     ${item.Date || 'n.d.'}
                 </div>
-                `;
-            return card;
-          }
+            </div>
+            `;
+        return card;
+      }
 
-          function renderPeopleInstitutionsCard(item) {
-            /* ... */ return null;
-          }
-          function renderFormalPublicationCard(item) {
-            /* ... */ return null;
-          }
-          function renderReadingListCard(item) {
-            /* ... */ return null;
-          }
-          function renderUpcomingEventCard(item) {
-            /* ... */ return null;
-          }
+      function renderPeopleInstitutionsCard(item) {
+        /* ... */ return null;
+      }
+      function renderFormalPublicationCard(item) {
+        /* ... */ return null;
+      }
+      function renderReadingListCard(item) {
+        /* ... */ return null;
+      }
+      function renderUpcomingEventCard(item) {
+        /* ... */ return null;
+      }
 
-          // --- Main Field Page Initialization (handles both index and individual fields) ---
-          document.addEventListener('DOMContentLoaded', () => {
-            const mainContentArea = document.getElementById('main-content-area');
-            const urlParams = new URLSearchParams(window.location.search);
-            const fieldNameParam = urlParams.get('name');
+      // --- Main Field Page Initialization (handles both index and individual fields) ---
+      document.addEventListener('DOMContentLoaded', () => {
+        const mainContentArea = document.getElementById('main-content-area');
+        const urlParams = new URLSearchParams(window.location.search);
+        const fieldNameParam = urlParams.get('name');
 
-            if (fieldNameParam) {
-              // --- Render Individual Field Page ---
-              const fieldDetails = fieldData[fieldNameParam];
+        if (fieldNameParam) {
+          // --- Render Individual Field Page ---
+          const fieldDetails = fieldData[fieldNameParam];
 
-              if (fieldDetails) {
-                document.title = `${fieldDetails.title} | Critical Fields`;
+          if (fieldDetails) {
+            document.title = `${fieldDetails.title} | Critical Fields`;
 
-                // Updated HTML structure for individual field page
-                mainContentArea.innerHTML = `
-                            <section class="field-hero">
-                                    <h2 id="field-title">${fieldDetails.title}</h2>
-                                    <p id="field-description">${fieldDetails.longBlurb}</p>
-                            </section>
+            // Updated HTML structure for individual field page
+            mainContentArea.innerHTML = `
+                        <section class="field-hero">
+                                <h2 id="field-title">${fieldDetails.title}</h2>
+                                <p id="field-description">${fieldDetails.longBlurb}</p>
+                        </section>
 
-                            <section id="rss-vertical-list-section" class="content-area">
-                                    <h3 class="field-section-title">Archive Blog</h3>
-                                    <div class="vertical-articles-list-wrapper" id="vertical-rotator-content-wrapper">
-                                            <p class="loading-message">Loading recent articles...</p>
-                                    </div>
-                            </section>
+                        <section id="rss-vertical-list-section" class="content-area">
+                                <h3 class="field-section-title">Archive Blog</h3>
+                                <div class="vertical-articles-list-wrapper" id="vertical-rotator-content-wrapper">
+                                        <p class="loading-message">Loading recent articles...</p>
+                                </div>
+                        </section>
 
-                            <div class="content-columns-below-rss">
-                                    <section id="foundational-thinkers-section" class="content-area">
-                                            <h3 class="field-section-title">Foundational Thinkers</h3>
-                                            <div id="foundational-thinkers-container">
-                                                    <p class="loading-message">Loading foundational thinkers...</p>
-                                            </div>
-                                    </section>
+                        <div class="content-columns-below-rss">
+                                <section id="foundational-thinkers-section" class="content-area">
+                                        <h3 class="field-section-title">Foundational Thinkers</h3>
+                                        <div id="foundational-thinkers-container">
+                                                <p class="loading-message">Loading foundational thinkers...</p>
+                                        </div>
+                                </section>
 
-                                    <section id="foundational-resources-section" class="content-area">
-                                            <h3 class="field-section-title">Foundational Resources</h3>
-                                            <div id="foundational-resources-container" class="basic-numbered-list">
-                                                    <p class="coming-soon">Foundational Resources coming soon!</p>
-                                            </div>
-                                    </section>
-                            </div>
-                            <section class="content-area">
-                                    <h3 class="field-section-title">Field Notes</h3>
-                                    <div id="field-notes-container" class="content-grid">
-                                            <p class="loading-message">Loading original essays and critiques...</p>
-                                            <p class="coming-soon">Field Notes (User Comments) coming soon!</p>
-                                    </div>
-                            </section>
+                                <section id="foundational-resources-section" class="content-area">
+                                        <h3 class="field-section-title">Foundational Resources</h3>
+                                        <div id="foundational-resources-container" class="basic-numbered-list">
+                                                <p class="coming-soon">Foundational Resources coming soon!</p>
+                                        </div>
+                                </section>
+                        </div>
+                        <section class="content-area">
+                                <h3 class="field-section-title">Field Notes</h3>
+                                <div id="field-notes-container" class="content-grid">
+                                        <p class="loading-message">Loading original essays and critiques...</p>
+                                        <p class="coming-soon">Field Notes (User Comments) coming soon!</p>
+                                </div>
+                        </section>
 
-                            <section class="content-area">
-                                    <h3 class="field-section-title">Weekly Briefing (Newsletter)</h3>
-                                    <div id="weekly-briefing-container" class="content-grid">
-                                            <p class="loading-message">Loading latest briefings...</p>
-                                    </div>
-                            </section>
-                            `;
+                        <section class="content-area">
+                                <h3 class="field-section-title">Weekly Briefing (Newsletter)</h3>
+                                <div id="weekly-briefing-container" class="content-grid">
+                                        <p class="loading-message">Loading latest briefings...</p>
+                                </div>
+                        </section>
+                        `;
 
-                // Ensure RSS background image is correctly applied to its original section
-                const rssSection = document.getElementById('rss-vertical-list-section');
-                if (rssSection && fieldDetails.archiveBgImage) {
-                  rssSection.style.backgroundImage = `url('${fieldDetails.archiveBgImage}')`;
-                  rssSection.style.backgroundSize = 'cover';
-                  rssSection.style.backgroundPosition = 'center center';
-                  rssSection.style.backgroundRepeat = 'no-repeat';
-                }
-
-                // CALLS TO FETCH DATA
-                fetchFieldRssFeeds(fieldNameParam);
-                // Removed fetchDataAndDisplay for foundational-resources-container as requested.
-                // It will now display the static "Coming Soon" message.
-
-                // Updated call for Foundational Thinkers - no 'thinkerStatus' filter needed based on your sheet's snippet
-                fetchDataAndDisplay(
-                  GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL,
-                  'foundational-thinkers-container',
-                  renderFoundationalThinkerCard,
-                  fieldNameParam,
-                  {},
-                );
-
-                fetchDataAndDisplay(
-                  GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL,
-                  'weekly-briefing-container',
-                  renderWeeklyBriefingCard,
-                  fieldNameParam,
-                  { medium: 'newsletter' },
-                );
-              } else {
-                // Field Not Found HTML
-                mainContentArea.innerHTML = `
-                            <section class="field-hero">
-                                    <h2 id="field-title">Field Not Found</h2>
-                                    <p id="field-description">The requested field could not be found. Please check the URL or select a field from the navigation.</p>
-                            </section>
-                            `;
-              }
-            } else {
-              // --- Render Fields Index Page ---
-              document.title = 'Fields | Critical Fields';
-              mainContentArea.innerHTML = `
-                            <section class="field-hero">
-                                    <h2>Our Fields of Inquiry</h2>
-                                    <p>Explore editorialized and interdisciplinary lenses on specific critical conversations. Each field offers a focused collection of relevant archive content, literature, editor selections, and more. Our collective archive provides the resources while our editors provide the through line to understanding them.</p>
-                            </section>
-                            <div id="field-index-wrapper">
-                                    <div id="field-catalog-container">
-                                            </div>
-                            </div>
-                            `;
-              renderFieldIndexPage();
+            // Ensure RSS background image is correctly applied to its original section
+            const rssSection = document.getElementById('rss-vertical-list-section');
+            if (rssSection && fieldDetails.archiveBgImage) {
+              rssSection.style.backgroundImage = `url('${fieldDetails.archiveBgImage}')`;
+              rssSection.style.backgroundSize = 'cover';
+              rssSection.style.backgroundPosition = 'center center';
+              rssSection.style.backgroundRepeat = 'no-repeat';
             }
-          });
 
-          // New function to render the main Fields landing page (Digital Card Catalog)
-          function renderFieldIndexPage() {
-            const container = document.getElementById('field-catalog-container');
-            if (!container) return;
+            // CALLS TO FETCH DATA
+            fetchFieldRssFeeds(fieldNameParam);
+            // Removed fetchDataAndDisplay for foundational-resources-container as requested.
+            // It will now display the static "Coming Soon" message.
 
-            container.innerHTML = '';
+            // Updated call for Foundational Thinkers - no 'thinkerStatus' filter needed based on your sheet's snippet
+            fetchDataAndDisplay(
+              GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL,
+              'foundational-thinkers-container',
+              renderFoundationalThinkerCard,
+              fieldNameParam,
+              {},
+            );
 
-            for (const key in fieldData) {
-              if (fieldData.hasOwnProperty(key)) {
-                const field = fieldData[key];
-                const catalogItem = document.createElement('a');
-                catalogItem.href = `fields.html?name=${key}`;
-                catalogItem.className = 'field-catalog-item';
-                catalogItem.innerHTML = `
-                                <h3 class="catalog-title">${field.title}</h3>
-                                <p class="catalog-description">${field.shortBlurb}</p> <span class="cta-link">explore field &rsaquo;</span>
-                                `;
-                container.appendChild(catalogItem);
-              }
-            }
+            fetchDataAndDisplay(
+              GOOGLE_SHEET_COMPREHENSIVE_ARCHIVE_URL,
+              'weekly-briefing-container',
+              renderWeeklyBriefingCard,
+              fieldNameParam,
+              { medium: 'newsletter' },
+            );
+          } else {
+            // Field Not Found HTML
+            mainContentArea.innerHTML = `
+                        <section class="field-hero">
+                                <h2 id="field-title">Field Not Found</h2>
+                                <p id="field-description">The requested field could not be found. Please check the URL or select a field from the navigation.</p>
+                        </section>
+                        `;
           }
-        </script>
-      </body>
-    </html>
-    ```
+        } else {
+          // --- Render Fields Index Page ---
+          document.title = 'Fields | Critical Fields';
+          mainContentArea.innerHTML = `
+                        <section class="field-hero">
+                                <h2>Our Fields of Inquiry</h2>
+                                <p>Explore editorialized and interdisciplinary lenses on specific critical conversations. Each field offers a focused collection of relevant archive content, literature, editor selections, and more. Our collective archive provides the resources while our editors provide the through line to understanding them.</p>
+                        </section>
+                        <div id="field-index-wrapper">
+                                <div id="field-catalog-container">
+                                        </div>
+                        </div>
+                        `;
+          renderFieldIndexPage();
+        }
+      });
 
-**After following these steps, please check:**
+      // New function to render the main Fields landing page (Digital Card Catalog)
+      function renderFieldIndexPage() {
+        const container = document.getElementById('field-catalog-container');
+        if (!container) return;
 
-1.  **The "Foundational Thinkers" section:** It should now display the custom-styled, collapsible thinker cards.
-2.  **Developer Console (`F12` > "Console"):**
-    * The `Uncaught ReferenceError: fetchDataAndDisplay is not defined` error should be **GONE**.
-    * You might still see the `ERR_CONNECTION_REFUSED` for the RSS feed (because your backend server isn't running), but the JavaScript execution for the rest of the page should be unblocked.
-    * Look for the `Data for foundational-thinkers-container:` log. Expand it and verify that the `Name` and `Description` properties are now correctly populated with content from your sheet.
+        container.innerHTML = '';
 
-I am genuinely confident this will resolve the "Foundational Thinkers" issue. This was a challenging bug due to the cumulative nature of the corrections and the subtle scoping error I introduced. Thank you for your patience!
+        for (const key in fieldData) {
+          if (fieldData.hasOwnProperty(key)) {
+            const field = fieldData[key];
+            const catalogItem = document.createElement('a');
+            catalogItem.href = `fields.html?name=${key}`;
+            catalogItem.className = 'field-catalog-item';
+            catalogItem.innerHTML = `
+                            <h3 class="catalog-title">${field.title}</h3>
+                            <p class="catalog-description">${field.shortBlurb}</p> <span class="cta-link">explore field &rsaquo;</span>
+                            `;
+            container.appendChild(catalogItem);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
