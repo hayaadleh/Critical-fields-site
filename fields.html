@@ -575,6 +575,61 @@
         padding-top: 0.8rem; /* Padding when expanded */
       }
 
+
+          /* Styles for dropdown menu */
+    .navbar .dropdown {
+        position: relative;
+    }
+
+    .navbar .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: var(--color-secondary-bg);
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1000; /* Increased z-index to ensure it appears above other content */
+        min-width: 160px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid var(--color-border-dark);
+        border-radius: 4px;
+        left: 0; /* Align dropdown with the parent link */
+        top: 100%; /* Position below the parent link */
+    }
+
+    .navbar .dropdown-menu li a {
+        color: var(--color-text-primary);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        white-space: nowrap; /* Prevent wrapping */
+    }
+
+    .navbar .dropdown-menu li a:hover {
+        background-color: var(--color-main-bg);
+        color: var(--color-accent-highlight);
+    }
+
+    .navbar .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    /* Responsive adjustments for dropdown on mobile, if needed */
+    @media (max-width: 768px) {
+        .dropdown-menu {
+            position: static; /* Change to static on mobile so it flows with content */
+            width: 100%; /* Take full width */
+            margin-top: 0.5rem; /* Space below main nav item */
+            box-shadow: none; /* Remove extra shadows on mobile dropdown */
+            border: none; /* Remove border from dropdown */
+            background-color: transparent; /* Transparent background */
+        }
+        .dropdown-menu li a {
+            padding: 0.4rem 1rem; /* Adjusted padding */
+            text-align: center; /* Center dropdown items */
+        }
+    }
       /* Responsive adjustments */
       @media (max-width: 900px) {
         /* The overall main padding is adjusted */
@@ -654,40 +709,12 @@
         <h1 class="logo">Critical Fields</h1>
         <ul class="nav-menu">
           <li><a href="index.html">Home</a></li>
-          <li class="dropdown">
-            <a href="fields.html">Fields</a>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="fields.html?name=heterodox-economics"
-                  >Heterodox Economics</a
-                >
-              </li>
-              <li>
-                <a href="fields.html?name=architectures-of-power"
-                  >Architectures of Power</a
-                >
-              </li>
-              <li>
-                <a href="fields.html?name=the-digital-apparatus"
-                  >The Digital Apparatus</a
-                >
-              </li>
-              <li>
-                <a href="fields.html?name=earth-systems">Earth Systems</a>
-              </li>
-              <li>
-                <a href="fields.html?name=the-social-commons"
-                  >The Social Commons</a
-                >
-              </li>
-              <li>
-                <a href="fields.html?name=critical-methodologies"
-                  >Critical Methodologies</a
-                >
-              </li>
+          <li><a href="fields.html">Fields</a></li> <li class="dropdown">
+            <a href="#">Archive</a> <ul class="dropdown-menu">
+              <li><a href="resources.html">Resources</a></li>
+              <li><a href="files.html">Files</a></li>
             </ul>
           </li>
-          <li><a href="resources.html">Archive</a></li>
           <li><a href="network.html">Network</a></li>
           <li><a href="about.html">About</a></li>
         </ul>
