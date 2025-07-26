@@ -11,9 +11,9 @@
     
     /* Hero Section (consistent with homepage) */
     .hero {
-      padding: 3rem 2rem 2rem; /* Reduced top and bottom padding */
+      padding: 2rem 2rem 0.5rem; /* Reduced top and bottom padding */
       text-align: center;
-      max-width: 900px;
+      max-width: 2000px;
       margin: 0 auto;
       background-color: transparent;
       color: var(--color-text-primary);
@@ -21,22 +21,23 @@
     }
 
     .hero .tagline {
-      font-size: 2.2rem; /* Reduced font size for tagline */
+      font-size: 2rem; /* Reduced font size for tagline */
       font-weight: normal;
       text-transform: uppercase;
-      margin-bottom: 1rem; /* Reduced margin below tagline */
+      margin-top: 0.5rem; /* Reduced margin below tagline */
+      margin-bottom: 0rem; /* Reduced margin below tagline */
       color: var(--color-accent-highlight);
-      line-height: 1.2;
+      line-height: 1.0;
       text-shadow: 0 0 10px rgba(255, 65, 54, 0.5);
       /* Typewriter effect styles are in styles.css for .typewriter-text */
     }
 
     .hero .intro {
-      margin: 1rem auto 2rem; /* Reduced margins */
-      font-size: 1.1rem;
+      margin: 2rem auto 2rem; /* Reduced margins */
+      font-size: 1rem;
       color: var(--color-text-secondary);
       line-height: 1.7;
-      max-width: 700px;
+      max-width: 1500px;
       text-align: center;
     }
 
@@ -50,7 +51,7 @@
                     4px 4px 0px var(--color-border-dark);
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 1.0rem;
         align-items: center;
         max-width: 1200px;
         margin: 2rem auto; /* Reduced top margin */
@@ -453,9 +454,9 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline typewriter-text" style="font-size: 2.2rem;">Welcome to the Archive</h2> <!-- Reduced font size via inline style -->
+      <h2 class="tagline typewriter-text" style="font-size: 2rem; text-transform: lowercase; margin-bottom: -1rem;">welcome to the archive</h2> <!-- Reduced font size via inline style -->
       <p class="intro">
-        This is the living, open-access archive that powers our entire platform—a public, user-fed repository dedicated to collecting and preserving essential resources of critical learning. This archive is the raw material from which we build our Fields, deliver our analysis, and platform conversations. We believe knowledge should be a commons; this is our collective effort to build one.
+        The engine room of Critical Fields: a living, open-access archive. This curated repository houses essential resources for critical learning, serving as the foundational material for our Fields, our in-depth analysis, and our impactful conversations. We're committed to building a robust knowledge commons, and this archive is the core of that collective endeavor.
       </p>
     </section>
 
@@ -485,7 +486,7 @@
     <div id="resources-container">
         <p class="loading-message" id="loading-resources">
             <div class="loader"></div>
-            Loading resources from Google Sheet...
+            Loading resources...
         </p>
     </div>
   </main>

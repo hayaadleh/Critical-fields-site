@@ -9,9 +9,9 @@
   <style>
     /* Hero Section (consistent with homepage) */
     .hero {
-      padding: 3rem 2rem 2rem;
+      padding: 2rem 2rem 0.5rem;
       text-align: center;
-      max-width: 900px;
+      max-width: 2000px;
       margin: 0 auto;
       background-color: transparent;
       color: var(--color-text-primary);
@@ -19,21 +19,22 @@
     }
 
     .hero .tagline {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: normal;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-top: 0.5rem; /* Reduced margin below tagline */
+      margin-bottom: 0rem; /* Reduced margin below tagline */
       color: var(--color-accent-highlight);
       line-height: 1.2;
       text-shadow: 0 0 10px rgba(255, 65, 54, 0.5);
     }
 
     .hero .intro {
-      margin: 1rem auto 2rem;
-      font-size: 1.1rem;
+      margin: 0.5rem auto 2rem;
+      font-size: 1rem;
       color: var(--color-text-secondary);
       line-height: 1.7;
-      max-width: 700px;
+      max-width: 1500px;
       text-align: center;
     }
 
@@ -285,16 +286,16 @@
 
   <main>
     <section class="hero">
-      <h2 class="tagline typewriter-text" style="font-size: 2.2rem;">Our File Repository</h2>
+      <h2 class="tagline typewriter-text" style="font-size: 2rem; text-transform: lowercase; margin-bottom: 0.5rem;">critical files</h2>
       <p class="intro">
-        Explore our collection of important files, documents, and supplementary materials.
+        Access a vital collection of documents and supplementary materials. This archive provides essential context and deeper resources for your engagement with critical thought.
       </p>
     </section>
 
     <div id="files-container">
         <p class="loading-message" id="loading-files">
             <div class="loader"></div>
-            Loading files from Google Sheet...
+            Loading files...
         </p>
     </div>
   </main>

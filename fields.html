@@ -1000,7 +1000,7 @@
             `Error fetching or rendering data for ${targetContainerId} from ${url}:`,
             error,
           );
-          container.innerHTML = `<p class="loading-message error-message">Failed to load content for this section. Please check the sheet URL or ensure it's published correctly.</p>`;
+          container.innerHTML = `<p class="loading-message error-message">Failed to load content for this section.</p>`;
         } finally {
           if (loadingElement) {
             loadingElement.style.display = 'none';
@@ -1096,7 +1096,7 @@
           renderVerticalRssList(articles);
         } catch (error) {
           console.error('Error fetching RSS articles from backend:', error);
-          listContentWrapper.innerHTML = `<p class="loading-message error-message">Failed to load live RSS feed. Please ensure backend is running or check network.</p>`;
+          listContentWrapper.innerHTML = `<p class="loading-message error-message">Failed to load live RSS feed. </p>`;
         } finally {
           if (loadingMessage) {
             loadingMessage.style.display = 'none';
