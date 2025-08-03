@@ -65,17 +65,24 @@
         margin-bottom: 1.5rem;
     }
 
-    /* --- Rotator Container for Editor's Picks (now in Hero Right Column) --- */
-    #editors-picks-rotator-section { /* This section now wraps the rotator in the right column */
-        background-color: var(--color-card-bg);
-        border: 1px solid var(--color-border-dark);
-        border-radius: 4px;
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
-                    4px 4px 0px var(--color-border-dark);
-        padding: 1.5rem; /* Padding inside the right column box */
+   /* --- Rotator Container for Editor's Picks (now in Hero Right Column) --- */
+    #editors-picks-rotator-section {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0; /* Adjust padding if you remove the box */
+}
+
+/* Applying common box styles to the newsletter rotator container too */
+   #latest-newsletter-rotator-container-wrapper { /* Newsletter rotator container, now transparent */
+        background-color: transparent; /* Remove background */
+        border: none; /* Remove border */
+        box-shadow: none; /* Remove shadow */
+        padding: 0; /* Adjust padding as no box is present */
         text-align: center;
-        width: 100%; /* Ensure it fills its flex column */
-        box-sizing: border-box; /* Include padding/border in width */
+        max-width: 800px;
+        margin: 0 auto;
+        box-sizing: border-box;
     }
 
     .rotator-container { /* Common style for rotators */
@@ -84,61 +91,84 @@
         width: 100%;
         min-height: 350px; /* Adjusted height for prominent image */
         margin: 0 auto;
-        border: 1px solid var(--color-border-light);
+        border: none;
         border-radius: 4px;
-        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
+        box-shadow: none;
     }
     .rotator-slides-wrapper {
         display: flex;
         transition: transform 0.5s ease-in-out;
         height: 100%;
     }
-    .rotator-slide {
-        flex: 0 0 100%;
+
+    .rotator-slide { /* Common style for individual slides (the <a> tag) */
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex; /* Make the slide a flex container */
+    flex-direction: column; /* Stack image and text vertically */
+    justify-content: flex-start; /* Align content to the top of the slide */
+    align-items: stretch; /* Stretch children to fill width */
+    position: relative; /* Keep relative for arrows if needed later */
+    min-height: 350px; /* Match container height */
+    border-radius: 4px;
+    color: var(--color-text-primary); /* Default text color for slide content */
+    text-decoration: none; /* Remove underline from slide link */
+    /* Ensure no background or shadows on the slide itself */
+    background-color: transparent; /* Make the overall slide background transparent */
+    box-shadow: none; /* Remove any shadow inherited or applied to the slide */
+    border: none; /* Remove any border applied to the slide */
+}
+
+    .rotator-slide-image { /* NEW: Container for the background image */
         width: 100%;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end; /* Align content to bottom */
-        align-items: center;
-        position: relative;
-        min-height: 350px; /* Match container height */
+        height: 450px; /* Adjust height for the image display area */
         background-size: cover;
         background-position: center;
-        border-radius: 4px;
-        color: white; /* Default text color for overlay */
+        background-color: var(--color-secondary-bg); /* Fallback background if no image */
+        border-bottom: 1px dashed var(--color-border-dark); /* Separator line below image */
     }
-    .rotator-slide .overlay-content {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0)); /* Stronger gradient for readability */
-        padding: 1.5rem;
-        text-align: center;
-        width: 100%;
-        box-sizing: border-box;
+
+    /* Specific height adjustment for Editor's Picks image */
+    #editors-picks-rotator-container .rotator-slide-image {
+        height: 300px; /* Revert Editor's Picks image height to original smaller size */
     }
-    .rotator-slide h4 {
+
+  .rotator-slide-content { /* Container for the text content, now truly floating */
+    flex-grow: 1;
+    padding: 1rem 0rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: transparent; /* Ensure no background */
+    border: none; /* Ensure no border */
+    box-shadow: none; /* Ensure no shadow */
+    /* Add a top margin here if you want more space between the image and text */
+    /* margin-top: 0.5rem; */
+}
+    .rotator-slide-content h4 { /* Target h4 inside the content div */
         margin: 0;
-        font-size: 1.5rem; /* Adjusted title size for rotator */
+        font-size: 1.3rem; /* Slightly smaller title for non-overlay */
         color: var(--color-accent-highlight);
         text-transform: uppercase;
         line-height: 1.2;
         margin-bottom: 0.5rem;
     }
-    .rotator-slide p {
+    .rotator-slide-content p { /* Target p inside the content div */
         margin: 0;
-        font-size: 1rem; /* Adjusted description size for rotator */
-        color: var(--color-text-primary);
-        line-height: 1.6;
+        font-size: 0.8rem; /* Slightly smaller description for non-overlay */
+        color: var(--color-text-secondary); /* Adjusted to secondary for clarity */
+        line-height: 1;
         opacity: 0.9;
     }
-    .rotator-slide .source-meta {
-        font-size: 0.85rem;
+    .rotator-slide-content .source-meta { /* Target source-meta inside the content div */
+        font-size: 0.8rem; /* Slightly smaller source meta */
         color: var(--color-text-secondary);
         opacity: 0.8;
-        margin-top: 0.5rem;
+        margin-top: 0rem;
+        margin-bottom: 0rem;
     }
 
     .rotator-pagination-dots {
@@ -201,6 +231,7 @@
 
     /* Section titles within homepage content areas */
     .homepage-content-section .section-title {
+        font-size: 2rem;
         margin-top: 0;
         margin-bottom: 1.5rem;
     }
@@ -227,35 +258,6 @@
         margin-bottom: 1rem; /* Space below the section */
         margin-top: 1rem; /* Adjust this value to bring it up. Start with a smaller value like 1rem or 1.5rem */
 
-    }
-    #latest-newsletter-section .newsletter-image {
-        max-width: 600px; /* Increased max-width for desktop view */
-        height: auto;
-        max-height: 380px; /* Adjusted max-height for image */
-        width: auto;
-        object-fit: contain;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 4px;
-        margin-bottom: 1.5rem;
-        border: 1px solid var(--color-border-dark);
-        box-shadow: 1px 1px 0px var(--color-border-dark);
-    }
-    #latest-newsletter-section .newsletter-title {
-        font-size: 1.5rem;
-        color: var(--color-accent-highlight);
-        margin-bottom: 0.5rem;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-    #latest-newsletter-section .newsletter-title:hover {
-        color: var(--color-ui-red-light);
-    }
-    #latest-newsletter-section .newsletter-subtitle {
-        font-size: 1rem;
-        color: var(--color-text-secondary);
-        margin-bottom: 0.8rem;
     }
 
     .section-subtitle {
@@ -588,14 +590,16 @@
         </div>
     </section>
 
-    <section id="latest-newsletter-section" class="homepage-content-section">
-        <h2 class="section-title">Weekly Newsletter</h2>
+   <section id="latest-newsletter-section" class="homepage-content-section">
+        <h2 class="section-title">Recenlty Published</h2>
         <p class="section-subtitle">what we are writing</p>
-        <div id="latest-newsletter-container">
-            <p class="loading-message" id="latest-newsletter-loading">
-                <div class="loader"></div>
-                loading newsletter...
-            </p>
+        <div id="latest-newsletter-rotator-container-wrapper"> <div id="latest-newsletter-rotator-container" class="rotator-container">
+                <p class="loading-message" id="latest-newsletter-loading">
+                    <div class="loader"></div>
+                    loading newsletter...
+                </p>
+            </div>
+            <div id="latest-newsletter-pagination-dots" class="rotator-pagination-dots"></div>
         </div>
     </section>
 
@@ -710,11 +714,14 @@
 
             const itemsToShow = data.slice(0, limit); 
 
-            // For Editor's Picks rotator, handle it specially
+           // For Editor's Picks rotator, handle it specially
             if (targetContainerId === 'editors-picks-rotator-container') {
                 editorsPicksArticles = itemsToShow; // Store for rotator
                 renderEditorsPicksRotator();
-            } else { // For Newsletter or other non-rotator items
+            } else if (targetContainerId === 'latest-newsletter-rotator-container') { // NEW: Handle newsletter rotator
+                newsletterArticles = itemsToShow;
+                renderNewsletterRotator();
+            } else { // For other non-rotator items
                 itemsToShow.forEach(item => {
                     const card = renderFunction(item);
                     if (card) {
@@ -738,8 +745,13 @@
     let editorsPicksIntervalId; // Renamed from readingIntervalId
     const EDITORS_PICKS_ROTATION_INTERVAL = 8000; // 8 seconds for rotation
 
-    // --- Rotator Functions for "Editor's Picks" ---
-    function renderEditorsPicksRotator() { // Renamed function
+// --- Rotator Variables for "Weekly Newsletter" (NEW) ---
+    let newsletterArticles = [];
+    let currentNewsletterIndex = 0;
+    let newsletterIntervalId;
+    const NEWSLETTER_ROTATION_INTERVAL = 10000; // 10 seconds for rotation, adjust as desired
+
+   function renderEditorsPicksRotator() {
         const rotatorContainer = document.getElementById('editors-picks-rotator-container');
         const dotsContainer = document.getElementById('editors-picks-pagination-dots');
         rotatorContainer.innerHTML = '';
@@ -759,23 +771,32 @@
             slide.href = article.Link || '#';
             slide.target = '_blank';
             slide.rel = 'noopener noreferrer';
-            slide.className = 'rotator-slide';
-            
+            slide.className = 'rotator-slide'; // The main clickable container
+
+            // NEW: Create the image container
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'rotator-slide-image';
             const imageUrl = article.ImageLink && article.ImageLink.startsWith('http') ? article.ImageLink : '';
             if (imageUrl) {
-                slide.style.backgroundImage = `url('${imageUrl}')`;
+                imageDiv.style.backgroundImage = `url('${imageUrl}')`;
             } else {
-                slide.style.backgroundColor = 'var(--color-secondary-bg)';
-                slide.style.backgroundImage = 'none';
+                // If no image link, set a default background or an empty div
+                imageDiv.style.backgroundColor = 'var(--color-secondary-bg)';
+                imageDiv.style.backgroundImage = 'none'; // Ensure no previous background image
             }
 
-            slide.innerHTML = `
-                <div class="overlay-content">
-                    <h4>${article.Title || 'untitled pick'}</h4>
-                    <p>${article.Description || 'no description provided.'}</p>
-                    <div class="source-meta">${article.Medium || 'item'} by ${article.Author || 'the editors'} &mdash; ${article.Date || 'n.d.'}</div>
-                </div>
+            // NEW: Create the content container for text
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'rotator-slide-content';
+            contentDiv.innerHTML = `
+                <h4>${article.Title || 'untitled pick'}</h4>
+                <p>${article.Description || 'no description provided.'}</p>
+                <div class="source-meta">${article.Medium || 'item'} by ${article.Author || 'the editors'} &mdash; ${article.Date || 'n.d.'}</div>
             `;
+
+            // Append the image and content divs to the slide
+            slide.appendChild(imageDiv);
+            slide.appendChild(contentDiv);
             slidesWrapper.appendChild(slide);
 
             const dot = document.createElement('span');
@@ -789,6 +810,7 @@
             dotsContainer.appendChild(dot);
         });
 
+        // The arrow buttons remain unchanged relative to the rotatorContainer
         const prevArrow = document.createElement('button');
         prevArrow.className = 'rotator-arrow prev';
         prevArrow.innerHTML = '&lsaquo;';
@@ -847,24 +869,129 @@
         clearInterval(editorsPicksIntervalId);
     }
 
-    // --- Render Function for Latest Newsletter ---
-    function renderNewsletterCard(item) {
-        const div = document.createElement('div');
-        div.innerHTML = `
-            ${item.ImageLink && item.ImageLink.startsWith('http') ? `<img src="${item.ImageLink}" alt="${item.Title || 'Newsletter image'}" class="newsletter-image" onerror="this.style.display='none';">` : ''}
-            <a href="${item.Link || '#'}" target="_blank" rel="noopener noreferrer" class="newsletter-title">${item.Title || 'untitled newsletter'}</a>
-            <p class="newsletter-subtitle">${item.Description || 'no summary provided.'}</p>
-            <p style="font-size: 0.8rem; color: var(--color-text-secondary); opacity: 0.7;">published ${item.Date || 'n.d.'}</p>
-        `;
-        return div;
+    // --- NEW Rotator Functions for "Weekly Newsletter" ---
+  function renderNewsletterRotator() {
+        const rotatorContainer = document.getElementById('latest-newsletter-rotator-container');
+        const dotsContainer = document.getElementById('latest-newsletter-pagination-dots');
+        rotatorContainer.innerHTML = '';
+        dotsContainer.innerHTML = '';
+
+        if (newsletterArticles.length === 0) {
+            rotatorContainer.innerHTML = `<p class="loading-message">no newsletter available yet.</p>`;
+            return;
+        }
+
+        const slidesWrapper = document.createElement('div');
+        slidesWrapper.className = 'rotator-slides-wrapper';
+        rotatorContainer.appendChild(slidesWrapper);
+
+        newsletterArticles.forEach((article, index) => {
+            const slide = document.createElement('a');
+            slide.href = article.Link || '#';
+            slide.target = '_blank';
+            slide.rel = 'noopener noreferrer';
+            slide.className = 'rotator-slide';
+
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'rotator-slide-image';
+            const imageUrl = article.ImageLink && article.ImageLink.startsWith('http') ? article.ImageLink : '';
+            if (imageUrl) {
+                imageDiv.style.backgroundImage = `url('${imageUrl}')`;
+            } else {
+                imageDiv.style.backgroundColor = 'var(--color-secondary-bg)';
+                imageDiv.style.backgroundImage = 'none';
+            }
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'rotator-slide-content';
+
+            // Check if Author exists and include it in the source-meta
+            const authorText = article.Author ? ` by ${article.Author}` : '';
+            contentDiv.innerHTML = `
+                <h4>${article.Title || 'untitled newsletter'}</h4>
+                <p>${article.Description || 'no summary provided.'}</p>
+                <div class="source-meta">published ${article.Date || 'n.d.'}${authorText}</div>
+            `;
+
+            slide.appendChild(imageDiv);
+            slide.appendChild(contentDiv);
+            slidesWrapper.appendChild(slide);
+
+            const dot = document.createElement('span');
+            dot.className = 'rotator-dot';
+            dot.dataset.index = index;
+            dot.addEventListener('click', () => {
+                stopNewsletterRotator();
+                showNewsletterSlide(index);
+                startNewsletterRotator();
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        const prevArrow = document.createElement('button');
+        prevArrow.className = 'rotator-arrow prev';
+        prevArrow.innerHTML = '&lsaquo;';
+        prevArrow.addEventListener('click', () => {
+            stopNewsletterRotator();
+            showNewsletterSlide(currentNewsletterIndex - 1);
+            startNewsletterRotator();
+        });
+        rotatorContainer.appendChild(prevArrow);
+
+        const nextArrow = document.createElement('button');
+        nextArrow.className = 'rotator-arrow next';
+        nextArrow.innerHTML = '&rsaquo;';
+        nextArrow.addEventListener('click', () => {
+            stopNewsletterRotator();
+            showNewsletterSlide(currentNewsletterIndex + 1);
+            startNewsletterRotator();
+        });
+        rotatorContainer.appendChild(nextArrow);
+
+        showNewsletterSlide(currentNewsletterIndex);
+        startNewsletterRotator();
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Editor's Picks (now a rotator)
-        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'editors-picks-rotator-container', null, 3, { column: 'Medium', value: 'Editor Selection' }); // Limit to 3 for display
+    function showNewsletterSlide(index) {
+        const slidesWrapper = document.querySelector('#latest-newsletter-rotator-container .rotator-slides-wrapper');
+        const dots = document.querySelectorAll('#latest-newsletter-pagination-dots .rotator-dot');
 
-        // Latest Newsletter (remains single card)
-        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'latest-newsletter-container', renderNewsletterCard, 1, { column: 'Medium', value: 'Newsletter' });
+        if (!slidesWrapper || slidesWrapper.children.length === 0) return;
+
+        if (index >= newsletterArticles.length) {
+            currentNewsletterIndex = 0;
+        } else if (index < 0) {
+            currentNewsletterIndex = newsletterArticles.length - 1;
+        } else {
+            currentNewsletterIndex = index;
+        }
+
+        slidesWrapper.style.transform = `translateX(-${currentNewsletterIndex * 100}%)`;
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentNewsletterIndex);
+        });
+    }
+
+    function startNewsletterRotator() {
+        stopNewsletterRotator();
+        if (newsletterArticles.length > 1) {
+            newsletterIntervalId = setInterval(() => {
+                showNewsletterSlide(currentNewsletterIndex + 1);
+            }, NEWSLETTER_ROTATION_INTERVAL);
+        }
+    }
+
+    function stopNewsletterRotator() {
+        clearInterval(newsletterIntervalId);
+    }
+
+  document.addEventListener('DOMContentLoaded', () => {
+        // Editor's Picks rotator
+        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'editors-picks-rotator-container', null, 3, { column: 'Medium', value: 'Editor Selection' });
+
+        // Latest Newsletter rotator (NEW)
+        fetchDataAndDisplay(MAIN_ARCHIVE_SHEET_URL, 'latest-newsletter-rotator-container', null, 3, { column: 'Medium', value: 'Newsletter' }); // Fetch more than 1 newsletter for rotation
     });
   </script>
 </body>
