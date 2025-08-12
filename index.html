@@ -9,11 +9,12 @@
   <style>
     /* Styles specific to index.html sections to complement styles.css */
     /* --- HERO SECTION --- */
+    /* --- HERO SECTION --- */
     .hero {
-        padding: 2rem 2rem 1.5rem;
+        padding: 0.5rem 2rem 1.5rem; /* Decreased top padding from 2rem to 1rem to move it up */
         text-align: center;
-        max-width: 1200px;
-        margin: 0 auto;
+        max-width: 1300px;
+        margin: 1.5rem auto 0 auto;
         border-bottom: 1px solid var(--color-border-dark);
         padding-bottom: 1.5rem;
         display: flex;
@@ -25,7 +26,7 @@
     .hero .hero-left-column,
     .hero .hero-right-column {
         flex: 1;
-        min-width: 300px;
+        min-width: 50px;
         padding: 0; /* Remove internal padding on these columns themselves */
         background-color: transparent;
         border: none;
@@ -37,18 +38,18 @@
         /* Removed padding-right and padding-top to let flexbox handle alignment */
     }
     .hero .hero-left-column .tagline {
-        font-size: 1.5rem; /* Further reduced: Smaller font size for tagline on desktop */
+        font-size: 1.8rem; /* Further reduced: Smaller font size for tagline on desktop */
         font-weight: normal;
         text-transform: uppercase;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
         color: var(--color-accent-highlight);
         text-align: left; /* Align tagline left */
     }
     .hero .hero-left-column .hero-description { /* New class for the descriptive text */
         margin: 0 0 1.5rem;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
         color: var(--color-text-secondary);
-        line-height: 1.7;
+        line-height: 2;
         text-align: left;
     }
     .hero .hero-left-column .cta {
@@ -57,7 +58,7 @@
 
     .hero .hero-right-column {
         text-align: center; /* Center content in right column */
-        padding-left: 1rem; /* Small internal padding */
+        padding-left: rem; /* Small internal padding */
         /* It will contain the rotator, which has its own styling */
     }
     .hero .hero-right-column .homepage-content-h3 { /* For "Editor's Picks" title */
@@ -317,89 +318,113 @@
     }
 }
 
-    /* Substack Signup Section (New!) */
-    #substack-signup { /* Adjust padding for the content without the box */
-        padding: 2rem 2rem; /* Keep similar padding as before, adjusted for no box */
+  /* Substack Signup Section (Updated for 2-column layout) */
+    #substack-signup {
+        padding: 2rem 2rem;
+        /* No change needed here, general section styling */
     }
     #substack-signup .section-title {
         color: var(--color-accent-highlight);
-        font-size: 1.6rem; /* Slightly smaller title */
-        margin-bottom: 1.2rem; /* Reduced margin */
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
     }
-    #substack-signup p {
-        font-size: 1.05rem; /* Slightly smaller paragraph */
+    #substack-signup p { /* This paragraph is the introductory one for the section */
+        font-size: 1.05rem;
         color: var(--color-text-secondary);
-        max-width: 600px; /* Slightly narrower for more compact look */
-        margin: 0 auto 1.5rem; /* Reduced margin */
+        max-width: 600px;
+        margin: 0 auto 1.5rem;
         line-height: 1.6;
     }
-    .substack-form-container {
+
+    /* New styles for side-by-side CTA sections */
+    .cta-pair-wrapper {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.8rem; /* Slightly reduced gap */
-        max-width: 450px; /* Reduced max-width for the form container */
-        margin: 0 auto;
-        padding: 1rem; /* Reduced padding for the form container */
-        background-color: var(--color-secondary-bg);
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        justify-content: center; /* Center the items when they wrap or there's extra space */
+        align-items: flex-start; /* Align items to the top of the row */
+        gap: 4rem; /* Space between the two columns */
+        max-width: 9000px; /* Max width for the pair */
+        margin: 0 auto; /* Center the pair */
+        text-align: left; /* Default text alignment for columns */
+    }
+
+    .substack-form-column,
+    .join-community-column {
+        flex: 1; /* Allow columns to grow and shrink */
+        min-width: 200px; /* Minimum width before wrapping */
+        padding: 1.5rem;
+        background-color: var(--color-card-bg);
         border: 1px solid var(--color-border-dark);
         border-radius: 4px;
-        box-shadow: inset 1px 1px 0px var(--color-border-dark), inset -1px -1px 0px var(--color-border-light);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom),
+                    4px 4px 0px var(--color-border-dark);
+        box-sizing: border-box; /* Include padding and border in element's total width/height */
     }
-    .substack-email-form {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px; /* Reduced gap within the form */
-        width: 100%;
-        justify-content: center;
+
+    .substack-cta-title,
+    .community-cta-title {
+        font-size: 1.2rem;
+        color: var(--color-accent-highlight);
+        text-transform: uppercase;
+        margin-top: 0;
+        margin-bottom: 1rem;
+        text-align: center; /* Center these specific titles within their column */
     }
-    .substack-email-form input[type="email"] {
-        flex-grow: 1;
-        padding: 0.7rem 0.9rem; /* Slightly reduced padding */
-        border: 1px solid var(--color-border-dark);
-        border-radius: 4px;
-        background-color: var(--color-bg); /* Use a general background color */
-        color: var(--color-text-primary);
-        font-family: 'IBM Plex Mono', monospace;
-        font-size: 0.95rem; /* Slightly smaller font size */
-        min-width: 200px; /* Adjusted min-width */
-    }
-    .substack-email-form input[type="email"]::placeholder {
+
+    .community-description {
+        font-size: 0.95rem;
         color: var(--color-text-secondary);
-        opacity: 0.7;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        text-align: center; /* Center this description too */
     }
-    .cta-substack {
+
+    .cta-community { /* Styling for the new community button */
         background-color: var(--color-ui-red);
         color: white;
-        padding: 0.7rem 1.2rem; /* Slightly reduced padding */
+        padding: 0.75rem 1.5rem;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        font-size: 0.95rem; /* Slightly smaller font size */
-        text-transform: lowercase; /* Changed to lowercase for consistency */
+        font-size: 1rem;
+        text-transform: lowercase;
         font-weight: bold;
         letter-spacing: 0.05em;
         transition: background-color 0.3s ease, transform 0.1s ease;
         text-decoration: none;
         display: inline-block;
-        border: 2px solid var(--color-ui-red); /* Keep border for consistency */
-        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom); /* Inherit 3D effect */
+        border: 2px solid var(--color-ui-red);
+        box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom);
     }
-    .cta-substack:hover {
+    .cta-community:hover {
         background-color: var(--color-ui-red-light);
         transform: translateY(-2px);
         box-shadow: var(--shadow-outset-top), var(--shadow-outset-bottom), 0 4px 8px rgba(0,0,0,0.2);
     }
-    .cta-substack:active {
+    .cta-community:active {
         transform: translate(1px, 1px);
         box-shadow: var(--shadow-inset-top), var(--shadow-inset-bottom);
         background-color: var(--color-ui-red);
     }
-    .substack-note {
-        font-size: 0.85rem; /* Slightly smaller note text */
+
+    /* Adjust existing substack styles to fit new column structure */
+    .substack-form-container { /* This needs adjustment as it was previously the main container */
+        background-color: transparent; /* Remove its own background */
+        border: none; /* Remove its own border */
+        box-shadow: none; /* Remove its own shadow */
+        padding: 0; /* Remove its own padding */
+        width: 100%; /* Ensure it fills its new column */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center its content */
+        gap: 0.8rem;
+    }
+    .substack-note { /* Ensure this remains centered under its form */
+        font-size: 0.85rem;
         color: var(--color-text-secondary);
-        margin-top: 0.3rem; /* Adjusted margin */
+        margin-top: 0.3rem;
         opacity: 0.8;
+        text-align: center; /* Explicitly center it */
     }
 
 
@@ -516,22 +541,43 @@
             max-width: 100%; /* Ensure it fits within smaller screens */
         }
 
-        /* --- SUBSTACK SECTION (Mobile Specific) --- */
+/* --- SUBSTACK SECTION (Mobile Specific) --- */
         #substack-signup .section-title {
-            font-size: 1.3rem; /* Even smaller on mobile */
+            font-size: 1.3rem;
         }
         #substack-signup p {
-            font-size: 0.9rem; /* Even smaller on mobile */
+            font-size: 0.9rem;
+        }
+        .cta-pair-wrapper { /* Adjust for mobile stacking */
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .substack-form-column,
+        .join-community-column {
+            min-width: unset;
+            width: 100%;
+            padding: 1rem;
+        }
+        .substack-cta-title,
+        .community-cta-title {
+            font-size: 1.1rem;
+        }
+        .community-description {
+            font-size: 0.85rem;
         }
         .substack-form-container {
-            padding: 0.8rem; /* Smaller padding on mobile */
+            padding: 0; /* Remove padding for mobile form container */
             gap: 0.6rem;
         }
         .substack-email-form input[type="email"],
         .cta-substack {
-            width: 100%; /* Stack input and button vertically */
-            box-sizing: border-box; /* Include padding/border in width */
-            font-size: 0.9rem; /* Smaller font on mobile */
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+        }
+        .cta-community { /* Mobile styles for new button */
+            font-size: 0.9rem;
+            padding: 0.6rem 1rem;
         }
         .substack-note {
             font-size: 0.8rem;
@@ -604,13 +650,18 @@
     </section>
 
     <section id="substack-signup" class="homepage-content-section">
-      <h2 class="section-title">Subscribe to Our Substack </h2>
+      <h2 class="section-title">Connect with Critical Fields </h2>
       <p>Don't miss out on the conversation!</p>
-      <div class="substack-form-container">
-        <form action="YOUR_SUBSTACK_EMBED_ACTION_URL" method="post" target="_blank" class="substack-email-form">
-          <input type="email" name="email" placeholder="email here" required>
-          <button type="submit" class="cta-substack">join</button>
-        </form>
+      <div class="cta-pair-wrapper"> <div class="substack-form-column"> <h3 class="substack-cta-title">Subscribe to our Substack</h3> <div class="substack-form-container">
+                 <iframe src="https://criticalfields.substack.com/embed" width="480" height="150" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+                <p class="substack-note">Get our weekly updates.</p>
+            </div>
+        </div>
+
+        <div class="join-community-column"> <h3 class="community-cta-title">Join our community</h3> <p class="community-description">Connect with other critical thinkers.</p>
+            <a href="https://form.jotform.com/252107525097153" target="_blank" rel="noopener noreferrer" class="cta-community">connect here</a>
+        </div>
+
       </div>
     </section>
   </main>
